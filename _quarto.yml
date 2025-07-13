@@ -5,13 +5,20 @@ book:
   title: "quarto"
   author: "Yuhao Zhu"
   date: "7/12/2025"
+
   chapters:
     - index.qmd
     - intro.qmd
+    - part: hvs.qmd
+      chapters:
+        - hvs-intro.qmd
     - summary.qmd
     - references.qmd
 
 number-depth: 3
+editor: visual
+execute:
+  echo: false
 
 bibliography: refs.bib
 csl: chicago-author-date.csl
@@ -22,6 +29,12 @@ format:
       - cosmo
       - brand
     default-image-extension: svg
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    toc-scroll: true
+    number-sections: true
+    anchor-sections: true
   pdf:
     documentclass: scrreprt
     default-image-extension: pdf

@@ -1,0 +1,24 @@
+# From Light to Visual Perception: An Overview {#sec-chpt:hvs:percept}
+
+This chapter gives an overview of the human visual system.
+We start from eye optics, which direct light to the retina, where the optical-to-electrical signal transduction takes place.
+We describe a few basic facts about the retina, focusing on the structure and functions of retinal processing.
+We then briefly talk about processing that takes place after the retina, i.e., in the Lateral Geniculate Nucleus (LGN) and in the visual cortex.
+
+## The Big Picture {#sec-chpt:hvs:percept:ov}
+
+Before studying the HVS, it is useful to start by discussing why we care about the HVS at all --- after all, if you are a computer science and/or engineering student, why would you care?
+We will then discuss the methodology we will use when studying the HVS.
+
+### Why Do We Study HVS?} {#sec-chpt:hvs:percept:ov:why}
+
+Why do we care about studying the HVS?  First and foremost, for the science itself --- it is extremely satisfying to just understand ``how stuff works'', is it not?
+Understanding the basics of the HVS will also allow us to investigate the unknowns of the HVS, and computer scientists have a lot to off.
+For instance, modern computational methods, especially deep (artificial) neural networks, have provided us a new toolbox to better understand the biological neural networks: if a signal representation or a learning paradigm is effective in deep neural networks, would it be possible that our HVS uses a similar representation or can learn based on similar representations?
+
+For computer scientists and engineers working on visual computing systems, there is another reason, which is already illustrated in @fig-codesign.
+The psychological experiences of the users of a computing platform, be it an AR/VR headset or a smartphone, are what we want to influence, but we, for the most part, exert that influence *indirectly*, by designing and optimizing the imaging, rendering, and computer systems.
+The outputs of these systems, i.e., the visual stimuli coming out of the display, become the input to the HVS of a human whose psychological states we care to optimize.
+So if we understand the HVS, we could invert the HVS process, given the desired psychological states, to solve for the optimal visual stimuli, and from there we can then think about how to best design the various engineered systems.
+
+Understanding the cellular, molecular, and neural processes in the HVS has also inspired people to better engineer systems such as imaging systems [@liao2022bioinspired; @wodnicki1995foveated] and deep neural networks, even though the output of these systems is not meant to be consumed by the HVS [@idrees2024biophysical].
