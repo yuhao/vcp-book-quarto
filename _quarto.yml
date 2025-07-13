@@ -1,0 +1,30 @@
+project:
+  type: book
+
+book:
+  title: "quarto"
+  author: "Yuhao Zhu"
+  date: "7/12/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+number-depth: 3
+
+bibliography: refs.bib
+csl: chicago-author-date.csl
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    default-image-extension: svg
+  pdf:
+    documentclass: scrreprt
+    default-image-extension: pdf
+
+## References
+
