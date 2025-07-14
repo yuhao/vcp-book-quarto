@@ -1,16 +1,16 @@
-# From Light to Visual Perception: An Overview {#sec-chpt:hvs:percept}
+# From Light to Visual Perception: An Overview {#sec-chpt-hvs-percept}
 
 This chapter gives an overview of the human visual system.
 We start from eye optics, which direct light to the retina, where the optical-to-electrical signal transduction takes place.
 We describe a few basic facts about the retina, focusing on the structure and functions of retinal processing.
 We then briefly talk about processing that takes place after the retina, i.e., in the Lateral Geniculate Nucleus (LGN) and in the visual cortex.
 
-## The Big Picture {#sec-chpt:hvs:percept:ov}
+## The Big Picture {#sec-chpt-hvs-percept-ov}
 
 Before studying the HVS, it is useful to start by discussing why we care about the HVS at all --- after all, if you are a computer science and/or engineering student, why would you care?
 We will then discuss the methodology we will use when studying the HVS.
 
-### Why Do We Study HVS?} {#sec-chpt:hvs:percept:ov:why}
+### Why Do We Study HVS? {#sec-chpt-hvs-percept-ov-why}
 
 Why do we care about studying the HVS?  First and foremost, for the science itself --- it is extremely satisfying to just understand ``how stuff works'', is it not?
 Understanding the basics of the HVS will also allow us to investigate the unknowns of the HVS, and computer scientists have a lot to off.
@@ -22,3 +22,205 @@ The outputs of these systems, i.e., the visual stimuli coming out of the display
 So if we understand the HVS, we could invert the HVS process, given the desired psychological states, to solve for the optimal visual stimuli, and from there we can then think about how to best design the various engineered systems.
 
 Understanding the cellular, molecular, and neural processes in the HVS has also inspired people to better engineer systems such as imaging systems [@liao2022bioinspired; @wodnicki1995foveated] and deep neural networks, even though the output of these systems is not meant to be consumed by the HVS [@idrees2024biophysical].
+
+### How Do We Study HVS? {#sec-chpt-hvs-percept-ov-how}
+
+How do photons in the real world give rise to perception and cognition in our brain when they enter our eyes?
+We want to show you that there is really no magic here.
+The perception and cognition we experience are fundamentally a result of the complicated, first optical and eventually electrical, signal processing in the physiological system --- our eyes and brains.
+
+This relationship between low-level electrical signals and high-level behavioral responses in humans is conceptually no different from one that we find in computers.
+This comparison is shown earlier in @fig-abstractions.
+For someone unfamiliar with computer systems and chip design, it would seem rather magical that a computer does what it does.
+But we know that the high-level, observable behaviors of a computer program are a result of low-level processing in the electrical circuits.
+Similarly, the experiences humans have in response to visual stimuli are a result of the collective behaviors of the underlying neurons in the nervous system, whose behaviors result from the cellular and molecular processes within and between individual neurons.
+
+The circuits in a computer are made of engineered material such as transistors, whereas circuits in the HVS are made of biological materials such as neurons.
+Fundamentally, however, it is all physics --- electrons and/or ions move around and cause changes in voltage potentials and currents, and these changes are how information is propagated.
+
+With the advancements in modern science and engineering, we can now measure, at a neuronal or even sub-neuronal level, the electrical responses of the HVS when presented with visual inputs.
+These measurements allow us to *correlate* electrical responses to perception and cognition, which, in turn, allow us to say something like "this part of the HVS supports or is responsible for that particular function (e.g., object detection).""
+It is important to note, however, that we still do not know why the electrical responses *cause* our perception and cognition.
+The causation problem, for the moment, is at best a philosophical problem or, if you will, a religious one.
+
+The goal of this chapter is to give you an overview of the Human Visual System (HVS).
+We will focus on the main components and key facts of the HVS so that you can start appreciating the connections between signal processing at the physiological level and perception, cognition, and action at the behavioral level while leaving many details to later chapters.
+
+The signal processing in the HVS consists of three main components; this is illustrated in @fig-brain_flow.
+First, lights are processed in the optical domain as they enter our eyes and go through the eye optics.
+The optical signals then reach the retina and are first converted to electrical signals by the photoreceptors (cones and rods), which are further processed before exiting the retina.
+The retina output neurons, i.e., the retinal ganglion cells, encode low-level information such as wavelengths, contrast, timing of object motion, etc.
+The retinal outputs are then transmitted to the Lateral Geniculate Nucleus (LGN) and, for the most part, relayed to the visual cortex.
+Cortical processing essentially knits together the low-level, upstream information to give us vision.
+The retino-geniculo-cortical pathway is the main pathway for the electrical signals.
+
+![Pupil, under the control of the iris, lets in lights. Cornea and lens focus light with the former contributing the most optical bending power. Lens contracts and relaxes to accommodate object depth under the control of the ciliary muscle. Retina transforms optical signals to electrical signals, which are further processed and exit the retina through the optic nerve. Retinal signals go through the Lateral Geniculate Nucleus and then are projected to the visual cortex. This retino-geniculo-cortical pathway carries the main information flow in the HVS, with the cortex also providing feedback to the LGN. Adapted from @ventral_dorsal.](figs/brain_flow_new){#fig-brain_flow width="100%"}
+
+## Eye Optics {#sec-chpt-hvs-percept-optics}
+
+The optical signal impinging on the retina is called the \textbf{optical image}, which is a 2D continuous signal in that at any position on the retinal surface we can ask: how much optical power is there here\footnote{The power at an infinitesimal point is called irradiance; see \Sect{chpt:mat:basics:radiometry}.}?
+Ideally, the optical image is a perfect perspective projection from the 3D physical world, with no loss of information other than the projection.
+The reality is much more complicated.
+
+![Much of the optical bending power in the eye is contributed by the cornea, which has a large refractive index difference with respect to its adjacent ocular media (Snell's law). The lens also contributes to light bending, albeit with a lower contribution. Cornea is rigid but the lens is malleable, so accommodation is attributed exclusively to the lens. From @lavalle2023virtual[Fig. 4.25]](figs/eye_optics_focus){#fig-eye_optics_focus width="100%"}
+
+### The Main Goal is to Focus Lights {#sec-chpt-hvs-percept-optics-goal}
+
+The main goal of the eye is to focus light on the retina.
+To focus light the optics need to bend light, which is achieved collectively by all the ocular media in the eye, including the cornea, aqueous humour, lens, and vitreous humour.
+This is illustrated in @fig-eye_optics_focus.
+Lights bend because of the difference in refractive index between adjacent ocular media.
+Most of the bending is done by the cornea because there is a large difference in the refractive index between the cornea and the air.
+The lens also contributes to light bending, albeit with a lower contribution, because the differences in refractive index between the lens and its adjacent media (aqueous fluid and vitreous fluid) are relatively small.
+
+The cornea is fixed in shape.
+Lens, in contrast, is malleable in its shape.
+The ciliary muscle controls the contraction and relaxation of the lens, which changes the focal length, and thus bending power, of the lens, and by extension the entire eye optical system.
+Adjusting the focal length to bring an object into focus is called \textbf{accommodation}.
+
+But if the ciliary muscle cannot properly adjust the lens, we get defocused blur, which is a form of optical \textbf{aberration}.
+There are a number of other optical aberrations;
+astigmatism and chromatic aberration are two common ones found in eyes.
+While not an optical aberration, diffraction also contributes substantially to visible blurs when the pupil size is very small (e.g., under strong illumination).
+
+For our purpose, ``imperfections'' introduced by eye optics (aberration and diffraction) can be modeled by the Point Spread Function (PSF) of the optical system, which we will see later in \Sect{chpt:imaging:optics:modeling}.
+
+### Ocular Media Absorb Light Selectively {#sec-chpt-hvs-percept-absorb}
+
+While all the ocular media are generally transparent, they still absorb some amount of light.
+Critically, the absorption and, by extension, transmittance, are strongly wavelength dependent.
+Color vision is fundamentally tied to the power distribution of light over wavelengths, so the selective absorption of light by the ocular media significantly influences our color vision.
+
+![Transmittance spectra of ocular media. Adapted from @boettner1962transmission[Fig. 7]](figs/eye_transmittance){#fig-eye_transmittance width="80%"}
+
+@boettner1962transmission[Fig. 7] measured the spectral transmittance of the eye, which defines the amount of light allowed to transmit through the media at each wavelength; the results are shown in @fig-eye_transmittance.
+Each curve represents the percentage of light remaining at each ocular media and the retina (including both direct transmission and forward scattering).
+Considering the visible range (we will discuss in the next Chapter why there are even invisible lights) roughly between 380 nm and 780 nm, we can see the ocular media significantly reduces the light power at short wavelengths.
+As a result, the transmittance spectrum of the ocular media is generally lower at short wavelengths, which means the ocular media generally absorbs blue-ish lights; so if the incident light is white-ish, the light would appear yellow after traveling through the ocular media.
+
+## Retina: Basic Facts {#sec-chpt-hvs-percept-retina}
+
+Now the photons have arrived at the retina.
+The retina is where optical signals are transformed into electrical signals.
+The electrical signals undergo further processing on the retina and are then carried by the optic nerve to the brain.
+The signal transduction and processing are carried out through layers of neurons on the retina, of which there are five categories (each of which has sub-categories).
+They are the photoreceptors, bipolar cells, horizontal cells, amacrine cells, and retinal ganglion cells (RGCs).
+This is illustrated in @fig-retinal_nn.
+
+The main information flow starts from the photoreceptors, flows through the bipolar cells, which synapse with photoreceptors and send their outputs to the RGCs.
+The horizontal cells synapse with the photoreceptors (and other horizontal cells), and the amacrine cells connect with both the bipolar cells and the RGCs (and other amacrine cells).
+Identifying the different classes of neurons and their connections is largely due to Santiago Ramón y Cajal ^[who shared the Nobel Prize in 1906 with Camillo Golgi, who invented a method that Cajal used to study neuronal connections.].
+
+Interestingly, while we might be used to neurons communicating through spikes, i.e., action potentials ^[which were discovered by @hodgkin1952quantitative, who won the Nobel Prize in 1963.], the RGCs are the only type of neurons on the retina that spike.
+The rest of the neurons are non-spiking neurons; they communicate through graded potentials.
+
+#### Optical-to-Electrical Signal Transduction Takes Place in Photoreceptors
+
+Photoreceptors are where optical signals are transformed into electrical signals.
+Photoreceptors absorb incident photons; once a photon is absorbed, it could generate electrical responses through the process of **phototransduction** cascade [@wald1968molecular] ^[George Wald won his Nobel Prize in 1967 by essentially elucidating this process.].
+The electrical response can be represented as photocurrents or, equivalently, photovoltages across the cell membrane of the photoreceptor.
+We will have a lot to say about this process later in \Sect{chpt:hvs:color:pr}.
+
+![The basic neural network on the retina. The photoreceptors convert optical signals to electrical signals.
+The electrical signals go through the bipolar cells and then to the retinal ganglion cells, which carry all the output of the retina. Horizontal and amacrine cells mediate lateral interactions, giving rise to important features such as the receptive field. Since the RGCs are at the outer most layer of the retina, the optical information and the electrical information flow in opposite directions. Adapted from @purves2017neurosciences[Fig. 11.5B]](figs/retinal_nn){#fig-retinal_nn width="80%"}
+
+#### Functional and Anatomical Organizations of the Retina are Opposite
+
+The functional organization of the cells is opposite to the anatomical organization of the cells.
+This is illustrated in @fig-retinal_nn.
+Functionally, the first layer of the retina is the photoreceptor cells, which convert photons to electrical responses, and the last layer is the RGCs, which carry all the retinal output information and are directly connected to the optic nerve, which are effectively the axons of the RGCs.
+Anatomically, however, the RGCs lie at the outermost layer of the retina, and the photoreceptors are the innermost layer.
+Therefore, photons upon reaching the retina first hit the RGCs and then go through other neurons before eventually hitting the photoreceptors, where the signal transduction takes place.
+As far as a photon is concerned, neurons before the photoreceptors are transparent and simply let the photon through without doing much about it --- with an exception that we will see soon.
+
+#### Blind Spot Exists Because of the Routing Issue
+
+An implication of the anatomical organization is that the optic nerve must be routed from the front of the retina and *through* the retina at a single location, which is called the **optic disk**.
+The optic disk must be free from any neurons, including photoreceptors, simply for the optic nerve to exit.
+Since photoreceptors sense light, the optic disk is also called the blind spot.
+This is illustrated in @fig-blindspot.
+Some vertebrates, like the octopus, do not have this "wiring" issue, since their retinal signals exist from the back of the retina.
+
+![Vertebrate eyes have a blind spot (scotoma) because the RGC axons exit the retina from the *front* of the retina. It is purely a "wiring" issue. Octopus eyes do not have this issue. Adapted from @blindspot.](figs/blindspot){#fig-blindspot width="100%"}
+
+It is unclear whether there are evolutionary advantages of having a blind spot on our retina, but it does not seem to be a disadvantage: we clearly do not notice the blind spot in our daily life --- the downstream visual system fills in the missing information there.
+Our head and eye movements further mitigate the impact of the blind spot.
+
+#### ipRGCs are Light-Sensitive but Do Not Contribute to Image-Forming Vision
+
+Photoreceptors are the only type of neurons on the retina that are sensitive to light *and* contribute to image-forming vision.
+There is another type of neuron, a sub-type of the RGCs actually, called the **intrinsically photosensitive RGCs** (ipRGCs) that are also sensitive to light (i.e., they absorb photons and convert optical signals to electrical signals), but interestingly they do not (primarily) contribute to image-forming vision.
+
+The ipRGCs were discovered fairly recently, and it is fair to say that the discovery was a big deal for the field [@berson2002phototransduction; @hattar2002melanopsin].
+For the past 150 years or so, human vision could be adequately explained by photoreceptors being the only light-sensitive neurons.
+Now, if the ipRGCs are also light sensitive, do we have to rewrite the science behind human vision?
+It turns out that while the ipRGCs do respond to lights, they primarily contribute to non-image-forming vision (but see @dacey2005melanopsin).
+For instance, they are shown to impact circadian rhythms, mood, and pupillary light reflex [@lazzerini2017mood; @do2010intrinsically].
+
+## Retinal Structure and Functions {#sec-chpt-hvs-percept-retina}
+
+Retina is organized to perform a set of low-level tasks that are crucial to vision.
+"Low-level" here refers to the fact that information encoded by the retina forms the building blocks for more complicated visual functions later in the HVS.
+At the risk of over-simplication, each task is achieved by a **visual stream** of neurons.
+These visual streams are also called **parallel pathways**.
+This section briefly discusses a set of basic functions of the retina and their visual streams.
+
+### Rod vs. Cone Specialization {#sec-chpt:hvs:percept:retina:rodcone}
+
+#### Sensitivity and Kinetics
+
+There are two types of photoreceptors: rods and cones.
+Perhaps the most important difference between the two is that rods are much more sensitive to light than cones.
+This is evident in @fig-rod_cone_response, which compares the single-photon response of rods and cones in primates.
+The response here is represented by the photocurrent, the change of current that flows into the photoreceptor as a result of photon absorption, which we will talk about in detail later in \Sect{chpt:hvs:color:pr}.
+
+![Comparing single photon responses (photocurrents) of rod and cone on a primate. Rods are more sensitive with a slower kinetics. From @angueyra2014limits[Fig. 1.4C].](figs/rod_cone_response){#fig-rod_cone_response width="80%"}
+
+Due to the high sensitivity, rod responses saturate quickly as the ambient light level increases, so they are primarily responsible for vision at low illumination levels (e.g., at night); rod-mediated vision is called the **scotopic vision**.
+Cones are much less sensitive, so they are responsible for vision at normal illumination levels, such as during the day.
+Cone-mediated vision is called the **photopic vision**.
+@fig-sen_range shows the luminance range that both the scotopic and the photopic vision are sensitive to.
+The sensitivity range overlap, so there is a luminance range where both rods and cones contribute to vision, which is called the **mesopic vision**.
+
+![Sensitivity range of rod-mediated vision and cone-mediated vision. From @purves2017neurosciences[Fig. 11.11].](figs/sen_range){#fig-sen_range width="100%"}
+
+Cones also have faster response kinetics than rods: cone responses rise and fall much faster than rods; this is illustrated in @fig-rod_cone_response.
+The faster kinetics allows cones to track moving objects better than rods do.
+To reason about the influence of the response kinetics, think of a camera where the exposure time is very long: the resulting image is (motion) blurred.
+Shorter exposure/shutter time captures motion better.
+Cones have a shorter effective "exposure time" than rods.
+
+Cones also have faster response kinetics than rods: cone responses rise and fall much faster than rods; this is illustrated in @fig-rod_cone_response.
+The faster kinetics allows cones to track moving objects better than rods do.
+To reason about the influence of the response kinetics, think of a camera where the exposure time is very long: the resulting image is (motion) blurred.
+Shorter exposure/shutter time captures motion better.
+Cones have a shorter effective "exposure time" than rods.
+
+#### Spectral Sensitivity and Color Vision {#sec-chpt-hvs-percept-retina-rodcone-spectral}
+
+Yet another important difference between rods and cones is that the cone-mediated vision provides color information whereas rod-mediated vision encodes only light intensity but not color.
+This is because there is only one class of rods but three different classes of cones, each with a different (linearly independent) wavelength sensitivity function.
+Fundamentally, color arises from the wavelength information in incident lights.
+Having three types allows cones to have a stronger capability of encoding wavelength information than rods.
+The entire \Sect{chpt:hvs:color} is devoted to color vision; for now, let us just appreciate how different cones have different wavelength selectivities.
+
+![The absorbance spectra of the three cones (L, M, S) and the rod (R) in humans; data from @dartnall1983human. The spectra are normalized to peak at 1](figs/receptor_sensitivity_new){#fig-receptor_sensitivity width="80%"}
+
+One way to measure the spectral differences between photoreceptors is using a technique called microspectrophotometry (MSP), which measures the fraction of photons that gets absorbed by a photoreceptor at each wavelength.
+Using MSP, @dartnall1983human collected data for cones and rods from human donors, shown in @fig-receptor_sensitivity.
+The $y$-axis plots *absorbance*, which is $\log(I_{\text{incident}}/I_{\text{transmitted}})$, i.e., the log ratio between the incident light intensity and transmitted (i.e., unabsorbed) light intensity ^[$\text{absorbance} = \log(I_{\text{incident}}/I_{\text{transmitted}})$, and the fraction absorbed, i.e., $\text{absorptance} = 1 - I_{\text{transmitted}}/I_{\text{incident}}$. Therefore, $\text{absorptance} = 1-e^{-\text{absorbance}}$. Mathematically, absorbance is proportional to absorption when absorbance is low, which is the case here when using MSP to illuminante the photoreceptors.].
+
+While many cones were measured, there were only three distinct spectra, whose absorbance peaks at relatively long, medium, and short wavelength, respectively.
+We call them the L, M, and S cones.
+The rod's peak is in-between that between the S and the M cones.
+Note that the spectra in @fig-receptor_sensitivity are normalized to peak at unity.
+The absolute absorbance of rods is slightly lower than that of the cones.
+
+Notably, the L and M cones exhibit greater similarity to each other than to the S cones, suggesting that the S cones are quite different from the L and M cones.
+This is a clue about the evolution of the three cone types.
+Most mammals have only two cone types, one that is sensitive to short-wavelength light and the other that is sensitive to long-wavelength lights;
+the former is evolved into the S cones, and the latter separated into the L cones and M cones through a local gene duplication [@jacobs2008primate].
+Since the duplication is relatively recent (about 30 to 35 million years ago), the L and M cones are rather similar.
+
+@bowmaker1978visual shows similar data for a macaque.
+There, the L and M cone spectra are also closer to each other than to the S cone spectrum, indicating that the divergence between the L and M cones occurred *before* the split between modern Old World monkeys and great apes (including humans).

@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "quarto"
+  title: "Learn Visual Computing"
   author: "Yuhao Zhu"
   date: "7/12/2025"
 
@@ -16,9 +16,6 @@ book:
     - references.qmd
 
 number-depth: 3
-editor: visual
-execute:
-  echo: false
 
 bibliography: refs.bib
 csl: chicago-author-date.csl
@@ -30,14 +27,12 @@ format:
       - brand
     default-image-extension: svg
     toc: true
-    toc-depth: 3
     toc-location: right
-    toc-scroll: true
+    #toc-scroll: true
     number-sections: true
     anchor-sections: true
   pdf:
     documentclass: scrreprt
     default-image-extension: pdf
 
-## References
-
+editor: source

@@ -1,8 +1,8 @@
-# An Invitation to Visual Computing {#sec-chpt:intro}
+# An Invitation to Visual Computing {#sec-chpt-intro}
 
 We present a framework in which we can reason about the connections between different fields of visual computing. The framework is centered around a series of signal transductions across fundamental signal domains: optical, analog, digital, and semantic, along with the processing that happens within each. We then use the human visual system as a concrete example to examine the different signal transductions and processing, and conclude with a simple abstraction that allows us to reason about opportunities to optimize visual computing systems.
 
-## What is Visual Computing? {#sec-chpt:intro:what}
+## What is Visual Computing? {#sec-chpt-intro-what}
 
 ![A framework unifying visual computing. The fundamental building blocks are the signals represented in three fundamental information domains: optical, electrical, and semantic. Visual computing systems transform signals across, and process them within, these domains.](figs/overview){#fig-overview width="100%"}
 
@@ -10,29 +10,27 @@ We can think of many things when it comes to visual computing. Cameras? Yes; the
 
 But what are the fundamental connections of the multitude of things that we can all loosely associate with visual computing? @fig-overview shows the key concepts that unify the different fields of visual computing: 1) representing the physical world in three fundamental signal domains, i.e., the optical, electrical, and semantic domains; 2) processing signals within these domains; and 3) transforming signals across these domains.
 
-We will use the Human Visual System (HVS) as an example to walk through some of the key concepts (@sec-chpt:intro:hvs). We will then expand to three more visual computing domains (computer imaging, computer graphics and rendering, and machine vision), comparing and contrasting how the signal representations, processing, and transformations are exercised in different systems (@sec-chpt:intro:others). We will introduce a power abstraction that governs any visual computing system. This abstraction allows us to reason about the limits of a system and design ways to improve a system (@sec-chpt:intro:research).
+We will use the Human Visual System (HVS) as an example to walk through some of the key concepts (@sec-chpt-intro-hvs). We will then expand to three more visual computing domains (computer imaging, computer graphics and rendering, and machine vision), comparing and contrasting how the signal representations, processing, and transformations are exercised in different systems (@sec-chpt-intro-others). We will introduce a power abstraction that governs any visual computing system. This abstraction allows us to reason about the limits of a system and design ways to improve a system (@sec-chpt-intro-research).
 
-## Human Visual System as a Visual Computing Platform {#sec-chpt:intro:hvs}
+## Human Visual System as a Visual Computing Platform {#sec-chpt-intro-hvs}
 
 Imagine taking a walk through the woods and seeing a butterfly. How does your visual system allow you to notice the butterfly and that it is flying? The inputs to an HVS are lights from the butterfly and the trees in the physical world; they are information represented in the optical domain. The output of the HVS is semantic information, e.g., the color and motion of the butterfly. The HVS extracts semantic information from optical signals through a sequence of signal transformations illustrated as ① $\rightarrow$ ④ $\rightarrow$ ⑦ in @fig-overview.
 
-### Signal Representations, Processing, and Transformations in HVS {#sec-chpt:intro:hvs:trans}
+### Signal Representations, Processing, and Transformations in HVS {#sec-chpt-intro-hvs-trans}
 
-#### Optical Signal Processing {#sec-chpt:intro:hvs:trans:opt}
+#### Optical Signal Processing {#sec-chpt-intro-hvs-trans-opt}
 
 First, lights enter your eyes by traveling through the ocular media in your eyes, such as the cornea, pupil, and lenses, and eventually reach the retina. Just before the lights get processed by the retina, the optical signal is already being processed as lights propagate through the eye. This is illustrated by ① in @fig-overview. For instance, the ocular media absorb photons of certain wavelengths and transmit photons that are unabsorbed. The pupil controls how many photons are allowed in at any given time, and the lens bends and *focuses* lights on the retina --- the chief goal of the eye.
 
 The optical information after eye optics and right before being processed by the retina is usually called the *optical image*. An optical image is a lossy and aberrated version of the optical information in the scene, because the optical signal processing in the eye is lossy. For instance, by focusing on the butterfly, which is at a particular depth, objects at other depths, such as the trees in the background, are blurred. The ocular media also absorb photons selectively across wavelengths, so the true light spectra in the scene are lost.
 
-#### Optical to Electrical Signal Transduction {#sec-chpt:intro:hvs:trans:o2e}
+#### Optical to Electrical Signal Transduction {#sec-chpt-intro-hvs-trans-o2e}
 
-The optical image gets transformed into an electrical representation by the photoreceptors on the retina. This is step ④ in @fig-overview. Photoreceptors absorb incident photons; once a photon is absorbed, it could, through the *phototransduction cascade* [@wald1968molecular][^intro-1], generate electrical responses in the form of photocurrents (or, equivalently, photovoltages) across the cell membrane of the photoreceptor. The responses of all the photoreceptors form the electrical representation of the optical image. The rest of the visual system is "just" a hugely complicated circuit that processes the electrical signals from the photoreceptors. In this sense, the optical to electrical transformation is the first step in seeing.
-
-[^intro-1]: the discovery of which won George Wald his Nobel Prize
+The optical image gets transformed into an electrical representation by the photoreceptors on the retina. This is step ④ in @fig-overview. Photoreceptors absorb incident photons; once a photon is absorbed, it could, through the *phototransduction cascade* [@wald1968molecular] ^[the discovery of which won George Wald his Nobel Prize.], generate electrical responses in the form of photocurrents (or, equivalently, photovoltages) across the cell membrane of the photoreceptor. The responses of all the photoreceptors form the electrical representation of the optical image. The rest of the visual system is "just" a hugely complicated circuit that processes the electrical signals from the photoreceptors. In this sense, the optical to electrical transformation is the first step in seeing.
 
 This optical to electrical signal transduction is once again lossy. Photoreceptors sample and integrate signals spatially, temporally, and spectrally. As a result, much of the optical information of the incident light, such as the incident angle of the rays, the wavelengths of the photons, and the polarization of the light, is all lost. The main information that *is* retained, light intensity, is fundamentally limited by sampling and integration, which establish the limits of vision.
 
-#### Electrical to Semantic Signal Transduction {#sec-chpt:intro:hvs:trans:ele}
+#### Electrical to Semantic Signal Transduction {#sec-chpt-intro-hvs-trans-ele}
 
 The electrical signals produced by the photoreceptors are first processed by the rest of the neurons on the retina and then transmitted in the nervous system to the rest of the visual system, first to the Lateral Geniculate Nucleus (LGN) and then to the visual cortex, where the electrical signals undergo further processing and eventually the semantic meanings of the scene arise. You might now realize that the object is, in fact, a red lacewing butterfly (object recognition), that the color of the butterfly is an astonishing bright red and pale brown interlaced by black and white (color perception), and that the butterfly is flapping and flying (motion perception). We lump all the processing stages after the photoreceptor and call them "post-receptoral" processing, which is denoted by ⑦ in @fig-overview.
 
@@ -42,7 +40,7 @@ It is no small feat that our retina can extract such information: the retina mus
 
 The LGN and early areas in the visual cortex extract information such as edge and orientation, and other higher-order areas further refine the signals to extract information such as motion, depth, and object category. Eventually, all these individual bits and pieces are knit together in our brain to give us perception and cognition, i.e., the semantic signals. Information processing in the visual system is not purely feed-forward. There are many feedback paths between cortical areas and between the cortex and the LGN [@gilbert2013top; @briggs2020role]. We hasten to add that while we know a lot about the *correlation* between the electrical responses and the semantic signals, we cannot yet say much about the *causation*.
 
-### The Transformations are Born of Necessity {#sec-chpt:intro:hvs:why}
+### The Transformations are Born of Necessity {#sec-chpt-intro-hvs-why}
 
 This complex sequence of transformations that turns the physical realities into one’s subjective percept is born of necessity. A comparison is another sequence of transformations that computer architects are perhaps more familiar with. To have a computer solve a problem for us, we first describe the algorithm in a program written in a high-level language and then transform the program to a low-level, machine-understandable language (i.e., the Instruction Set Architecture), which is then executed on the microarchitecture implemented using circuits and, eventually, moving electrons. If we could directly talk to the electrons and instruct them to move to solve our problem, this sequence of transformations would not be strictly necessary. Similarly, if we could crack open one’s head and manipulate the neuron spikes at will, we could perhaps directly impose certain percepts on humans. But since we cannot (easily), the sequence of signal transduction is necessary. Of course, the sequence of transformation in the computer systems is purposefully engineered to be that way, whereas the one in the HVS is naturally evolved.
 
@@ -52,23 +50,21 @@ The fact that there is a sequence of transformations involved suggests that we c
 
 First, we can study it at the psychological level to understand how human psychology, i.e., different forms of perception, cognition, and action, varies under physical stimuli (e.g., lights). This is the field of *psychophysics*. The psychological experiences one has are results of the collective behaviors of the neurons in the HVS. Naturally, the second way to study the HVS is to relate the behaviors of the neurons and the neural networks to the physical stimuli. This is the field of *systems neuroscience*. Finally, the behavior of a neuron is fundamentally a result of how cells and molecules function inside and between neurons, so one can study the underlying cellular and molecular processes given physical stimuli. This is the field of *cellular and molecular physiology*.
 
-## Engineered Visual Computing Systems {#sec-chpt:intro:others}
+## Engineered Visual Computing Systems {#sec-chpt-intro-others}
 
 While the example above is drawn from a biological system, engineered visual computing systems such as smartphones are fundamentally no different in that they all involve visual information represented in and transformed between different domains. We will consider three examples of engineered systems and compare and contrast them with those in the human visual system.
 
-### Computer Imaging and Digital Photography {#sec-chpt:intro:others:imaging}
+### Computer Imaging and Digital Photography {#sec-chpt-intro-others-imaging}
 
 Imaging refers to the task of capturing images of the physical world. Photography is sometimes used interchangeably with imaging. Just to be pedantic, however, photography is a special case of imaging where the goal is to capture *visually pleasing* images for the human visual system. Scientific imaging is another branch of imaging, where the goal is to capture *physically accurate* information for scientific inquiry. Examples of scientific imaging include astrophotography, microscopy, and Computed Tomography (CT). We will focus on photography here. Conventional photography is purely analog; think of dark rooms and film development. Modern imaging is computer-assisted, hence the name "computer imaging", not to be confused with "computational imaging" or "computational photography", which we will see later.
 
 An end-to-end photography system is a complicated sequence of signal transductions involving ② $\rightarrow$ ⑥ $\rightarrow$ ⑤ $\rightarrow$ ① $\rightarrow$ ④ $\rightarrow$ ⑦ in @fig-overview. Lights enter the camera and are first processed by the optics in the camera with the main goal of focusing lights (②), similar to the eye optics. Camera optics are designed completely by humans and we can, therefore, specifically engineer them to achieve a particular performance, whereas eye optics do not enjoy such flexibilities. An example is compound lenses, where a combination of lenses of different kinds are cascaded together to correct various aberrations that a single (spherical) lens introduces.
 
-After the lenses, lights hit the image sensor, whose main job is to transform optical signals to electrical signals (⑥). This is achieved by an array of light-sensitive photodiodes, or pixels, that convert photons to electric charges --- using the *photoelectric effect* [@einstein1905erzeugung; @einstein1905heuristic] [^intro-2] --- which are then converted to digital values, i.e., image pixels. From the signal transduction perspective, the pixels in an image sensor are "just" like photoreceptors on the retina. Vision scientists might take offense at this comparison, because the photoreceptors, as alluded to earlier, are much "smarter" and do a lot more than the pixels, e.g., visual adaptation. In fact, an active area of research is to design pixels so that they adapt like photoreceptors [@liao2022bioinspired].
-
-[^intro-2]: the discovery of which won Albert Einstein his Nobel Prize
+After the lenses, lights hit the image sensor, whose main job is to transform optical signals to electrical signals (⑥). This is achieved by an array of light-sensitive photodiodes, or pixels, that convert photons to electric charges --- using the *photoelectric effect* [@einstein1905erzeugung; @einstein1905heuristic]  ^[the discovery of which won Albert Einstein his Nobel Prize.] --- which are then converted to digital values, i.e., image pixels. From the signal transduction perspective, the pixels in an image sensor are "just" like photoreceptors on the retina. Vision scientists might take offense at this comparison, because the photoreceptors, as alluded to earlier, are much "smarter" and do a lot more than the pixels, e.g., visual adaptation. In fact, an active area of research is to design pixels so that they adapt like photoreceptors [@liao2022bioinspired].
 
 Eventually, an image needs to be displayed for the human visual system to see. The display performs an electrical to optical signal transduction, turning digital pixels to lights (⑤). The photons from the display then enter human eyes, and what we have discussed before about the HVS applies.
 
-### Computer Graphics and Rendering {#sec-chpt:intro:others:cg}
+### Computer Graphics and Rendering {#sec-chpt-intro-others-cg}
 
 Computer graphics and rendering systems generate images, where photorealism is the main goal (although not the exclusive goal). What does it take to render photorealistic images? A rendered image is photorealistic if it almost looks like a photo taken by a camera, so to render something photorealistic, we want to simulate how a photo is taken! To that end, we must simulate two things: 1) how light transports in space before entering the camera and 2) how lights are turned into pixels by a camera, which follows the signal chain in an imaging system. %Photorealistic rendering is nothing more than simulation.
 
@@ -80,7 +76,7 @@ Using phenomenological models is sometimes the only option when the actual under
 
 Similar to photography, the rendered images will also go through an electrical-to-optical signal transformation by the display, whose output is then consumed by the HVS.
 
-### Machine Vision Systems {#sec-chpt:intro:others:mv}
+### Machine Vision Systems {#sec-chpt-intro-others-mv}
 
 For better or worse, machine vision systems are prevalent in modern society. Autonomous vehicles use machine vision to navigate the environment, drones are used in agriculture to monitor crop health, and facial recognition technologies are increasingly used for security authentications. A machine vision system has two main components: 1) an imaging sub-system that, as discussed above, transforms the optical information in the scene to the electrical information encoded by the image pixels (② $\rightarrow$ ⑥) and 2) a computing sub-system, which uses computer vision algorithms to interpret the images and extract meanings from the scene (⑧).
 
@@ -88,17 +84,17 @@ At the risk of once again downplaying the capabilities and complexities of the H
 
 A key difference between imaging in machine vision and imaging for photography is their respective consumer: the output of a photograph is meant to be consumed by an HVS, so visual quality is the main consideration, whereas images captured by, for instance, a robot are meant to be consumed by the downstream computer vision algorithms, which do not care about the visual appearance as long as the semantic information can be decoded from the images. This difference influences the design of the imaging system used in photography and for machine vision.
 
-## A Powerful Abstraction {#sec-chpt:intro:research}
+## A Powerful Abstraction {#sec-chpt-intro-research}
 
 A visual computing system enlists the work of multiple stages of signal transformation. At every stage in an application's pipeline, we have decisions to make. These decisions should not be made locally to optimize for a specific stage. Much of the exciting research in visual computing focuses on jointly designing and optimizing all stages of an end-to-end system. This section provides two concrete examples. But before we can entertain them, we first introduce a power abstraction that will allow us to reason about these research ideas.
 
-### The Encoding-Decoding Abstraction {#sec-chpt:intro:research:info}
+### The Encoding-Decoding Abstraction {#sec-chpt-intro-research-info}
 
 We can take an information-theoretical perspective and abstract virtually any end-to-end visual computing pipeline as an encoding-decoding process. Decoding is the ultimate goal, but encoding is necessary, because it transforms signals to a domain that can be processed by the decoder. Take, for instance, human vision and machine vision systems; while the ultimate goal is to generate percepts of the physical world, information in the world must be first encoded as electrical signals (through imaging), which are what the brain and computer vision algorithms can process. Imaging itself can also be regarded as an encoding-decoding pair, where the optical information of the scene is first encoded in the electrical domain and the computational algorithms, acting as a decoder, reconstruct an electrical representation that faithfully captures the information in the original scene.
 
 A more complicated example is visual display devices such as a VR headset. When developing a VR application, we usually have a scene in mind, e.g., a red lacewing butterfly flying in the woods. We hope that users will perceive the object (butterfly), color (the astonishing bright red and pale brown interlaced by black and white), and motion (flapping and flying), but we cannot simply impose these percepts on humans. Instead, we generate visual stimuli on the display to encode the desired percepts. This encoding is done through a combination of rendering (generating electrical signals) and display (converting electrical signals to optical signals). The entire HVS then acts as the decoder, which ideally would provide the intended percepts to users.
 
-#### Encoding Capabilities Set the Limits on Decoding {#sec-chpt:intro:research:info:limits}
+#### Encoding Capabilities Set the Limits on Decoding {#sec-chpt-intro-research-info-limits}
 
 Once we take this encoding-decoding abstraction, we can start reasoning about limits of a visual computing system. The decoder consumes information generated by the encoder, so its utility is fundamentally limited by the encoding capabilities. Ideally, the encoder should faithfully capture all the information in the world. But in practice, encoding is almost always lossy --- for a number of reasons.
 
@@ -106,15 +102,15 @@ First, the actual encoding device used in a system, be it biological or engineer
 
 Second, an encoding device might completely disregard certain information in the incident signal. For instance, the polarization information in the incident light is simply ignored by the photoreceptors, whose responses are, thus, invariant to the polarization states. As a result, humans cannot "see" polarization. Some animals, such as butterflies, have polarization-sensitive photoreceptors. So it is not surprising that monarch butterflies make use of the light polarization for navigation [@reppert2004polarized].
 
-#### Jointly Design Encoding and Decoding {#sec-chpt:intro:research:info:codesign}
+#### Jointly Design Encoding and Decoding {#sec-chpt-intro-research-info-codesign}
 
 The encoder-decoder abstraction also allows us to design strategies to enhance a visual computing system, both augmenting its capabilities and improving its execution efficiency. For instance, when certain information is not needed for an accurate decoding, it need not be encoded in the first place and, of course, will not participate in decoding, reducing both encoding and decoding costs. Alternatively, if we know what information is crucial for decoding, we can design the encoding system to specifically capture such information. We can also "over-design" the encoder to encode signals in a higher dimensional space than the space to which the information is to be decoded; this essentially introduces redundant samples to improve the robustness to noise.
 
 Ultimately, exploiting these ideas amounts to modeling and, often times, jointly designing the encoder and decoder, considering the end-to-end requirements of task performance, efficiency, and quality --- of both the humans and the machine. We will discuss two concrete examples.
 
-### Encoding-Decoding Co-Design: Two Examples {#sec-chpt:intro:research:codesign}
+### Encoding-Decoding Co-Design: Two Examples {#sec-chpt-intro-research-codesign}
 
-#### Computational Photography {#sec-chpt:intro:research:codesign:cp}
+#### Computational Photography {#sec-chpt-intro-research-codesign-cp}
 
 The optical to electrical signal transduction in the image sensor is lossy due to various forms of signal sampling and integration. The signal transduction process itself is also not perfect due to fundamental physical limitations (e.g., quantal fluctuation in photon arrivals) and practical engineering considerations (e.g., sensor size). As a result, the sensor output, which is usually called *raw pixels*, is noisy (especially in low-light conditions) and does not accurately represent the luminance (especially under bright illuminations) and color information in the scene; certain information such as light-field and polarization is completely lost.
 
@@ -126,7 +122,7 @@ People over the years have come up with a variety of clever ideas for HDR imagin
 
 These HDR imaging techniques are all examples where the imaging system, i.e., the encoder, is intentionally designed to capture critical information (luminance) that is otherwise lost (either due to noise or due to saturation).
 
-#### Perceptual Rendering {#sec-chpt:intro:research:codesign:pr}
+#### Perceptual Rendering {#sec-chpt-intro-research-codesign-pr}
 
 Perceptual rendering is a classic example that leverages the characteristics of HVS (decoder) to inform the design of visual display systems (encoder) such as AR/VR or even just smartphones. We illustrate the basic idea in @fig-codesign, where imaging, rendering, and computing systems encode information that is then decoded by the HVS. The output of the decoder, i.e., the perception, cognition, and action of a human user, is what we care to influence, but what we actually have influence over, for the most part, is the encoding system (for imaging, rendering, and computing). If we have a good understanding of the HVS, we can then invert it to solve for the optimal stimuli, and from there we can then figure out how to optimally engineer the encoding system to deliver the desired stimuli while maximizing the system efficiency.
 
@@ -136,23 +132,22 @@ Gaze-contingent rendering is a well-known technique in AR/VR that exploits this 
 
 Modern science and engineering have also empowered us to directly influence the decoder itself through, e.g., brain implants and gene therapy --- just imagine how powerful it would be to directly control a function whose outputs we care about. Similarly, these mechanisms must be designed with the encoder in mind in order to deliver the desired output.
 
-## The Rest of the Book {#sec-chpt:intro:book}
+## The Rest of the Book {#sec-chpt-intro-book}
 
-### Why Should Architects Care? {#sec-chpt:intro:book:why}
+### Why Should You Care? {#sec-chpt-intro-book-why}
 
-It is not controversial to observe that architects are perhaps one of the most interdisciplinary groups in CS. We architects go out of our way to bridge software and hardware. By the nature of classic computer architecture, we dabble at the boundary between software and hardware, and the prevalence of domain-specific accelerators, where we drive computer systems designs by deep understanding of algorithmic characteristics, only accentuates this nature of our research community.
+The book is initial written targeting computer science audience.
+It is not controversial to observe that computer science is incredibly interdisciplinary.
+By the nature of computer science, we dabble at the boundary between software and hardware.
 
 Now is the time to push that to the next level. We should be the ones that connect computing with other (traditionally) *non-computing* domains such as imaging and human visual perception. In some sense, it is nothing more than asking us to expand the scope of computing to all forms of signal transduction, be it optical, analog, digital, or biological, in which perhaps conventional computing is concerned with only analog and digital signal transductions.
-
-Here is another way to think of this. When we talk about "software" in the context of software-hardware co-design, what we often really mean are "algorithms" --- predefined pieces of code crafted to solve (part of) a problem. But as architects, our scope should go beyond algorithms to encompass the **problems** themselves; see the distinction between "problem" and "algorithm" in @fig-abstractions. There is no reason we must constrain ourselves to algorithmic solutions handed down by others. On the contrary, we should be the ones driving the development of solutions, because we understand what it takes to implement them efficiently and effectively.
-
-To design good solutions, we must understand the entire stack: optics, image sensors, light-matter interactions, human visual perception, and more. The goal of this book is to build a foundation in these areas so that you can confidently understand and, better yet, design solutions that span across them.
+The goal of this book is to build a foundation in these areas so that you can confidently understand and, better yet, design solutions that span across them.
 
 That said, we invite you to indulge in the pursuit of fundamental sciences --- even when they might not have immediate applications. As Edwin H. Land wittily and emphatically put it, the true application of science is that "we finally know what we are doing."
 
-### Goals, Non-Goals, and Other References {#sec-chpt:intro:book:goals}
+### Goals, Non-Goals, and Other References {#sec-chpt-intro-book-goals}
 
-We will cover mostly the signal transductions between the optical representation and electrical representation (① -- ⑥ in @fig-overview) while being very light on the electrical to semantic transduction (⑦ and ⑧ in @fig-overview). In particular, we will not touch computer vision at all, simply because there are too many excellent texts and it is arguably the most well-understood by architects.
+We will cover mostly the signal transductions between the optical representation and electrical representation (① -- ⑥ in @fig-overview) while being very light on the electrical to semantic transduction (⑦ and ⑧ in @fig-overview). In particular, we will not touch computer vision at all, simply because there are too many excellent texts and it is arguably the most well-understood by computer scientists.
 
 We will not attempt to be comprehensive --- no one understands everything, and no one needs to understand everything in order to get started. Our goal is to take a first-principled approach, so that you can build a solid foundation and feel confident learning new concepts in the future. There are many excellent references on the various topics we cover in the book if you want to dig deeper. Here are a few of my suggestions.
 
