@@ -1,4 +1,4 @@
-# From Light to Visual Perception: An Overview {#sec-chpt-hvs-percept}
+# From Light to Vision: An Overview {#sec-chpt-hvs-percept}
 
 This chapter gives an overview of the human visual system.
 We start from eye optics, which direct light to the retina, where the optical-to-electrical signal transduction takes place.
@@ -209,7 +209,7 @@ The entire \Sect{chpt:hvs:color} is devoted to color vision; for now, let us jus
 
 One way to measure the spectral differences between photoreceptors is using a technique called microspectrophotometry (MSP), which measures the fraction of photons that gets absorbed by a photoreceptor at each wavelength.
 Using MSP, @dartnall1983human collected data for cones and rods from human donors, shown in @fig-receptor_sensitivity.
-The $y$-axis plots *absorbance*, which is $\log(I_{\text{incident}}/I_{\text{transmitted}})$, i.e., the log ratio between the incident light intensity and transmitted (i.e., unabsorbed) light intensity ^[$\text{absorbance} = \log(I_{\text{incident}}/I_{\text{transmitted}})$, and the fraction absorbed, i.e., $\text{absorptance} = 1 - I_{\text{transmitted}}/I_{\text{incident}}$. Therefore, $\text{absorptance} = 1-e^{-\text{absorbance}}$. Mathematically, absorbance is approximately absorption when absorbance is low, which is the case here when using MSP to illuminante the photoreceptors.].
+The $y$-axis plots *absorbance*, which is $\log(I_{\text{incident}}/I_{\text{transmitted}})$, i.e., the log ratio between the incident light intensity and transmitted (i.e., unabsorbed) light intensity ^[$\text{absorbance} = \log(I_{\text{incident}}/I_{\text{transmitted}})$, and the fraction absorbed, i.e., $\text{absorptance} = 1 - I_{\text{transmitted}}/I_{\text{incident}}$. Therefore, $\text{absorptance} = 1-e^{-\text{absorbance}}$. Numerically, absorbance is approximately absorption when absorbance is low, which is the case here when using MSP to illuminate the photoreceptors.].
 
 While many cones were measured, there were only three distinct spectra, whose absorbance peaks at relatively long, medium, and short wavelength, respectively.
 We call them the L, M, and S cones.
@@ -503,3 +503,101 @@ This is different from the rod vs. cone pathways, which start at the photorecept
 Once in the cortex, the visual signals are first processed in the **primary visual cortex**, also known as visual area 1 (**V1**) or the **striate cortex**.
 V1 neurons primarily encode edge orientations but are also tuned to edge lengths, object motion direction, and specific colors.
 David Hubel and Torsten Wiesel were the first to elucidate the responses of V1 neurons and the architecture of V1 in general [@hubel1959receptive; @hubel1962receptive; @hubel1968receptive] ^[They won the Nobel Prize in 1981.].
+
+#### V1 Simple Cells are Orientation Selective
+
+Perhaps the most striking feature of V1 neurons is that they are orientation selective.
+The left panel of \Fig{fig:orientation_selectivity} shows the responses of a cat V1 neuron, recorded by \citet{hubel1959receptive}, when presented with a slit of illumination at different orientations.
+This neuron responds best to a particular orientation (vertical in this case) and responds very weakly, if at all, to other orientations.
+The right panel in \Fig{fig:orientation_selectivity} plots the neuron responses (spikes/second) as a function of the illumination orientation; a plot like this is called the neuron's orientation \textbf{tuning curve}.
+
+![Left: orientation selectivity of a cat V1 simple cell; from @hubel1959receptive[Fig. 3]. Right: orientation tuning curves of two illustrative V1 simple cells (do not necessarily correspond to the experimental data on the left); different cells can have different preferred orientations.](figs/orientation_selectivity){#fig-orientation_selectivity width="80%"}
+
+Perhaps the most striking feature of V1 neurons is that they are orientation selective.
+The left panel of @fig-orientation_selectivity shows the responses of a cat V1 neuron, recorded by @hubel1959receptive, when presented with a slit of illumination at different orientations.
+This neuron responds best to a particular orientation (vertical in this case) and responds very weakly, if at all, to other orientations.
+The right panel in @fig-orientation_selectivity plots the neuron responses (spikes/second) as a function of the illumination orientation; a plot like this is called the neuron's orientation **tuning curve**.
+
+![Left: responses of a V1 simple cell to spot lights at different locations in the receptive field. $\triangle$: inhibitory areas; $\times$: excitatory areas. $f$ is when the entire field is illuminated uniformly. Right: the receptive field of the cell. From @hubel1959receptive[Fig. 1].](figs/v1_simple_spot){#fig-v1_simple_spot width="80%"}
+
+Why would this neuron be tuned to a specific orientation?
+The reason lies in its receptive field structure.
+@fig-v1_simple_spot shows the response of such a neuron when illuminated with spot lights at different locations.
+When the neuron is illuminated by spot lights across the vertical axis, it is inhibited, and it is excited when the spot lights are across the horizontal axis.
+The right panel shows the receptive field of such a neuron, where the skinny, tall central area is inhibited and the flanking areas are excitatory.
+There are other neurons where the excitatory and inhibitory regions are swapped.
+
+This receptive field explains why a neuron could have an orientation selectivity: when the orientation of the stimulus coincides with the excitatory region of the receptive field the neuron is optimally stimulated ^[Note that the receptive field in @fig-v1_simple_spot has an inhibitory central region and excitatory flanking areas, but the receptive field of the neuron in @fig-orientation_selectivity evidently has an opposite excitatory vs. inhibitory regions, so the two figures do not share the same underlying data.].
+Other orientations would involve both the excitatory and inhibitory regions, reducing or abolishing the response.
+V1 cells with such a receptive field are called **simple cells**.
+Different simple cells might have different preferred orientations; for instance, the first cell in the right panel of @fig-orientation_selectivity prefers a 90$^{\circ}$ orientation.
+
+![Bottom: typical receptive-field maps for V1 simple cells (C -- G); while there are on and off regions, they are not organized in a center-surround fashion as they are in RGCs/LGN (A and B). Top: multiple center-surround (LGN) neurons synpase with a V1 simple cell, producing the receptive field in C at the bottom. $\triangle$: inhibitory areas; $\times$: excitatory areas. Adapted from @hubel1962receptive[Fig. 2, 19].](figs/v1_simple_rf){#fig-v1_simple_rf width="80%"}
+
+C--G in @fig-v1_simple_rf illustrate typical receptive fields found in V1 simple neurons.
+All are oriented (only one orientation is shown) but differ in arrangements.
+In comparison, A and B show the center-surround receptive fields found in RGCs and LGN neurons.
+Clearly, center-surround receptive fields simply cannot be orientation selective: try superimposing an edge and rotating it over the center-surround receptive field; will the response change much?
+
+How would a V1 simple neuron acquire such an oriented receptive field?
+This can be explained by looking at how LGN neurons are connected to a V1 simple neuron.
+The top panel in @fig-v1_simple_rf illustrates the model suggested by @hubel1962receptive, which is supported by later electrophysiological results [@clay1995specificity].
+Each V1 simple cell synapses with and sums the inputs from multiple LGN neurons (which, recall, also have the center-surround receptive fields as the RGCs), whose receptive fields abut and overlap on the retina, and are arranged in an oblique angle.
+When those receptive fields all have the same ON-center (or OFF-center) structure, the simple cell would tune for an oblique, elongated edge.
+Therefore, even if center-surround cells do not have orientation selectivity, V1 simple cells can.
+
+#### Direction, Length, and Binocular Vision Emerge from (Hyper)Complex Cells
+
+The majority of neurons in V1 are actually not simple cells.
+Three-quarters of the V1 neurons are **complex cells**, which have, well, complex selectivities.
+Fundamentally, their receptive fields cannot be subdivided into excitatory and inhibitory areas.
+That is, they do not respond to a spot light no matter where the light is placed in the receptive field.
+Therefore, their responses to complicated geometries cannot be explained/predicted by their responses to spot lights, unlike those of simple cells.
+
+The complex cells are also orientation selective, but unlike simple cells, many complex cells respond only to a properly oriented edge *sweeping* across the receptive field *as if* (but not actually) the entire receptive field is excitatory.
+However, when we present a properly oriented, *stationary* edge, complex cells do not respond at all, or only weakly, at the onset or the turning off of the edge.
+This further shows that the responses of complex cells are not a linear superposition of responses to spot lights.
+
+![Some V1 complex neurons prefer properly oriented edges sweeping across their receptive field; these neurons also have direction selectivity --- even under the same orientation. From @hubel1968receptive[Fig. 2].](figs/v1_complex){#fig-v1_complex width="80%"}
+
+Interestingly, about one-fifth of the complex cells prefer movement in a particular direction, showing the 
+**direction selectivity** of many complex cells.
+@hubel1968receptive measured the direction selectivity of V1 complex cells in monkeys, and some of the results are shown in @fig-v1_complex.
+In this example, the cell is excited by a properly oriented edge moving in upward directions, but not the opposing, orthogonal directions, showing selectivity toward motion directions.
+
+@hubel1968receptive also discovered a set of what they call the **end-stopping** neurons or hypercomplex cells in V1.
+Those neurons are tuned to properly oriented edges with a specific length, beyond which the neurons are inhibited.
+These neurons play a role in encoding corners, curvatures, and sudden breaks in lines [@hubel1995eye, p. 85].
+
+Finally, Hubel and Wiesel also found that some V1 neurons respond to stimuli only from the left eye or only from the right eye, a property termed **ocular dominance**.
+There are also binocular cells that can be stimulated independently by stimulus from either eye.
+There cells represent the first stage where information from the left and right hemi-fields converge, which is critical for depth perception.
+
+#### "Be More Specific"
+
+An obvious conclusion we can draw from comparing the V1 neurons and the retina/LGN neurons is this: as we progress along the visual pathway, the stimulus we present to the visual system must be more specific.
+Put another way, our visual system increasingly extracts more specific information as signals progress in the pathway.
+
+Being more specific is critical, as that allows us to recognize objects by their subtle details.
+For instance, the RGCs/LGN neurons provide the contrast/edge detection capability, but virtually any object has contrasts and edges, so they are not terribly useful in recognizing specific objects.
+The V1 simple neurons, however, allow us to detect orientations, and that is critical to our vision --- from orientations we can then infer shapes, as we recognize objects mostly by their shapes.
+
+Critically, however, the V1 simple neurons offer orientation selectivity precisely because the RGCs/LGN neurons have contrast/edge detection capabilities, as demonstrated in @fig-v1_simple_rf (top).
+This is why we say the early visual system extracts low-level information, but the later visual system extracts high-level information: the former is used as the building blocks by the latter.
+
+#### The Rest of the Cortex
+
+![Once in the cortex, signals are projected from area V1 to other areas, each generally specialized in a particular information process. The two main pathways from V1 are the ventral pathway ("what") and the dorsal pathway ("where"). There is top-down feedback in the cortex from higher-order areas to lower-order areas. Adapted from @dowling2016vision[Fig. 1.3].](figs/brain_cortex){#fig-brain_cortex width="70%"}
+
+From V1, signals are projected to other areas such as V2, V4, IT, MT, etc.
+There are two main projection pathways [@nassi2009parallel; @ungerleider1982two; @mishkin1983object], as shown in @fig-brain_cortex.
+The first is the **dorsal** pathway, which is concerned with observing objects in space, such as their spatial location and motion, information that is also useful to guide actions [@goodale1991neurological].
+Therefore, this pathway is also called the "where/how" pathway.
+The other is the **ventral** pathway, or the "what" pathway, that carries information of the details and identity of objects and supports visual functions such as object recognition, facial recognition, and color perception.
+The two pathways interact.
+For instance, to guide visual action we not only need to know the position and motion of the objects but also the shape, color, etc.
+
+The discussion so far focuses on the bottom-up information flow, the flow of information from lower-order representations in the hierarchy, such as V1, to higher-order representations, such as V4 and beyond.
+There is also a top-down information flow from the higher regions to the lower regions.
+This information flow provides feedback information such as attention, knowledge, and expectation to influence the early information processing in the cortex [@gilbert2013top; @briggs2020role].
+Combining the bottom-up and the top-down flows, the HVS acts essentially as a self-adaptive system that automatically optimizes its performance for a given task.
