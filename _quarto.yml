@@ -12,6 +12,7 @@ book:
     - part: hvs.qmd
       chapters:
         - hvs-intro.qmd
+        - hvs-receptor.qmd
         - hvs-adaptation.qmd
     - summary.qmd
     - references.qmd
@@ -19,7 +20,7 @@ book:
 number-depth: 3
 
 bibliography: refs.bib
-#csl: chicago-author-date.csl
+csl: chicago-author-date.csl
 
 format:
   html:

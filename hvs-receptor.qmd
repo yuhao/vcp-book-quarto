@@ -1,0 +1,161 @@
+# How Do Photoreceptors Work {#sec-chpt-hvs-receptor}
+
+## Counting Photons: Principle of Univariance {#sec-chpt-hvs-receptor-counting}
+
+![Anatomical structures of rods and cones. The outer segment contains photon-absorbing photopigments, which of which has the capability of absorbing a photon and being excited/isomerized after absorption. From @wandell1995foundations[Fig. 3.2].](figs/photoreceptors){#fig-photoreceptors width="80%"}
+
+Anatomically, a photoreceptor has two parts: an inner segment and an outer segment.
+Photons enter from the inner segment, which for the most part can be thought of as a waveguide that funnels the photons to the outer segment.
+The outer segment contains the photon-absorbing pigments.
+This is illustrated in @fig-photoreceptors.
+
+Conceptually, we can think of each photoreceptor as a bucket that collects photons.
+There are millions of buckets sitting on the retina, taking a shower of photons.
+Many photons entering the eye will not hit any bucket: they are absorbed before they reach the bucket (e.g., by the lens).
+Any photon that does hit the bucket has a certain *probability* of being absorbed.
+The absorption probability varies with the photoreceptor type and the photon's wavelength.
+
+Fundamentally, a photoreceptor can absorb photons because it contains light-sensitive, photon-absorbing pigments, each of which is able to absorb one photon.
+Each rod photoreceptor has tens of millions of such pigments [@milo2015cell, pp. 142 - 147; @nathans1992rhodopsin].
+Why is a photon's absorption probability not 100\% once it enters a photoreceptor?
+For one, a photon might not meet a photopigment as it travels through the photoreceptor before the exit.
+Even if a photon hits a pigment, its absorption is still probabilistic, as absorption is dictated fundamentally by quantum mechanics.
+
+Once a photon is absorbed, it has a certain probability of "exciting" or "isomerizing" the pigment.
+A pigment **excitation** or **isomerization** generates a certain level of electrical signal --- in the form of a current or voltage change across the cell membrane of the photoreceptor.
+The excitation probability once a photon is absorbed is called the **quantum efficiency** of the pigment.
+Quantum efficiency is about two-thirds in the visible spectrum and is not wavelength sensitive [@dartnall1972photo; @kropf1982photo; @fu2010phototransduction].
+A pigment excitation is also called pigment **bleach**, since the pigment after excitation is no longer responsive to light as if it is bleached.
+
+The process of initiating an electrical response upon a photon absorption is called phototransduction.
+We will study this process in detail shortly in @sec-hvs-receptor-cascade.
+For now, it is important to know that for a given photoreceptor class, the electrical response caused by a photon absorption is constant regardless of the photon's wavelength.
+This is called the **Principle of Univariance** [@rushton1972visual; @rushton1972review; @naka1966s]: each photon that generates an electrical response has the same effect as any other photon that does so.
+In other words, the only effect that wavelength has is to impact the probability a photon gets absorbed; after absorption, the wavelength information is lost.
+
+A crucial implication of this principle is that any two lights that are equally absorbed/excited will be seen as the same light by the human vision.
+For the purpose of comparing two lights, we can think of each bucket as having a counter; every time a photon is absorbed and excites a pigment, the counter gets incremented by 1.
+If two lights lead to the same counter value, they are perceptually the same.
+Crucially, if a bucket's counter is, say, twice as high as another's, it does *not* mean the electrical responses produced by the first photoreceptor are twice as high as that of the second.
+We will see why this is the case shortly.
+
+## Spectral Absorbance, Absorptance, and Sensitivity {#sec-chpt-hvs-receptor-absorb}
+
+To understand vision in everyday scenarios, what we care about is not the probability of how a single photon is absorbed and excites a pigment, but the collective behavior of a flux of photons that enter our eyes.
+Conveniently, when we have a large population of photons, the probability that an individual photon causes an excitation translates to the *percentage* of incident photons that are absorbed and/or cause excitations.
+In fact, the percentage of absorption is the quantity that we can directly measure.
+
+There are in general two ways to estimate the absorption rate of a flux of photons.
+The direct way of measurement is using a technique called microspectrophotometry (MSP).
+The indirect method is to measure the electrical responses using, e.g., a suction electrode, and then estimate the absorption.
+The indirect method gives us only relative absorption across wavelengths, while the MSP approach gives us absolute absorption.
+
+### Absorbance Spectra from Microspectrophotometry {#sec-chpt-hvs-receptor-absorb-msp}
+
+The idea of MSP is to shine a beam of light through a photoreceptor and then measure, at the other side, the percentage of photons that are transmitted, i.e., unabsorbed [@bowmaker1984microspectrophotometry].
+Ignoring back-scattering ^[The reason we want to ignore back-scattering is so that we can assume any unabsorbed photons will be transmitted through, and measured at the other side of, the photoreceptor. In reality, some photons might be scattered backward toward where they come from and will not be measured either.], photon absorption by photopigments in a photoreceptor can be modeled using the Beer-Lambert law.
+The **transmittance** at wavelength $\lambda$ is defined as the ratio between the amount of transmitted photons $I_d(\lambda)$ and the amount of total incident photons $I_0(\lambda)$:
+
+\begin{align}
+    T(\lambda) = \frac{I_d(\lambda)}{I_0(\lambda)} = e^{-\epsilon(\lambda) c l},
+\end{align}
+
+where $\epsilon(\lambda)$ is called the absorption coefficient and is wavelength dependent, $c$ is the concentration (the number of pigments per unit volume), and $l$ is the optical length, the length through which a photon has to travel\footnote{$\epsilon(\lambda)$ so-defined has a unit of $m^2$, and $c$ so-defined has a unit of $1/m^3$. In the literature, sometimes people define $\epsilon(\lambda)$ to be the **molar absorption coefficient**, which has a unit of $m^2/mol$, and define $c$ to be the **molar concentration** (the number of moles of pigments per unit volume), which has a unit of $mol/m^3$.}.
+Both $c$ and $l$ are inherent properties of a photoreceptor and are not dependent on photon wavelength.
+
+**Absorptance** $a(\lambda)$, the percentage of absorption at $\lambda$, is naturally $1-T(\lambda)$.
+**Absorbance** $A(\lambda)$ (also called the **optical density**), whose spelling is subtly and annoyingly different from that of absorptance, is defined as:
+
+$$
+    A(\lambda) = -\ln(T(\lambda)) = \epsilon(\lambda) c l.
+$$ {#eq-absorbance}
+
+Therefore, absorptance $a(\lambda)$ and absorbance $A(\lambda)$ are related by:
+
+$$
+    a(\lambda) = 1 - e^{-A(\lambda)}.
+$$ {#eq-absorptance}
+
+![Left: Log-scaled spectral sensitivities of the cones (L, M, S) in a macaque measured using the suction electrode method; adapted from @baylor1987spectral[Fig. 3A]. Right: Absorbance spectra of the three cones (L, M, S) and the rod (R) in a human, measured using MSP; adapted from @dartnall1983human[Fig. 2]. The spectra in both cases are normalized to peak at 1/100.](figs/receptor_sensitivity){#fig-receptor_sensitivity width="100%"}
+
+We would repeat this experiment over a frequency range and obtain the axial absorbance at each sampled frequency.
+The resulting plot is usually called the **absorbance spectrum**.
+One such example is shown in the right panel in @fig-receptor_sensitivity, measured by @dartnall1983human on humans.
+Much such data has been obtained in the literature, the earliest of which is perhaps work by @marks1964visual and @brown1964visual, which identified three distinct absorbance spectra in cone-mediated vision and, thus, provided physiological evidence for the existence of three classes of cones.
+The three cone types are generally referred to as the L, M, and S cones, since their absorbances peak at, relatively, long, medium, and short wavelengths.
+
+#### Normalization
+
+Quite often, the absorbance spectrum is normalized to peak at unity, as is the case in @fig-receptor_sensitivity (right).
+According to @eq-absorbance, normalizing absorbance across different wavelengths is equivalent to normalizing $\epsilon$ across wavelengths, since $c$ and $l$ are not wavelength specific, whereas $\epsilon$ is.
+$c$ and $l$ might vary across species and across individuals and might differ between different illumination methods (see below), but $\epsilon$, which is fundamental to the photopigment, does not.
+Therefore, the normalized absorbance spectrum tells us something fundamental about the wavelength sensitivity of the photopigments.
+
+Perhaps a subtlety but quite confusing when perusing the literature, the maximum absolute absorbance across all wavelengths (i.e., the peak of an absorbance spectrum) is usually simply called the optical density; "peak optical density" would have been more accurate, as optical density is wavelength specific.
+Using the peak optical density and the normalized absorbance spectrum, we can reconstruct the absolute absorbance spectrum; from there we can get the absolute absorptance spectrum.
+
+While not shown here, the peak absorbance between rods and cones is not that different.
+The peak absorbance of rods is about 0.475, and the value is about 0.375 for foveal S cones and 0.525 for foveal L/M cones [@bowmaker1978visual; @bowmaker1980visual].
+The large sensitivity difference between rod vision and cone vision is not primarily attributed to the difference in their ability to absorb photons.
+<!-- %http://www.cvrl.org/database/text/optdens/optdens.htm -->
+
+#### Correcting for Transverse Illuminations
+
+There is one more complication.
+With MSP, we illuminate a photoreceptor *transversely*, i.e., the light passes from one side of the photoreceptor to the other side.
+In reality, when a photon enters a photoreceptor, it travels *axially* from the inner segment through the outer segment.
+The main difference between these two scenarios is the optical length that a photon has to travel.
+A photoreceptor is tall and skinny, so its width is much smaller than its length, about 2.5 $\mu m$ wide and 35 $\mu m$ long for a fovea L/M cone [@polyak1941retina].
+<!-- %http://www.cvrl.org/database/text/outseg/length.htm
+%bowmaker1980visual cites polyak 1941 "25 um for parafoveal S cone"
+%bowmaker1980microspectrophotometric cites polyak 1941 "35 um for foveal cones and 25 um for extra-foveal rods," -->
+
+Therefore, we need to first calculate the absorbance per unit length, called the **specific absorbance**, and then scale the specific absorbance by the axial length of the photoreceptor to obtain the axial absorbance, from which we can estimate the axial absorptance using @eq-absorbance.
+This is shown below (omitting $\lambda$ for simplicity):
+
+$$
+\begin{align}
+    A_{\text{transverse}} &= -\ln(p_{\text{transverse}}) = \epsilon c l_{\text{transverse}} \\
+    A_{\text{specific}} &= \frac{A_{\text{transverse}}}{l_{\text{transverse}}} = \epsilon c \\
+    A_{\text{axial}} &= A_{\text{specific}} l_{\text{axial}} \\
+    T_{\text{axial}} &= e^{-A_{\text{axial}}}
+\end{align}
+$$ {#eq-axial}
+
+### Relative Absorptance Spectra from Electrical Responses {#sec-chpt-hvs-receptor-suction}
+
+Another method is by measuring the photoreceptor's electrical responses across different wavelengths using techniques such as suction electrode, which records the electrical responses of an isolated photoreceptor sucked into a micropipette.
+Spectra so estimated are usually called the spectral sensitivity of the photoreceptors in the literature, but as we will see, they are equivalent to the *normalized* absorptance spectra.
+
+![Each curve shows the electrical response (in photovoltage; $y$-axis) as a function of light intensity ($x$-axis) at a given wavelength. To estimate the relative sensitivity/absorptance between two wavelengths, we laterally shift one curve so that it coincides with the other. Given the Principle of Univariance, the amount of shift is proportional to the relative absorptance. From @baylor1973detection[Fig. 8].](figs/spectral_sensitivity_from_photocurrents){#fig-spectral_sensitivity_from_photocurrents width="80%"}
+
+@fig-spectral_sensitivity_from_photocurrents illustrates the idea, where @baylor1973detection measured the peak electrical response of a turtle cone (in photovoltage; $y$-axis) as a function of light intensity ($x$-axis) at two wavelengths: 644 $nm$ and 539 $nm$.
+We see that the curves are almost parallel to each other: we can laterally move the 644 $nm$ curve to coincide with that of 539 $nm$.
+In this case, we have to shift the former by 1.27 log units.
+
+Think for a second what this means.
+When we increase the intensity at 644 $nm$ by a factor of $10^{1.27}$, the sheer number of photons absorbed at 644 nm is increased by a factor of $10^{1.27}$, too.
+That means without scaling the number of incident photons at 644 $nm$ is $10^{-1.27}$ (about 5.4\%) of that at 539 $nm$.
+Even with just 5.4\% of incident photons, 644 $nm$ light is able to produce the same level of electrical response, i.e., cause the same amount of photon absorption (given the Principle of Univariance), as the light at 539 $nm$.
+Therefore, we can say the absorption rate (absorptance) at 644 $nm$ is $10^{1.27}$ higher than of that at 539 $nm$.
+
+We repeat this experiment across other wavelengths and obtain the relative spectral sensitivity/absorptance spectra.
+The left panel in @fig-receptor_sensitivity shows one such example obtained by @baylor1987spectral on macaque cones.
+Critically, the absorptance so obtained is relative: we do not know the absolute absorptance at either wavelength.
+The $y$-axis is necessarily normalized to peak at unity.
+Similar data have been collected on humans as well [@schnapf1987spectral; @kraft1993visual].
+
+#### Normalized Spectra From the Two Methods Match Well
+
+It is worth noting that the suction electrode method also uses transversely illuminated lights.
+Since the absorptance obtained here is relative, we cannot easily use the method in \Eqn{eq:axial} to obtain the absorptance spectra for the axial illumination.
+
+Here is the catch.
+Numerically, $1 - e^{-A} \approx A$ when $A$ is small.
+When we illuminate a photoreceptor transversely, the optical length $l$ is the photoreceptor width, which is short, which means $A$ is small [@wyszecki1982color, pp. 588, 594].
+Therefore, the transverse absorbance and transverse absorptance are approximately equal.
+So the normalized absorptance spectrum given by the suction electrode method *is* approximately the normalized absorbance spectrum, as is shown experimentally [@schnapf1987spectral; @stockman2000spectral, Fig. 11].
+
+The normalized absorbance spectra are still not sufficient, since to use the method in @eq-axial we need to know the absolute absorbance spectra.
+People usually have to resort to another data source that provides absolute peak absorbance or fit the data against, e.g., psychophysical measurements that provide some form of absolute measures [@kraft1993visual; @baylor1984photocurrent; @baylor1987spectral].
+
