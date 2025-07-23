@@ -414,7 +414,21 @@
     <choose>
       <if variable="locator">
         <choose>
-          <if locator="page" match="none">
+          <!-- CASE 1: locator is 'page' -->
+          <if locator="page">
+            <choose>
+              <!-- Show 'p.' only for these types -->
+              <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
+                <text value="p." suffix=" "/>
+              </if>
+              <else>
+                <label variable="locator" form="short" suffix=" "/>
+              </else>
+            </choose>
+          </if>
+  
+          <!-- CASE 2: locator is NOT 'page' -->
+          <else>
             <choose>
               <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
                 <choose>
@@ -434,11 +448,10 @@
                 <label variable="locator" form="short" suffix=" "/>
               </else>
             </choose>
-          </if>
-          <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
-            <number variable="volume" form="numeric" suffix=":"/>
-          </else-if>
+          </else>
         </choose>
+  
+        <!-- Always print the locator value -->
         <text variable="locator"/>
       </if>
     </choose>

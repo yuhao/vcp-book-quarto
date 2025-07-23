@@ -344,7 +344,7 @@ If we illuminate the entire receptive field of an RGC uniformly, the RGCs respon
 This is a form of *light adaptation*, which we will discuss shortly.
 Let's call the RGC's response rate under a uniform illumination its spontaneous rate.
 
-![RGCs have a center-surround receptive field with two types. The ON-center RGCs are excited by stimuli presented at the center but inhibited by stimuli presented at the surround (stimulus 2 on the left); OFF-center RGCs have the opposite response (stimulus 4 on the right). Drawn after @hubel1995eye[p. 41].](figs/rgc_rf_new){#fig-rgc_rf width="100%"}
+![RGCs have a center-surround receptive field with two types. The ON-center RGCs are excited by stimuli presented at the center but inhibited by stimuli presented at the surround (stimulus 2 on the left); OFF-center RGCs have the opposite response (stimulus 4 on the right). Drawn after @hubel1995eye[pp. 41].](figs/rgc_rf_new){#fig-rgc_rf width="100%"}
 
 If uniformly changing the light levels does not change the RGC's response rate, what does?
 It turns out that you need to have *variations* in the illumination within the receptive field.
@@ -567,7 +567,7 @@ In this example, the cell is excited by a properly oriented edge moving in upwar
 
 @hubel1968receptive also discovered a set of what they call the **end-stopping** neurons or hypercomplex cells in V1.
 Those neurons are tuned to properly oriented edges with a specific length, beyond which the neurons are inhibited.
-These neurons play a role in encoding corners, curvatures, and sudden breaks in lines [@hubel1995eye, p. 85].
+These neurons play a role in encoding corners, curvatures, and sudden breaks in lines [@hubel1995eye, pp. 85].
 
 Finally, Hubel and Wiesel also found that some V1 neurons respond to stimuli only from the left eye or only from the right eye, a property termed **ocular dominance**.
 There are also binocular cells that can be stimulated independently by stimulus from either eye.

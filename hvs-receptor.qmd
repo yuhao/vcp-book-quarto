@@ -16,7 +16,7 @@ Any photon that does hit the bucket has a certain *probability* of being absorbe
 The absorption probability varies with the photoreceptor type and the photon's wavelength.
 
 Fundamentally, a photoreceptor can absorb photons because it contains light-sensitive, photon-absorbing pigments, each of which is able to absorb one photon.
-Each rod photoreceptor has tens of millions of such pigments [@milo2015cell, pp. 142 - 147; @nathans1992rhodopsin].
+Each rod photoreceptor has tens of millions of such pigments [@milo2015cell, pp. 142-147; @nathans1992rhodopsin].
 Why is a photon's absorption probability not 100\% once it enters a photoreceptor?
 For one, a photon might not meet a photopigment as it travels through the photoreceptor before the exit.
 Even if a photon hits a pigment, its absorption is still probabilistic, as absorption is dictated fundamentally by quantum mechanics.
