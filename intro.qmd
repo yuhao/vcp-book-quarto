@@ -130,7 +130,10 @@ Perceptual rendering is a classic example that leverages the characteristics of 
 
 Gaze-contingent rendering is a well-known technique in AR/VR that exploits this opportunity. Our peripheral visual acuity is extremely bad: we could not tell the details of an object in our peripheral vision. This is mainly a result of: 1) a higher degree of low-pass filtering due to neural convergence in the periphery, and 2) a lower rate of sampling in the periphery due to drastically fewer photoreceptors. When immersed in a virtual environment with a VR headset, the majority of the pixels rendered and displayed fall in the periphery of the retina. Therefore, one could improve the rendering speed by generating low-quality visual stimuli for the periphery with impunity [@patney2016towards; @guenter2012foveated]. We could also alter pixel colors in the periphery to reduce display power without introducing artifacts [@duinkharjav2022color].
 
-Modern science and engineering have also empowered us to directly influence the decoder itself through, e.g., brain implants and gene therapy --- just imagine how powerful it would be to directly control a function whose outputs we care about. Similarly, these mechanisms must be designed with the encoder in mind in order to deliver the desired output.
+Modern science and engineering have also empowered us to directly influence the decoder itself through techniques like brain implants and gene therapy --- just imagine how powerful it would be to directly control a function whose outputs we care about.
+An example is the artificial retina [@gogliettino2023high; @muratore2020artificial], an electronic retinal implants that converts optical signals to electrical signals that mimic actual retinal responses or codes;
+this holds the potential to restore vision to blind individuals.
+Similarly, these mechanisms must be designed with the encoder in mind in order to deliver the desired output.
 
 ## The Rest of the Book {#sec-chpt-intro-book}
 
