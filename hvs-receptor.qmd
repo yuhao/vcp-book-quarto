@@ -53,7 +53,7 @@ The indirect method gives us only relative absorption across wavelengths, while 
 ### Absorbance Spectra from Microspectrophotometry {#sec-chpt-hvs-receptor-absorb-msp}
 
 The idea of MSP is to shine a beam of light through a photoreceptor and then measure, at the other side, the percentage of photons that are transmitted, i.e., unabsorbed [@bowmaker1984microspectrophotometry].
-Ignoring back-scattering ^[The reason we want to ignore back-scattering is so that we can assume any unabsorbed photons will be transmitted through, and measured at the other side of, the photoreceptor. In reality, some photons might be scattered backward toward where they come from and will not be measured either.], photon absorption by photopigments in a photoreceptor can be modeled using the Beer-Lambert law.
+Ignoring back-scattering ^[Without back-scattering, we can assume any unabsorbed photons will be transmitted through, and measured at the other side of, the photoreceptor. In reality, a very small amount of some photons might be scattered backward toward where they come from and will not be measured either, but the effect is small.], photon absorption by photopigments in a photoreceptor can be modeled using the Beer-Lambert law.
 The **transmittance** at wavelength $\lambda$ is defined as the ratio between the amount of transmitted photons $I_d(\lambda)$ and the amount of total incident photons $I_0(\lambda)$:
 
 \begin{align}
@@ -76,17 +76,17 @@ $$
     a(\lambda) = 1 - e^{-A(\lambda)}.
 $$ {#eq-absorptance}
 
-![Left: Log-scaled spectral sensitivities of the cones (L, M, S) in a macaque measured using the suction electrode method; adapted from @baylor1987spectral[Fig. 3A]. Right: Absorbance spectra of the three cones (L, M, S) and the rod (R) in a human, measured using MSP; adapted from @dartnall1983human[Fig. 2]. The spectra in both cases are normalized to peak at 1/100.](figs/receptor_sensitivity){#fig-receptor_sensitivity width="100%"}
+![Left: Log-scaled spectral sensitivities of the cones (L, M, S) in a macaque measured using the suction electrode method; adapted from @baylor1987spectral[Fig. 3A]. Right: Absorbance spectra of the three cones (L, M, S) and the rod (R) in a human, measured using MSP; adapted from @dartnall1983human[Fig. 2]. The spectra in both cases are normalized to peak at 1/100.](figs/receptor_sensitivity){#fig-receptor_sensitivity_2 width="100%"}
 
 We would repeat this experiment over a frequency range and obtain the axial absorbance at each sampled frequency.
 The resulting plot is usually called the **absorbance spectrum**.
-One such example is shown in the right panel in @fig-receptor_sensitivity, measured by @dartnall1983human on humans.
+One such example is shown in the right panel in @fig-receptor_sensitivity_2, measured by @dartnall1983human on humans.
 Much such data has been obtained in the literature, the earliest of which is perhaps work by @marks1964visual and @brown1964visual, which identified three distinct absorbance spectra in cone-mediated vision and, thus, provided physiological evidence for the existence of three classes of cones.
 The three cone types are generally referred to as the L, M, and S cones, since their absorbances peak at, relatively, long, medium, and short wavelengths.
 
 #### Normalization
 
-Quite often, the absorbance spectrum is normalized to peak at unity, as is the case in @fig-receptor_sensitivity (right).
+Quite often, the absorbance spectrum is normalized to peak at unity, as is the case in @fig-receptor_sensitivity_2 (right).
 According to @eq-absorbance, normalizing absorbance across different wavelengths is equivalent to normalizing $\epsilon$ across wavelengths, since $c$ and $l$ are not wavelength specific, whereas $\epsilon$ is.
 $c$ and $l$ might vary across species and across individuals and might differ between different illumination methods (see below), but $\epsilon$, which is fundamental to the photopigment, does not.
 Therefore, the normalized absorbance spectrum tells us something fundamental about the wavelength sensitivity of the photopigments.
@@ -140,7 +140,7 @@ Even with just 5.4\% of incident photons, 644 $nm$ light is able to produce the 
 Therefore, we can say the absorption rate (absorptance) at 644 $nm$ is $10^{1.27}$ higher than of that at 539 $nm$.
 
 We repeat this experiment across other wavelengths and obtain the relative spectral sensitivity/absorptance spectra.
-The left panel in @fig-receptor_sensitivity shows one such example obtained by @baylor1987spectral on macaque cones.
+The left panel in @fig-receptor_sensitivity_2 shows one such example obtained by @baylor1987spectral on macaque cones.
 Critically, the absorptance so obtained is relative: we do not know the absolute absorptance at either wavelength.
 The $y$-axis is necessarily normalized to peak at unity.
 Similar data have been collected on humans as well [@schnapf1987spectral; @kraft1993visual].
@@ -159,3 +159,87 @@ So the normalized absorptance spectrum given by the suction electrode method *is
 The normalized absorbance spectra are still not sufficient, since to use the method in @eq-axial we need to know the absolute absorbance spectra.
 People usually have to resort to another data source that provides absolute peak absorbance or fit the data against, e.g., psychophysical measurements that provide some form of absolute measures [@kraft1993visual; @baylor1984photocurrent; @baylor1987spectral].
 
+## Cone Fundamentals: Cornea-Referred Spectral Sensitivities {#sec-chpt-hvs-receptor-fundamentals}
+
+Our discussions so far have focused on absorption by the photoreceptors, but for a flux of photons arriving at the cornea about to enter our eye, they are also absorbed even before reaching the photoreceptors.
+Accounting for these \textbf{pre-receptoral} filters is important to model human vision.
+Spectral sensitivities that account for these pre-receptoral filters are what we call the \textit{cornea-referred} spectral sensitivities.
+
+### Cone Fundamentals From Physiology
+
+There are two such pre-receptoral filters: the ocular media (@sec-chpt-hvs-percept-absorb) and the macular pigments, which are located at a small area in the fovea.
+Macular pigments absorb light presumably to counter some of the aberrations from the ocular media and to protect the retina from light damage [@snodderly1984macular].
+Both ocular media and macular pigments absorb light selectively over the spectrum, just like photoreceptors do.
+
+We can model $E(\lambda)$, the fraction of photons arriving at the cornea that are absorbed by the photoreceptors:
+
+\begin{align}
+    E(\lambda) = l(\lambda) m(\lambda) a(\lambda)
+\end{align}
+
+\noindent where $a(\lambda)$ represents the photoreceptor absorptance spectrum, $l(\lambda)$ and $m(\lambda)$ represent ocular and macular transmittance spectrum, respectively, i.e., the fraction of photons at $\lambda$ *unabsorbed* by the ocular media (e.g., lens) [@boettner1962transmission; @norren1974spectral] and the macular pigments.
+@fig-cone_fundamentals illustrates this process.
+
+![Cornea-referred spectral sensitivity function measures the percentage of photons arriving at the cornea (about to enter the eye) that are absorbed by each photoreceptor type at each wavelength. The cone versions of this are called the cone fundamentals and are visualized in the bottom right. The sensitivity metric relates to the rate of pigment excitation only by a constant scaling factor (i.e., the photoreceptor quantum efficiency, which is about two-thirds). It is a product of ocular transmittance (top left), macular transmittance (top right), and photoreceptor absorptance (bottom left). The macular transmittance and lens transmittance are from @stockman1999spectral; the cone absorptance spectra are estimated from @stockman2000spectral (different from the @dartnall1983human data used in @fig-receptor_sensitivity; see the methodology in @absorption_spectra_cvrl).](figs/cone_fundamentals_new){#fig-cone_fundamentals width="100%"}
+
+<!-- %the probability a here is a constant; one might think that absorption becomes harder as a photon travels through the cell, but we are calculating the total absorption *given* a cell length. so the probability here already considers the cell length. See https://web.stanford.edu/~wandell/data/papers/2022_ISETBio_VisualEncoding.pdf#page=19.65
+% what this means is that the amount of excitation (and absorption) is proportional to light power. so if we want to increase absorption we linearly increase power. this however does not mean response is linearly wrt power/excitation/absorption; in fact we know that r/rmax is not linear. so what the spectral sensitivity function really means the not the response per unit power but the amount of excitation per unit power. -->
+
+We call $E(\lambda)$ the cornea-referred spectral sensitivity function, since it is calculated with respect to the incident lights at the cornea surface.
+When $a(\lambda)$ is replaced by the absorptance spectra of the three classes of cones, the resulting sensitivity functions are more commonly referred to as the **cone fundamentals**.
+
+We can make a few general observations about the cone fundamentals.
+First, the cone sensitivity drops to 0 beyond the 380 nm and 780 nm range, a range we usually call the visible spectrum, since there will be no pigment excitation beyond that range: lights beyond that range are invisible.
+Second, S cones are generally the least sensitive of the three cone types, but it is not because of the photoreceptors but because of the pre-receptoral filters, which absorb mostly low-wavelength lights.
+Finally, the sensitivity peaks of the L cones and M cones are very similar (off by about 20 $nm$), but both are rather far from the peak of the S cones.
+We have discussed the reason behind this when discussing @fig-receptor_sensitivity.
+
+### Cone Fundamentals From Psychophysics
+
+The spectral sensitivities discussed above are measured physiologically.
+We can also measure such functions through psychophysics using the increment-threshold method.
+A typical set up is one where there is a uniform background illumination and a spot light superimposed at the center of the background.
+We ask a participant to adjust a knob to control the intensity of the spot light so that it is just noticeable from the background.
+The sensitivity is then defined as the reciprocal of the threshold intensity.
+We repeat this experiment for each sampled wavelength across the spectrum to obtain a sensitivity curve.
+This method is first used in the pioneering work done by W.S. Stiles [@stiles1939directional; @stiles1959color; @stiles1964appendix], and is adopted in virtually all later work [@wald1964receptors; @smith1975spectral; @stockman1999spectral; @stockman2000spectral].
+
+A curious question is how we can separate the sensitivity of different photoreceptor types, given that the spectral sensitivities of the four photoreceptor types overlap.
+There are two methods to isolate rods from cones.
+We can either use very dim lights, to which cone responses are too small to contribute to vision [@crawford1949scotopic], or we could measure from people with rod monochromacy --- individuals who have only rods.
+When measuring cone sensitivities, we will use intense lights that almost completely saturate rods.
+
+Isolating the three cone types from each other is generally challenging with individuals with normal vision.
+W.S. Stiles' initial work [@stiles1939directional; @stiles1959color] designed special conditions of background illumination to suppress the sensitivity of two unwanted cone types while sparing the one under study.
+Modern studies usually turn to color-deficient individuals who lack one or two cone types.
+Isolating S cones is done by measuring from S-cone monochromats [@stockman1999spectral].
+Isolating L and M cones is challenging because individuals with only L or M cones are very rare and the spectral sensitivities of the L and M cones overlap substantially.
+Instead, a common approach is to resort to Protanopes and Deuteranopes; the former has only M and S cones, and the latter has only L and S cones.
+To isolate M (L) cones from the S cones, we measure from Protanopes (Deuteranopes) using lights that have high spatial and/or temporal frequencies, to which S cones are known to be insensitive [@stockman2000spectral; @smith1975spectral].
+
+### Physiological and Psychophysical Sensitivities Match Well
+
+We can then compare the spectral sensitivity data from physiology and from psychophysics.
+This is shown in @fig-spectral_sensitivity_comparison.
+See the figure caption for details.
+Overall it is fair to say that the two sets of data match well.
+
+![Left: comparison of the physiologically-obtained rod spectral sensitivity from macaques (open circles) and the rod spectral sensitivity from human psychophysics (filled circles); adapted from @baylor1987photoreceptor[Fig. 14], which is after @baylor1984photocurrent[Fig. 5]. Right: comparison of the spectral sensitivity of the three cone types between physiology data (open circles; from macaques) and psychophysics data (curves; from humans); adapted from @baylor1987spectral[Fig. 5]. The human psychophysics data is from @stiles1959color for cones and from @crawford1949scotopic for rods.](figs/spectral_sensitivity_comparison){#fig-spectral_sensitivity_comparison width="100%"}
+
+Think about what this comparison means.
+What we measure in psychophysics is the threshold intensity (at each wavelength) needed to evoke a criterion level of human *behavioral response* (i.e., just noticeability).
+The threshold intensity in the physiological measurement represents how much light is needed (at each wavelength) to cause the same amount of pigment absorption and, by the Principle of Univariance, the amount of *electrical responses*.
+The fact that the two sets of data match suggests that the amount of electrical response we need to evoke a just-noticeable level of perception is a constant regardless of wavelength, a perhaps unsurprising inference.
+
+Interestingly, the physiological data in \Fig{fig:spectral_sensitivity_comparison} is obtained from macaques, and the psychophysical data is from humans.
+The fact that they match well suggests the similarities of the visual system among primates --- we have come a long way since the monkey days, but our photoreceptors have not changed much.
+Other studies obtaining the physiological sensitivity data from humans show similarly good matches with human psychophysical data [@crescitelli1953human; @kraft1993visual; @bowmaker1980visual; @mollon1982colour].
+
+## Beyond Counting Photons: Phototransduction and Recovery {#sec-hvs-receptor-cascade}
+
+The discussion so far about (spectral) sensitivity has focused on the ability of different types of photoreceptors to absorb ("count") photons at different wavelengths, and by that measure, rods and cones are not that different: their peak absorbances differ by less than 10\% (@sec-chpt-hvs-receptor-absorb-msp).
+So then why do we say rod vision is more sensitive than cone vision?
+What we have ignored is the absolute *strength* of the electrical response once photons are absorbed.
+To understand the absolute response strength, we need to understand the cellular and molecular processes underlying how electrical responses are actually produced from pigment excitations.
+These processes constitute the so-called **phototransduction cascade** and are the focus of this section.
+George Wald, who won the Nobel Prize in 1967, is largely credited for elucidating these processes [@wald1933vitamin; @wald1968molecular].
