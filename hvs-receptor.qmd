@@ -81,8 +81,19 @@ $$ {#eq-absorptance}
 We would repeat this experiment over a frequency range and obtain the axial absorbance at each sampled frequency.
 The resulting plot is usually called the **absorbance spectrum**.
 One such example is shown in the right panel in @fig-receptor_sensitivity_2, measured by @dartnall1983human on humans.
-Much such data has been obtained in the literature, the earliest of which is perhaps work by @marks1964visual and @brown1964visual, which identified three distinct absorbance spectra in cone-mediated vision and, thus, provided physiological evidence for the existence of three classes of cones.
-The three cone types are generally referred to as the L, M, and S cones, since their absorbances peak at, relatively, long, medium, and short wavelengths.
+Much such data has been obtained in the literature, the earliest of which is perhaps by George Wald and his colleagues [@marks1964visual; @brown1964visual] who identified three distinct absorbance spectra in cone-mediated vision and, thus, provided direct physiological evidence for the existence of three classes of cones.
+The three cone types are generally referred to as the **L**, **M**, and **S** cones, since their absorbances peak at, relatively, long, medium, and short wavelengths.
+
+Decades before the work by Wald et al., Ragnar Granit measured the spectral sensitivities of the retinal ganglion cells [@granit1941retinal; @granit1943physiological; @granit1945electrophysiological; @granit1945colour] ^[Granit shared the Nobel Prize in 1967 with George Wald and Haldan Keffer Hartlin largely due to this work.].
+Granit showed the existence of two classes of RGCs: 1) one that has a broader spectral sensitivity whose peak shifts to shorter wavelengths from photopic vision to scotopic vision, and 2) one whose spectral sensitivities are narrower and fall generally into three main groups.
+The former is the physiological version of the Purkinje shift that we will discuss in @sec-chpt-hvs-color-oppo-light, and provides direct evidence for the convergence of the rod and the cone vision pathways (@sec-chpt-hvs-percept-retina-rodcone-pathways and @fig-retinal_nn).
+The latter is the first direct evidence of the existence of three dinstinct wavelength encoding mechanisms (albeit not at the photoreceptor level), essential for the trichromatic color vision.
+<!-- %see dowling1967nobel and granit1968development (nobel lecture) too.
+%granit1945electrophysiological is a summary of his own work. Sec. 5 is quite interesting (based on work in granit1945colour), as it shows a mechanism to isolate the spectra of his modulators. originally he by chance could find RGCs that have narrow spectra (modulators), but he wanted to have a more scalable way to get modulator spectra and test the hypothesis that denominators are formed by modulators. in modern terms, his modulators are definitely not just single cones, but the technique in Sec. 5 is interesting: adapting colored lights would universally reduce the sensitivity of rod's LEF and any discrependacy must be because of cones (or the resulting modulators) whose sensitivities are not suppressed by the adapting light, so they can they derive the modulator spectra.
+% in this scheme, blue modulators could give non-zero M curves under R and G adapting light, and R modulators could give such spectra under B/G adapting lights, and so on. Fig. 9 averages all the modulator spectra by adapting light, and Fig. 10 averages modulator spectra by modulator type (based on the pre-established preferential peak of each type).
+% his view is perhaps incorrect in modern terms. Fig. 10 in granit1945colour shows his guess of the "fundamental sensation curves", which are cone fundamentals.  he later then says "fundamental sensation curves cannot be shown to exist" and "They are theoretical postulates which can merely be satisfied by adding modulators within the three preferential regions".  he shows in fig. 10 the R fundamental curve is the sum of M_y and M_r modulators.
+% basically, since he observed more than 3 modulators, "On the basis of the known modulators it would be necessary to develop a 6- or 7-colour theory, based on one red and one yellow modulator, two or three green modulators and two blue ones", he concludes that each cone fundamental must be sumed from individual modulators. in modern terms, we have only three cone classes, but they converge/combine in different ways at the RGCs, which is what he measured. -->
+
 
 #### Normalization
 
@@ -242,4 +253,4 @@ So then why do we say rod vision is more sensitive than cone vision?
 What we have ignored is the absolute *strength* of the electrical response once photons are absorbed.
 To understand the absolute response strength, we need to understand the cellular and molecular processes underlying how electrical responses are actually produced from pigment excitations.
 These processes constitute the so-called **phototransduction cascade** and are the focus of this section.
-George Wald, who won the Nobel Prize in 1967, is largely credited for elucidating these processes [@wald1933vitamin; @wald1968molecular].
+George Wald is largely credited for elucidating these processes [@wald1933vitamin; @wald1968molecular].

@@ -109,9 +109,9 @@ This is illustrated in @fig-retinal_nn.
 
 The main information flow starts from the photoreceptors, flows through the bipolar cells, which synapse with photoreceptors and send their outputs to the RGCs.
 The horizontal cells synapse with the photoreceptors (and other horizontal cells), and the amacrine cells connect with both the bipolar cells and the RGCs (and other amacrine cells).
-Identifying the different classes of neurons and their connections is largely due to Santiago Ramón y Cajal ^[who shared the Nobel Prize in 1906 with Camillo Golgi, who invented a method that Cajal used to study neuronal connections.].
+Identifying the different classes of neurons and their connections is largely due to Santiago Ramón y Cajal ^[Cajal shared the Nobel Prize in 1906 with Camillo Golgi, who invented a method that Cajal used to study neuronal connections.].
 
-Interestingly, while we might be used to neurons communicating through spikes, i.e., action potentials ^[which were discovered by @hodgkin1952quantitative, who won the Nobel Prize in 1963.], the RGCs are the only type of neurons on the retina that spike.
+Interestingly, while we might be used to neurons communicating through spikes, i.e., action potentials ^[which were first recorded by Edgar Adrian, a Nobel Prize laureate in 1932 who developed the all-or-none theory of action potentials; Hodgkin and Huxley [@hodgkin1952quantitative], who shared the Nobel Prize in 1963, explained the ionic mechanisms underlying the action potentials.], the RGCs are the only type of neurons on the retina that spike.
 The rest of the neurons are non-spiking neurons; they communicate through graded potentials.
 
 #### Optical-to-Electrical Signal Transduction Takes Place in Photoreceptors
@@ -253,7 +253,7 @@ Second, since the fovea has the highest visual acuity, our ocular motor system h
 This means that we cannot see fine details of an object in dim environments if we fixate at it.
 Instead, we would have a better chance of seeing details if we intentionally placed the object in our peripheral vision.
 
-#### Rod vs. Cone Pathways and Visual Streams
+#### Rod vs. Cone Pathways and Visual Streams {#sec-chpt-hvs-percept-retina-rodcone-pathways}
 
 Rods and cones have their own pathways initially and merge later.
 This is shown in @fig-retinal_nn.
@@ -356,7 +356,7 @@ They are the **OFF-center, ON-surround RGCs**, since they have an inhibitory cen
 The RGCs are said to have a **center-surround** receptive field.
 @fig-rgc_rf illustrates the receptive fields of the two RGCs.
 
-H.K. Hartline measured the RGC responses from horseshoe crabs [@hartline1932nerve], using which he famously demonstrated inhibitory signals [@hartline1949inhibition; @hartline1956inhibition] ^[ and he won the Nobel Prize in 1967 because of this discovery.]; he was also the first to use the term receptive field [@hartline1938response; @hartline1939excitation; @hartline1940effects; @hartline1940receptive].
+H.K. Hartline measured the RGC responses from horseshoe crabs [@hartline1932nerve], using which he famously demonstrated inhibitory signals [@hartline1949inhibition; @hartline1956inhibition] ^[Hartline he won the Nobel Prize in 1967 because of this discovery.]; he was also the first to use the term receptive field [@hartline1938response; @hartline1939excitation; @hartline1940effects; @hartline1940receptive].
 @barlow1953summation demonstrated the inhibitory signals in a frog's RGC; Stephen Kuffler [@kuffler1952neurons; @kuffler1953discharge] was the first to demonstrate the center-surround receptive-field structure in a mammalian (cat) RGC, with Barlow also making significant contributions [@barlow1957change].
 
 #### Center-Surround Receptive Fields are Designed to Encode Contrasts
@@ -502,7 +502,7 @@ This is different from the rod vs. cone pathways, which start at the photorecept
 
 Once in the cortex, the visual signals are first processed in the **primary visual cortex**, also known as visual area 1 (**V1**) or the **striate cortex**.
 V1 neurons primarily encode edge orientations but are also tuned to edge lengths, object motion direction, and specific colors.
-David Hubel and Torsten Wiesel were the first to elucidate the responses of V1 neurons and the architecture of V1 in general [@hubel1959receptive; @hubel1962receptive; @hubel1968receptive] ^[They won the Nobel Prize in 1981.].
+David Hubel and Torsten Wiesel were the first to elucidate the responses of V1 neurons and the architecture of V1 in general [@hubel1959receptive; @hubel1962receptive; @hubel1968receptive] ^[They shared the Nobel Prize in 1981.].
 
 #### V1 Simple Cells are Orientation Selective
 
