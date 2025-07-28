@@ -254,3 +254,161 @@ What we have ignored is the absolute *strength* of the electrical response once 
 To understand the absolute response strength, we need to understand the cellular and molecular processes underlying how electrical responses are actually produced from pigment excitations.
 These processes constitute the so-called **phototransduction cascade** and are the focus of this section.
 George Wald is largely credited for elucidating these processes [@wald1933vitamin; @wald1968molecular].
+
+
+### Phototransduction Cascade
+
+The phototransduction cascades in rods and (different types of) cones are exactly the same.
+The differences appear to be quantitative rather than qualitative and are dictated by the genes expressing the isoforms of the molecules participating in phototransduction~\citep{ingram2016rods, yau1994phototransduction}.
+We will mainly use rods as an example to drive the discussion here.
+
+#### Photoreceptor Has a Stable Transmembrane Current in Dark
+
+A visual pigment in a rod is a special molecule called a rhodopsin, which has two parts: a long strand of protein called opsin (which is insensitive to light) and the light-sensitive **_11-cis_ retinal**, a form of Vitamin A as discovered by @wald1933vitamin, that is attached to the opsin and acts as a chromophore.
+@hofmann2023rhodopsin presents a comprehensive survey of what is known about rhodopsin to date.
+
+![cGMP-gated ion channels keep a transmembrane current of about -34 pA for each photoreceptor in the dark. The current is called the dark current, and its negative sign indicates that the direction of the current is inward). Adapted from @rodieck1998first[p. 172].](figs/dark_current_photoreceptor){#fig-dark_current_photoreceptor width="100%"}
+
+In the dark, there is a stable current of -34 pA that flows *into* the outer segment called the **dark current**.
+By convention, inward current is defined as negative.
+This is illustrated in @fig-dark_current_photoreceptor.
+The dark current is a result of a particular kind of cation-selective ion channel that is permeable to both Na^+^ and Ca^2+^ flowing into the outer segment.
+Critically, these channels are ligand-gated channel --- gated by cyclic guanosine monophosphate (cGMP) molecules [@fesenko1985induction; @yau1989cyclic].
+Think of cGMPs as the guards of the channels; on average, each channel needs three cGMPs to remain open [@rodieck1998first, p. 169].
+In a rod outer segment in the dark, there is an ample amount (3-4 micromoles) of cGMPs, which bind to a large amount of channels and keep them open.
+
+As a result of the dark current, the membrane potential of a photoreceptor in the dark is about -35 mV.
+If you are familiar with basic neuroscience, you would notice that the photoreceptor in the dark is depolarized, since the membrane potential is higher than that of the resting potential of a typical neuron.
+The depolarization is exactly caused by the inward flow of cations through the cGMP-gated channels.
+
+#### Closing Ion Channels Produces Electrical Responses
+
+Once a photon is absorbed and, with a two-thirds chance, excites a pigment (dictated by quantum efficiency, as discussed in @sec-chpt-hvs-receptor-counting), the *11-cis* retinal of the pigment changes to its isomer called **_all-trans_ retinal** (which will later be separated from the pigment).
+This is why a pigment excitation is often called a **photoisomerization**.
+This all takes place remarkably fast: the absorption takes about 3 fs and the photoisomerization takes about 200 fs [@gruhl2023ultrafast; @rodieck1998first, p. 162].
+
+![Steps involved in phototransduction. A single excited rhodopsin pigment can close about 2\% of the cGMP-gated ion channels, introducing a photocurrent (change in the transmembrane current) of about 0.7 pA; photocurrent is always positive, whereas the actual transmembrane current is always negative. Adapted from @rodieck1998first[p. 166--172].](figs/phototransduction_steps){#fig-phototransduction_steps width="100%"}
+
+The isomerization changes the conformation of a rhodopsin pigment, which becomes "activated": it diffuses randomly and activates a transducin (a form of G protein) whenever they meet.
+This is illustrated by step ① in @fig-phototransduction_steps.
+On average, an activated pigment activates about 700-800 transducins [@purves2017neurosciences, p. 243; @rodieck1998first, p. 170].
+Each activated G protein then meets and binds to a molecule called "cGMP-specific phosphodiesterase" (PDE), activating the PDE.
+This is step ② in @fig-phototransduction_steps.
+Each activated PDE has the ability to catalyze the hydrolysis of several dozen cGMPs~\citep{rieke1998single}, reducing the cGMP concentrations.
+This is step ③ in @fig-phototransduction_steps.
+
+We know that the ion channels that induce dark current are gated by cGMPs.
+A reduction in cGMP concentration will close some of these channels, *reducing* the dark current and *increasing* the membrane potential (i.e., the photoreceptor hyperpolarizes).
+This membrane current/potential change *is* the electrical response of photon absorptions and *is* the signal that will be delivered to the rest of the visual system to eventually give rise to vision.
+
+<!-- Figure 5b in \cite{rieke1998single} is a good figure to reproduce here. -->
+
+At the peak of this transduction process, a single activated rhodopsin in a rod can reduce the number of cGMPs by about 1,400, which translates to about 2\% closure of the cGMP-gated channels [@rodieck1998first, p. 170].
+Since each cGMP-gated channel carries the same amount of current,
+this means the total membrane current is reduced by about 2\%.
+This is step ④ in @fig-phototransduction_steps.
+In the literature, the *change* of membrane current and voltage potential is usually termed **photocurrent** and **photovoltage**, respectively.
+Since the change in the membrane current is positive and the change in the membrane voltage is negative, the photocurrent is positive and the photovoltage is negative.
+The actual transmembrane current and voltage are always negative.
+Some electrophysiological techniques measure the total membrane current/voltage, while others measure the photocurrent/photovoltage.
+Be careful of what quantity is being reported when perusing the literature.
+
+### Deactivation of Phototransduction and Pigment Regeneration {#sec-chpt-hvs-receptor-counter}
+
+If phototransduction continues without any hindrance, eventually 1) all pigments will be bleached (isomerized), and 2) all the ion channels will be open.
+If so, the photoreceptor and, ultimately, our visual system will not be able to respond to further lights: additional photons cannot be absorbed, and even if they are absorbed and excite pigments, there are no ion channels to close, and so no electrical response will be produced;
+at that point, our visual system *saturates*.
+
+In order for our visual system to continue to respond to lights, two things must take place.
+First, there must be mechanisms to terminate the phototransduction and re-open the ion channels [@burns2005beyond; @burns2001activation].
+Second, new pigments must be continuously regenerated.
+This is the job of the **retinoid cycle** or the **visual cycle**.
+
+#### Phototransductions are Continuously Being Deactivated
+
+![There are activities constantly at work to deactivate the phototransduction. This can be seen by observing the response kinetics to a flash light (left) and to a step light (right). Without the deactivation activities, the responses to the flash light would not have been eliminated, and the responses to the step light would not have reached an equilibrium. Left: macaque rods; adapted from @baylor1984photocurrent[Fig. 1]; Right: macaque M cones; adapted from @schnapf1990visual[Fig. 7A].](figs/phototransduction_kinetics){#fig-phototransduction_kinetics width="100%"}
+
+There are activities *constantly* at work attempting to terminate the phototransduction.
+This can be seen by observing the response kinetics of a photoreceptor to light.
+The left panel in @fig-phototransduction_kinetics shows the photocurrent kinetics of macaque rods in response to a flash light [@baylor1984photocurrent];
+the right panel shows the photocurrent kinetics of macaque M cones when presented with a step light, i.e., a constant background illumination [@schnapf1990visual].
+Without the deactivation activities, the responses to the flash light would not have been eliminated after the flash light was removed, and the responses to the step light would not have reached an equilibrium.
+
+For the phototransduction cascade to terminate, there are mechanisms to deactivate every step in the transduction: activated rhodopsins must be deactivated so that they cannot activate more G proteins, activated G proteins must come off the PDE so that the PDE cannot hydrolyze more cGMPs, the cGMPs must be replenished, and the cGMP-gated ion channels must reopen.
+Every step must be deactivated; for instance, it is not sufficient to just deactivate the pigments:
+that just means the inactivated pigments will not activate more G proteins, but existing G proteins that are still activated will continue activating PDEs and the rest of the phototransduction.
+
+![Steps involved in pigment deactivation and regeneration. An activated pigment is first deactivated, at which point the *11-cis* retinal falls off the opsin and is transported to the RPE to be re-synthesized back to *all-trans* retinal. Top: adapted from @goldstein2009sensation[Fig. 3.20]; Bottom right: from @rodieck1998first[p. 511]; R* denotes activated pigments, RK denotes rhodopsin kinase, and A denotes arrestin.](figs/pigment_regeneration){#fig-pigment_regeneration width="100%"}
+
+The deactivation also involves a set of biochemical reactions that we will not detail here, but just to give you a flavor, here is how the pigments are deactivated, and the process is illustrated in @fig-pigment_regeneration.
+An enzyme, rhodopsin kinase (RK), binds to and phosphorylates an activated pigment.
+Another protein called arrestin (A) then binds to phosphorylated pigment, which inhibits the pigment's ability to activate G proteins, essentially deactivating the pigment.
+
+#### Deactivation is Accelerated by Negative Feedbacks
+
+Interestingly, some of the deactivation steps are *accelerated* by *negative feedback* mechanisms mediated by Ca^2+^ concentration.
+One such mechanism is shown in @fig-deactivation_negative_feedback.
+Let's briefly take a look at this, not only because it is a classical example of the dynamics common in visual neuroscience (and many dynamical systems) but also because we will come back to this negative feedback when we discuss light adaptation later in the class.
+
+![Left: the deactivation is accelerated by the negative feedback from Ca^2+^.  Right: the kinetics of macaque L cones; the negative feedback is so strong in cones that the response kinetics have undershoots; from @baylor1987photoreceptor[Fig. 11].](figs/deactivation_negative_feedback){#fig-deactivation_negative_feedback width="100%"}
+
+The closing of cGMP-gated channels from phototransduction reduces the inward flows of Ca^2+^ and Na^+^ to the outer segment.
+Importantly, Ca^2+^ inhibits guanylate cyclase (GC), which inherently re-synthesizes cGMPs.
+As the Ca^2+^ level reduces, the cGMP re-synthesis rate increases, which replenishes cGMPs and re-opens ion channels.
+That is, phototransduction initially reduces the cGMP concentration, and the very reduction of concentration serves to replenish the cGMPs --- the feedback is negative.
+Without this negative feedback, the response still would have stabilized.
+For instance, soon after we move the flash light the cGMP concentration will stop falling while the GC-induced resynthesis is steadily going on.
+Eventually, the cGMP concentration will be restored to the original level ^[You might be wondering: if the GC-induced re-synthesis is always going on, wouldn't the outer segment of a photoreceptor be packed with cGMP molecules?
+It turns out that in the dark even unactivated PDEs can hydrolyze cGMPs --- at a much lower rate than activated PDEs do.
+These two forces counter each other and maintain a steady cGMP level in dark [@rodieck1998first, p. 373].].
+The negative feedback simply accelerates this process.
+
+The strength of the negative feedback is much stronger in cones than in rods [@yau2009phototransduction; @burns2001activation].
+The stronger negative feedback is the reason why cone responses recover much faster than do rods: compare the kinetics of macaque rods under flash lights of varying intensities in @fig-phototransduction_kinetics (left) and the macaque L cone kinetics under the same set of lights in @fig-deactivation_negative_feedback (right), and pay attention to the timescale on the $x$-axis.
+In cones, the negative feedback is so strong that there is actually a temporary over-provision of cGMPs during the deactivation phase, leading to an undershoot in the current (right panel in @fig-deactivation_negative_feedback).
+
+The negative feedback through Ca^2+^ concentration also accelerates other steps in deactivation, including accelerating pigment deactivation (although with a much less potent effect than that on the GC [@nikonov2000role; @pugh1999molecular]) and increasing the sensitivity of cGMP-gated channels to cGMPs (so that the channels can be open even at lower cGMP levels) [@hsu1993modulation].
+
+#### Pigments are Continuously Being Regenerated
+
+Deactivating phototransduction is not enough; it reopens ion channels and replenishes all the materials involved in phototransduction --- except the pigments themselves.
+Pigments must somehow be restored so that they are available for phototransduction again, and this is the job of the retinoid cycle.
+An activated pigment roams about randomly and gets deactivated when it meets rhodopsin kinase and arrestin.
+When an activated pigment is deactivated, the *all-trans* retinal falls off the pigment.
+This is shown in the top panel in @fig-pigment_regeneration.
+The *all-trans* retinals then leave the photoreceptor and are transported to the Retinal Pigment Epithelium (RPE), which is a layer of special skin cells just outside the retina and is where *all-trans* retinals are converted back to *11-cis* retinals, which are then transported back to the outer segment, recombining with the opsin portion of the pigment, at which point the pigment is reconstituted to its original form and is sensitive to photons again.
+This is shown in the bottom panel in @fig-pigment_regeneration.
+
+![Bleach all pigments using intense light, then remove the light and measure the fraction of available/bleached pigments vs. time in the dark. Left: human rod kinetics; adapted from @rushton1963cone[Fig. 3]; Right: human cone kinetics; adapted from @rushton1965ferrier[Fig. 3].](figs/pigment_regeneration_kinetics){#fig-pigment_regeneration_kinetics width="100%"}
+
+Rushton used retinal densitometry to measure the pigment regeneration of both cones and rods in the living eye.
+The kinetics of the rod and cone pigment regenerations are shown in @fig-pigment_regeneration_kinetics.
+The half-life of of cone pigments regeneration is about 3 times shorter than that of rod pigments [@rushton1961rhodopsin; @rushton1963cone; @rushton1965ferrier].
+<!-- %, which is consistent with modern electroretinogram (ERG) measurements \citep{mahroo2004recovery}, which shows the delivery or 11-cis is the rate limiting step.
+%\citep{rushton1968bleaching} shows ``regeneration after full bleaching is twice as fast when bleaching takes 1 sec as when it takes 2 min'', and ``the regeneration rate depends upon the amount of 11- cis retinal immediately available.'' -->
+The fast regeneration of cone pigments means it is unlikely that the steady-state cone pigment bleaching level exceeds about 90\% under the normal range of illumination levels throughout a day [@burns2004visual, p. 15].
+In contrast, under normal daylight, rod pigments are almost all bleached.
+
+Compared to the speed of pigment generation, the deactivation of phototransduction takes place much more rapidly.
+On average, a cone pigment is regenerated in about 2 minutes [@rodieck1998first, p. 184-185], and phototransduction deactivation (and activation for that matter) happens in millisecond scale.
+Imagine in your visual field there is a brief flash.
+You see the flash as a flash because the phototransduction initiated by the flash quickly goes away almost immediately as the flash is removed.
+
+#### Steady Vision Means Equilibrium
+
+Both pigment regeneration and phototransduction deactivation are constantly at work, countering the effect of the phototransduction in light.
+The more pigments are excited and the more ion channels are open, the stronger the deactivation and pigment regeneration processes are.
+
+Under a modest background illumination, the opposing forces reach an equilibrium where the rate of closing cGMP-gated ion channels matches that of re-opening them.
+So dynamically a fixed number, not all, of the ion channels are open.
+If after light exposure we move to a dark room, there are no photons coming in, so there is no phototransduction.
+The countering forces completely dominate, and eventually all the materials involved in phototransduction are replenished and all the ion channels are open --- another equilibrium.
+If we flash a light on top of the background, some cGMP channels open for a short period of time and then close as the flash goes away; our vision goes back to the steady state.
+
+If we increase the intensity of the steady background a little, again some cGMP channels will open, and simultaneously the countering forces are at work trying to close them.
+Eventually a new equilibrium is reached where more channels are steadily open than before.
+What if we keep increasing the background light's intensity?
+Every time we intensify the background light a little, we reach a new equilibrium with fewer channels steadily open.
+This is readily seen in the right panel in @fig-phototransduction_kinetics, where the steady-state response increases (i.e., fewer channels are open) as the background light intensity increases.
+Eventually all the channels will close, and our vision is said to be saturated.
+This is what we will study next.
