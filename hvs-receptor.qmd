@@ -1,5 +1,9 @@
 # How Do Photoreceptors Work {#sec-chpt-hvs-receptor}
 
+In this chapter we will review how photoreceptors work.
+We will start from the highest level of abstraction, where photoreceptors can be seen as a photon counting device.
+We will then discuss the
+
 ## Counting Photons: Principle of Univariance {#sec-chpt-hvs-receptor-counting}
 
 ![Anatomical structures of rods and cones. The outer segment contains photon-absorbing photopigments, which of which has the capability of absorbing a photon and being excited/isomerized after absorption. From @wandell1995foundations[Fig. 3.2].](figs/photoreceptors){#fig-photoreceptors width="80%"}
@@ -93,7 +97,6 @@ The latter is the first direct evidence of the existence of three dinstinct wave
 % in this scheme, blue modulators could give non-zero M curves under R and G adapting light, and R modulators could give such spectra under B/G adapting lights, and so on. Fig. 9 averages all the modulator spectra by adapting light, and Fig. 10 averages modulator spectra by modulator type (based on the pre-established preferential peak of each type).
 % his view is perhaps incorrect in modern terms. Fig. 10 in granit1945colour shows his guess of the "fundamental sensation curves", which are cone fundamentals.  he later then says "fundamental sensation curves cannot be shown to exist" and "They are theoretical postulates which can merely be satisfied by adding modulators within the three preferential regions".  he shows in fig. 10 the R fundamental curve is the sum of M_y and M_r modulators.
 % basically, since he observed more than 3 modulators, "On the basis of the known modulators it would be necessary to develop a 6- or 7-colour theory, based on one red and one yellow modulator, two or three green modulators and two blue ones", he concludes that each cone fundamental must be sumed from individual modulators. in modern terms, we have only three cone classes, but they converge/combine in different ways at the RGCs, which is what he measured. -->
-
 
 #### Normalization
 
@@ -412,3 +415,140 @@ Every time we intensify the background light a little, we reach a new equilibriu
 This is readily seen in the right panel in @fig-phototransduction_kinetics, where the steady-state response increases (i.e., fewer channels are open) as the background light intensity increases.
 Eventually all the channels will close, and our vision is said to be saturated.
 This is what we will study next.
+
+## Absolute Sensitivity and Saturation in Rods vs. Cones
+
+Now that we understand phototransduction and its recovery, we can appreciate some fundamental differences between rods and cones in their absolute sensitivity and saturation levels, which shape our daily visual experience.
+
+### Rods Have a Much Higher Signal-to-Noise Ratio Than Cones {#sec-chpt-hvs-receptor-snr}
+
+Psychophysical experiments show that humans can reliably detect a flash when only about 5 to 7 pigments are excited in a field of about 500 rods;
+in contrast, it takes about 5 pigment excitations *per cone* in a pool of about 10 cones for humans to signal a flash [@hecht1942energy; @barlow1956retinal; @donner1992noise; @angueyra2014limits].
+Assuming the visual system requires the same level of electrical response to see a flash, the difference suggests that rods are able to produce the same amount of electrical response using fewer pigment excitations than cones.
+
+Part of this can be explained by the different levels of neural convergence in the rod and cone pathway, which we have discussed before.
+But the difference in sensitivity between the photoreceptors themselves also plays a significant role: rod photoreceptors have a higher electrical response and a lower noise floor than cones.
+This contributes to the lower detection threshold in rod vision.
+Let's examine the signal and the noise separately.
+
+#### Single Photon Response is Much Larger in Rods than in Cones
+
+The photocurrent, i.e., the signal part of the SNR, from a single rod pigment excitation is about 20 times higher than that from a cone pigment excitation (34 pA vs. 0.7 pA) [@baylor1979responses; @baylor1984photocurrent; @baylor1987photoreceptor; @schnapf1990visual; @ingram2016rods; @angueyra2014limits].
+A single rod pigment excitation already closes about 2\% of the ion channels in a rod, and about 30 pigment excitations would close half of the ion channels in a rod in the dark.
+In contrast, it requires about 650 pigment excitations in a cone photoreceptor to provide a half-maximal response in dark [@baylor1984photocurrent; @schnapf1990visual].
+<!-- %schnapf1990visual is cited by baylor1987photoreceptor, which, however, says 3000; not sure where the data is from -->
+
+Part of the reason why rods have larger responses than cones is because the phototransduction cascade in rods is much more rapid [@ingram2016rods]: the rate of PDE activation is higher, the rate of cGMP concentration reduction is higher, etc.
+As a result, a lot of cGMP-gated ion channels already close before much of the "countering forces" (that are simultaneously trying to deactivate phototransductions) kick in, resulting in higher peak responses in rods than in cones.
+
+#### Cones are Much Noisier than Rods
+
+Not only do rods produce a higher response per pigment excitation, but the inherent noise in a rod is much lower than that in a cone.
+Photocurrents exist even in the dark due to noise, which comes from two main sources [@baylor1980two; @rieke2000origin]: 1) the spontaneous, thermal-induced activations of pigments, which show up as discrete spikes in photocurrents, and 2) the spontaneous activation of PDEs, which causes the cGMP concentration to fluctuate and shows up as the continuous rumbling of the photocurrent [@rieke1996molecular].
+Photocurrent in the dark has the equivalent effect of a background illumination in the dark, so it is also termed **dark noise**, **dark light**, or "eigengrau" (German: one's own light).
+As we can imagine, dark noise interferes with light detection when the signal is weak, i.e., illumination is dim [@barlow1957increment], where behaviorally we cannot tell for certain if we are seeing actual light or dark light.
+
+Dark noise is much higher in cones than in rods [@angueyra2014limits; @donner1992noise].
+For instance, the dark light in rods is equivalent to about one pigment excitation every 90 seconds [@baylor1984photocurrent] and about 500 -- 1,000 times per second in cones [@schnapf1990visual; @schneeweis1999photovoltage; @rieke2000origin; @burns2004visual; @rieke1998single].
+<!-- % for cone dark light, rieke2000origin is a good cite (600/s for L/M, much lower for S). rieke1998single didn't provide a cite and burns says it's estimated from tvi curves. neither is for primates though.  schnapf1990visual is for macaques (6400/s; 2400 is a typo as pointed out by schneeweis1999photovoltage). -->
+The dark light in cones is high enough to allow a rod to reach its half-maximum response [@tamura1991calcium; @nakatani1988calcium; @matthews1988photoreceptor]!
+<!-- % what we need here is response vs. step intensity. FSS page 143 has a figure for that and says it's from Baylor 1984, but i can't find that data in the paper.
+% tamura1991calcium is macaque rods and data on page 111-113 are good.  we can use the two 1988 light adaptation papers too but they are not for primates. -->
+As a result, the SNR in cones is much lower than that in rods.
+<!-- %It's not that the cones don't give electrical response to a single pigment excitation; it's just the signal is buried in the noise.
+
+%\fixme{free opsin dark light is not considered here since they are after a full bleach and we are talking about after full dark adaptation.}
+%\fixme{\cite{barlow1971responses} quantifies the threshold for RGC responses. so mention that noise can be measured at downstream and at the behavioral level and they are much less noisy than receptor level.  \cite{field2005retinal} is a good reference for both and cites \cite{schneeweis1999photovoltage}} -->
+
+### Rods Saturate Much More Easily Than Cones
+
+We know the rod-mediated vision saturates under much lower light levels than does the cone-mediated vision.
+Because of this, rods are not useful in mediating vision in typical daylight illuminations.
+Cones are much harder to saturate, if ever, under normal daylight [@burns2004visual; @barlow1972dark; @shevell1977saturation], so they are primarily responsible for daylight vision.
+But why do the rod-mediated vision saturate more easily, other than the higher degree of neural convergence?
+Again, the difference in the photoreceptors themselves plays a role.
+
+First, the photocurrent generated by a pigment excitation is much higher in rods than in cones, as discussed before.
+Second, the phototransduction kinetics is faster in cones than in rods.
+As we have seen in @fig-phototransduction_kinetics, the electrical response of a pigment excitation is an event that does not finish instantaneously: it takes time for the photocurrent to rise, reach its peak, and then decay.
+The rising phase, as discussed in @sec-chpt-hvs-receptor-snr, is briefer in rods than in cones, but the decay phase is much longer in rods than in cones [@ingram2016rods].
+The faster decay is due to the stronger phototransduction deactivation in cones than in rods [@yau2009phototransduction; @burns2001activation] (which is attributed to the stronger negative feedbacks as discussed in @sec-chpt-hvs-receptor-counter), which means ion channels are more rapidly restored.
+Overall, the duration of a cone phototransduction is about four times shorter than that for a rod (100 ms vs. 400 ms) [@baylor1987photoreceptor; @angueyra2014limits; @nakatani1988calcium; @rodieck1998first, p. 185].
+
+Why does the time duration matter?
+It is because a longer duration integrates responses of more incoming photons.
+Consider an example where two excitations are taking place, say, 200 ms apart in a photoreceptor.
+In a rod, the time durations of these two excitations overlap, so the total electrical response the photoreceptor generates is greater than that if only one excitation takes place.
+In a cone, however, these two events do not overlap, and so their effects do not add up.
+
+As a side, the slow kinetics of rods is the reason we cannot sense object movement very well in low light conditions.
+If you have ever played basketball at night, you would know that even though you can tell where the ball is when it is still, but you cannot track the movement of the ball well.
+
+It is worth noting that even though cone pigments regenerate much faster than rods (@sec-chpt-hvs-receptor-counter), a slower pigment regeneration rate unlikely affects the saturation in rods.
+There are tens of millions of pigments in a mammalian rod cell [@nathans1992rhodopsin; @milo2015cell, p. 142-147] but a rod is almost saturated by only several hundreds of pigment excitations, so when a rod is saturated, the vast majority of pigments are still available [@lamb1980spontaneous].
+It is the fact that almost all cGMP-gated ion channels are closed, rather than all pigments are bleached, that prevents rods from responding further to lights.
+The slow regeneration rate in rods does affect dark adaptation time, which we will discuss later in the class.
+
+## Response vs. Light Intensity
+
+The Principle of Univariance tells us that the electrical response from a photon absorption is constant without regard to the photon wavelength, but it does not tell us how the *magnitude* of the electrical response varies with the *number* of photons absorbed.
+With the basic understanding of phototransduction, we can now turn to this question.
+You might be tempted to think that the relationship is linear, and you would be wrong!
+
+![Left: the electrical response (photocurrent) kinetics of macaque rods under varying flash light intensities (quantified by the total number of pigment excitations/isomerizations); from \citet[Fig. 1]{baylor1984photocurrent}. Right: the peak response (normalized to maximum response) as a function of flash intensity; from \citet[p. 178]{rodieck1998first}, which uses the underlying data in the left plot. The tangential line shows that only 47 pigment excitations would saturate the photoreceptor \textit{if} the photoreceptor does not desensitize.](figs/peak_flash_response){#fig-peak_flash_response width="100%"}
+
+### Peak Response is Not Linearly Proportional to Light Intensity
+
+@fig-peak_flash_response (left) shows the response (photocurrents) kinetics of macaque rods under flash lights of different intensities.
+The right plot shows the peak response (normalized to the maximum response) as a function of flash intensity.
+
+If the relationship between the response magnitude and the light intensity were linear, the curve would be a straight line.
+But in reality, we can see that the response grows quickly initially, but the growth slows down soon.
+What does the actual relationship tell us about photoreceptors?
+Let's define the photoreceptor's sensitivity, or its response rate, to flash lights as the additional response per unit increment in light intensity.
+
+The sensitivity/response rate is given by the derivative of the curve, i.e., the slope at every point on the curve.
+Evidently, the response rate slows down as light becomes more intense; in other words, the photoreceptor becomes less sensitive as light becomes more intense.
+While the discussions here focus on photoreceptor responses to flash lights, the conclusion holds for responses to steady background lights as well.
+
+This non-linear relationship can be used to explain our brightness perception.
+Our perceived brightness is not linear with respect to the light intensity.
+Imagine you walk into a dark room and turn one light on; the perceived brightness changes a lot (literally from 0 to 1);
+then you turn another light on and another light on; every time you turn on an additional light, your perceived brightness increases, but not as much as before.
+As you continue, the additional brightness you feel from turning one additional light on becomes smaller:
+you probably would not notice it if someone turned on one more light when there are 1,000 lights on already.
+
+This non-linear relationship between perceived brightness and absolute light power is important when deciding how to effectively allocate digital bits when encoding pixel values.
+A classic example is the gamma encoding/compression in the popular sRGB color space, a topic we will turn to in @sec-chpt-hvs-cori-cube-step2.
+
+### Why and How Do Photoreceptors Desensitize?
+
+The reduction of sensitivity under stronger lights is called **desensitization**, and is stereotypical of photoreceptor **light adaptation**.
+A curious question is, does desensitization provide us any benefits?
+Do we not want our photoreceptors to be more sensitive to light?
+Without desensitization, i.e., if the initial response rate was maintained, the rod would saturate at about 47 pigment excitations, as shown in @fig-peak_flash_response.
+The desensitization allows the photoreceptors to extend their operating range, which, in turn, allows our vision to operate at higher light levels.
+
+What mechanisms cause photoreceptor desensitization?
+We will leave a thorough discussion for later in the class when we actually discuss adaptation, but briefly, there are two reasons.
+
+The first reason is the natural exponential decay you would observe in pretty much any dynamical system.
+Recall that the reason a photoreceptor can produce electrical responses is because of the sequence of biochemical reactions, which require a bunch of materials, like the cGMPs, PDEs, etc., to bump into each other.
+Under stronger lights, the concentration of these materials is lower, which means they are less likely to meet each other.
+That in turn means the rate of cGMP concentration reduction becomes even slower, and the ion channels close even less frequently.
+
+The second reason, first experimentally shown by @matthews1988photoreceptor and @nakatani1988calcium, has to do with negative feedbacks regulated by Ca^2+^ ions.
+Interestingly, these negative feedback mechanisms are exactly the same as those that accelerate phototransduction deactivation, as discussed in @sec-chpt-hvs-receptor-counter.
+As we will discuss more quantitatively in the adaptation chapter (@sec-chpt-hvs-adaptations-light), this is not a coincidence: desensitization and faster recovery kinetics are two hallmarks of photoreceptor light adaptation.
+
+### Linear Range
+
+If you observe @fig-peak_flash_response (right) closely, you will see that the response vs. flash intensity is linear when the lights are dim.
+This linear relationship is used to estimate the single photon response: we cannot easily measure the response of a single photon as it is difficult to precisely deliver just one single photon, but this linear relationship in the dim range allows us to estimate such a response by scaling the response of a dim light by its intensity.
+
+Mathematically, the response vs. intensity relationship is modeled in literature either by a negative exponential function (when negative feedbacks are weak) [@baylor1984photocurrent; @lamb1981spatial; @kraft1993visual] or by the Michaelis equation (when negative feedbacks are not negligible) [@baylor1970electrical; @baylor1974electrical; @baylor1979membrane; @normann1979effects; @fain1976sensitivity; @schneeweis1995photovoltage; @ingram2016rods].
+The negative exponential model would look something like $r/r_{max} = 1 - e^{-ki}$, where $r$, $r_{max}$, and $i$ denote the response, maximum response, and flash light intensity, respectively; $k$ is a constant fit to data.
+The Michaelis equation, which is also called the Naka–Rushton equation (presumably because @naka1966s was the first to use it), looks like $r/r_{max} = \frac{i}{i+\sigma}$, where $\sigma$ is a constant fit to data.
+Sometimes it would fit the data better to use the generalized Michaelis equation, which takes the form $r/r_{max} = \frac{i^n}{i^n+\sigma^n}$, where $n$ is the additional parameter that can fit to data.
+Both models can be approximated by a linear function when $i$ is small.
+This linear region perhaps also explains why the sRGB encoding is a piece-wise function where the encoding is linear when light levels are low (@sec-chpt-hvs-cori-cube-step2).

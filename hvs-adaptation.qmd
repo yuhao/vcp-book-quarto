@@ -1,3 +1,13 @@
 # Visual Adaptations {#sec-chpt-hvs-adaptations}
 
-Light, dark, and chromatic adaptations.
+## Light Adaptation {#sec-chpt-hvs-adaptations-light}
+
+light adaptation
+
+## Dark Adaptation {#sec-chpt-hvs-adaptations-dark}
+
+dark adaptation
+
+## Chromatic Adaptation {#sec-chpt-hvs-adaptations-chroma}
+
+chromatic adaptation and color constancy

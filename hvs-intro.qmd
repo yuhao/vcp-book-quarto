@@ -12,7 +12,7 @@ We will then discuss the methodology we will use when studying the HVS.
 
 ### Why Do We Study HVS? {#sec-chpt-hvs-percept-ov-why}
 
-Why do we care about studying the HVS?  First and foremost, for the science itself --- it is extremely satisfying to just understand ``how stuff works'', is it not?
+Why do we care about studying the HVS?  First and foremost, for the science itself --- it is extremely satisfying to just understand "how stuff works".
 Understanding the basics of the HVS will also allow us to investigate the unknowns of the HVS, and computer scientists have a lot to off.
 For instance, modern computational methods, especially deep (artificial) neural networks, have provided us a new toolbox to better understand the biological neural networks: if a signal representation or a learning paradigm is effective in deep neural networks, would it be possible that our HVS uses a similar representation or can learn based on similar representations?
 
