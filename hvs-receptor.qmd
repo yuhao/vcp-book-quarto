@@ -1,12 +1,14 @@
 # How Do Photoreceptors Work {#sec-chpt-hvs-receptor}
 
 In this chapter we will review how photoreceptors work.
-We will start from the highest level of abstraction, where photoreceptors can be seen as a photon counting device.
-We will then discuss the
+We will start from the highest level of abstraction, where photoreceptors can be seen as photon counting devices.
+The photon counting capability is fundamentally a result of the photoreceptors' ability to absorb photons (selectively) over wavelengths.
+We will then lower the level of abstraction, reviewing in detail how a photon is absorbed in a photoreceptor, a.k.a., the phototransduction process and its recovery.
+Understanding photoreceptors at this low level, in turn, allows us to reason about key high-level behaviors of vision, such as sensitivity and saturation.
 
 ## Counting Photons: Principle of Univariance {#sec-chpt-hvs-receptor-counting}
 
-![Anatomical structures of rods and cones. The outer segment contains photon-absorbing photopigments, which of which has the capability of absorbing a photon and being excited/isomerized after absorption. From @wandell1995foundations[Fig. 3.2].](figs/photoreceptors){#fig-photoreceptors width="80%"}
+![Anatomical structures of rods and cones. The outer segment contains photon-absorbing photopigments, which of which has the capability of absorbing a photon and being excited/isomerized after absorption. Adapted from @cone_cell and @rod_cell.](figs/photoreceptors_new){#fig-photoreceptors width="80%"}
 
 Anatomically, a photoreceptor has two parts: an inner segment and an outer segment.
 Photons enter from the inner segment, which for the most part can be thought of as a waveguide that funnels the photons to the outer segment.
@@ -262,7 +264,7 @@ George Wald is largely credited for elucidating these processes [@wald1933vitami
 ### Phototransduction Cascade
 
 The phototransduction cascades in rods and (different types of) cones are exactly the same.
-The differences appear to be quantitative rather than qualitative and are dictated by the genes expressing the isoforms of the molecules participating in phototransduction~\citep{ingram2016rods, yau1994phototransduction}.
+The differences appear to be quantitative rather than qualitative and are dictated by the genes expressing the isoforms of the molecules participating in phototransduction [@ingram2016rods; @yau1994phototransduction].
 We will mainly use rods as an example to drive the discussion here.
 
 #### Photoreceptor Has a Stable Transmembrane Current in Dark
@@ -484,7 +486,7 @@ In a cone, however, these two events do not overlap, and so their effects do not
 As a side, the slow kinetics of rods is the reason we cannot sense object movement very well in low light conditions.
 If you have ever played basketball at night, you would know that even though you can tell where the ball is when it is still, but you cannot track the movement of the ball well.
 
-It is worth noting that even though cone pigments regenerate much faster than rods (@sec-chpt-hvs-receptor-counter), a slower pigment regeneration rate unlikely affects the saturation in rods.
+It is worth noting that even though cone pigments regenerate much faster than rods (@sec-chpt-hvs-receptor-counter), the slower pigment regeneration rate unlikely affects the saturation in rods.
 There are tens of millions of pigments in a mammalian rod cell [@nathans1992rhodopsin; @milo2015cell, p. 142-147] but a rod is almost saturated by only several hundreds of pigment excitations, so when a rod is saturated, the vast majority of pigments are still available [@lamb1980spontaneous].
 It is the fact that almost all cGMP-gated ion channels are closed, rather than all pigments are bleached, that prevents rods from responding further to lights.
 The slow regeneration rate in rods does affect dark adaptation time, which we will discuss later in the class.

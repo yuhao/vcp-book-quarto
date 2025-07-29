@@ -13,6 +13,7 @@ book:
       chapters:
         - hvs-intro.qmd
         - hvs-receptor.qmd
+        - hvs-color.qmd
         - hvs-adaptation.qmd
     - summary.qmd
     - references.qmd
