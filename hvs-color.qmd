@@ -5,3 +5,9 @@ We will review two main retinal stages responsible for color vision: wavelength 
 We discuss both the behavioral phenomena as well as the potential neural and physiological basis.
 That this chapter almost exclusively focuses on the retinal mechanisms should in no way be taken to imply that cortical mechanisms are insignificant to color vision.
 We take this approach because: 1) the retinal mechanisms are much better understood and 2) many real-world applications such as color reproduction and detecting colored patterns could be adequately modeled by retinal mechanisms.
+
+## Cone Fundamentals: Cornea-Referred Spectral Sensitivities {#sec-chpt-hvs-color-pr-fundamentals}
+
+Our discussions so far have focused on absorption by the photoreceptors, but for a flux of photons arriving at the cornea about to enter our eye, they are also absorbed even before reaching the photoreceptors.
+Accounting for these **pre-receptoral** filters is important to model human vision.
+Spectral sensitivities that account for these pre-receptoral filters are what we call the *cornea-referred* spectral sensitivities.
