@@ -62,7 +62,7 @@ The optical signal impinging on the retina is called the \textbf{optical image},
 Ideally, the optical image is a perfect perspective projection from the 3D physical world, with no loss of information other than the projection.
 The reality is much more complicated.
 
-![Much of the optical bending power in the eye is contributed by the cornea, which has a large refractive index difference with respect to its adjacent ocular media (Snell's law). The lens also contributes to light bending, albeit with a lower contribution. Cornea is rigid but the lens is malleable, so accommodation is attributed exclusively to the lens. From @lavalle2023virtual[Fig. 4.25]](figs/eye_optics_focus){#fig-eye_optics_focus width="80%"}
+![Much of the optical bending power in the eye is contributed by the cornea, which has a large refractive index difference with respect to its adjacent ocular media (Snell's law). The lens also contributes to light bending, albeit with a lower contribution. Cornea is rigid but the lens is malleable, so accommodation is attributed exclusively to the lens. From @lavalle2023virtual[Fig. 4.25].](figs/eye_optics_focus){#fig-eye_optics_focus width="80%"}
 
 ### The Main Goal is to Focus Lights {#sec-chpt-hvs-percept-optics-goal}
 
@@ -293,9 +293,11 @@ They are usually used in different scenarios.
 Weber contrast is often used in scenarios where there is a small object against a relatively uniform background.
 The contrast $C_w$ is defined as:
 
+$$
 \begin{align}
     C_w = \frac{I-I_b}{I_b},
 \end{align}
+$$ {#eq-weber_contrast}
 
 \noindent where $I_b$ is the background luminance and $I$ is the object luminance.
 If the object is small, the mean luminance of the entire field is approximately the background luminance, and naturally $I-I_b$ is the maximal variance over the mean.
@@ -303,9 +305,11 @@ If the object is small, the mean luminance of the entire field is approximately 
 The Michelson contrast is used in scenarios where we want to detect patterned signals.
 Taking a sinusoidal pattern as an example (and recall any arbitrary pattern can be decomposed into sinusoidal basis patterns), the contrast $C_m$ of a sinusoidal signal is usually defined as:
 
+$$
 \begin{align}
     C_m = \frac{I_{max} - I_{min}}{I_{max} + I_{min}},
 \end{align}
+$$ {#eq-michelson_contrast}
 
 \noindent where $I_{max}$ and $I_{min}$ are the highest and lowest luminance, respectively, of the signal.
 We can see that $C_m$ can also be interpreted as the ratio between the variation and the mean of the signal.
@@ -320,7 +324,7 @@ Evidently, there is a much higher degree of neural convergence in rods than in c
 The fovea, which, recall, contains only cones, is an extreme case where there is no neural convergence.
 In fact, each foveal cone sends its signal to multiple RGCs, so there is a one-to-many mapping there.
 
-![Dendritic field sizes (of two RGC subtypes) increase with eccentricity, indicating a higher degree of neural convergence at the periphery. From @wandell1995foundations[Fig. 5.7], which is after @dacey1992dendritic[Fig. 2A].](figs/dendritic_tree){#fig-dendritic_tree width="80%"}
+![Dendritic field sizes (of two RGC subtypes) increase with eccentricity, indicating a higher degree of neural convergence at the periphery. From @wandell1995foundations[Fig. 5.7], which is after @dacey1992dendritic[Fig. 2A].](figs/dendritic_tree){#fig-dendritic_tree width="70%"}
 
 The higher degree of neural convergence in the rod pathway is another reason why rod-mediated vision is more sensitive than cone-mediated vision: the responses of different rods that are pooled together to the same downstream RGC, so that the RGC could generate responses faster to the brain than if the RGC receives input from only a single cone at the fovea.
 The flip side of the higher degree of convergence is that rod vision offers low spatial acuity.
@@ -429,19 +433,21 @@ When the ambient light level is very low, Weber's law fails because the retinal 
 At extremely high background levels, Weber's law also fails because of photoreceptor saturation.
 All in all, however, Weber's law holds reasonably well under a very wide range of normal lighting conditions that we encounter in every life.
 
+$$
 \begin{align}
-\label{eq:weber}
     \Delta I =kI_b,
 \end{align}
+$$ {#eq-weber}
 
 \noindent where $k$ is a constant representing how fast the threshold increases with the background and is called the Weber's constant.
 
 When \Eqn{eq:weber} is written in the log-log domain, as is plotted in @fig-rgc_adaptation, we have:
 
+$$
 \begin{align}
-\label{eq:weber_log}
     \log(\Delta I) = \log(k) + \log(I_b).
 \end{align}
+$$ {#eq-weber_log}
 
 We can see that in the log-log plot, the Weber's constant affects the intercept of the threshold-vs-background line (the intersection of the dashed line and the $y$-axis; not shown in @fig-rgc_adaptation).
 
@@ -449,11 +455,12 @@ For the Weber's law to hold exactly, the slope of the threshold-vs-background li
 In many measurements, the slope fit from the data is not exactly 1.
 To account for this, the Weber's law is extended, phenomenologically, to take the following form, which is also called the Stevens's power law:
 
+$$
 \begin{align}
-\label{eq:weber_fechner}
     \Delta I =kI_b^d, \\
     \log(\Delta I) = \log(k) + d\log(I_b),
 \end{align}
+$$ {#eq-weber_fechner}
 
 where $d$ is a free parameter that permits this additional degree of freedom.
 
@@ -507,9 +514,9 @@ David Hubel and Torsten Wiesel were the first to elucidate the responses of V1 n
 #### V1 Simple Cells are Orientation Selective
 
 Perhaps the most striking feature of V1 neurons is that they are orientation selective.
-The left panel of \Fig{fig:orientation_selectivity} shows the responses of a cat V1 neuron, recorded by \citet{hubel1959receptive}, when presented with a slit of illumination at different orientations.
+The left panel of @fig-orientation_selectivity shows the responses of a cat V1 neuron, recorded by @hubel1959receptive, when presented with a slit of illumination at different orientations.
 This neuron responds best to a particular orientation (vertical in this case) and responds very weakly, if at all, to other orientations.
-The right panel in \Fig{fig:orientation_selectivity} plots the neuron responses (spikes/second) as a function of the illumination orientation; a plot like this is called the neuron's orientation \textbf{tuning curve}.
+The right panel in @fig-orientation_selectivity plots the neuron responses (spikes/second) as a function of the illumination orientation; a plot like this is called the neuron's orientation **tuning curve**.
 
 ![Left: orientation selectivity of a cat V1 simple cell; from @hubel1959receptive[Fig. 3]. Right: orientation tuning curves of two illustrative V1 simple cells (do not necessarily correspond to the experimental data on the left); different cells can have different preferred orientations.](figs/orientation_selectivity){#fig-orientation_selectivity width="80%"}
 

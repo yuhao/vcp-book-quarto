@@ -15,9 +15,9 @@ book:
       chapters:
         - hvs-intro.qmd
         - hvs-receptor.qmd
-        - hvs-retcomp.qmd
         - hvs-color.qmd
         - hvs-colorimetry.qmd
+        - hvs-retcomp.qmd
         - hvs-adaptation.qmd
     - part: rendering.qmd
       chapters:

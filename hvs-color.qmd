@@ -6,8 +6,440 @@ We discuss both the behavioral phenomena as well as the potential neural and phy
 That this chapter almost exclusively focuses on the retinal mechanisms should in no way be taken to imply that cortical mechanisms are insignificant to color vision.
 We take this approach because: 1) the retinal mechanisms are much better understood and 2) many real-world applications such as color reproduction and detecting colored patterns could be adequately modeled by retinal mechanisms.
 
-## Cone Fundamentals: Cornea-Referred Spectral Sensitivities {#sec-chpt-hvs-color-pr-fundamentals}
+## Color Encoding at Photoreceptors {#sec-chpt-hvs-color-receptor}
 
-Our discussions so far have focused on absorption by the photoreceptors, but for a flux of photons arriving at the cornea about to enter our eye, they are also absorbed even before reaching the photoreceptors.
-Accounting for these **pre-receptoral** filters is important to model human vision.
-Spectral sensitivities that account for these pre-receptoral filters are what we call the *cornea-referred* spectral sensitivities.
+Newton presumably did the famous experiment where he showed that a beam of white light is really a mixture of photons at different wavelengths, and each wavelength gives a different color percept.
+Color is very much our subjective sensation.
+What is the physical reality is the spectral power distribution of light.
+In Newton's words: "*rays of Light in falling upon the bottom of the eye excite vibrations in the retina. Which vibrations, being propagated along the solid fibres of the optick Nerves into the Brain, cause the sense of seeing.*" [@newton1952opticks].
+
+### From Light Spectrum to Cone Responses {#sec-chpt-hvs-color-receptor-cones}
+
+As we have seen before, there are three classes of cones, each with a different spectral sensitivity function or a cone fundamental.
+We will now see how the cone fundamentals encode wavelength information that eventually gives rise to color vision.
+
+The cone fundamentals we have seen in @fig-cone_fundamentals tell us the absolute spectral sensitivities of photoreceptors.
+It is customary to normalize the cone fundamentals to peak at unity.
+This normalization eliminates the differences at peak across photoreceptor types, but retains the relative spectral sensitivity within a particular type.
+Thus, this normalization is useful when we care only about comparing the sensitivity of different wavelengths of a particular type of photoreceptor, but not across different types of photoreceptor.
+
+In addition, the cone fundamentals in @fig-cone_fundamentals are defined on an "equal-quantal" basis: the sensitivities at different wavelengths are given assuming each wavelength has the same amount of photons.
+Sometimes, especially in CIE standards, the cone fundamentals (and other functions related to cone fundamentals, such as luminous efficiency function and color matching functions, both of which we will discuss later) are defined based on "equal-energy", assuming each wavelength has the same energy/power, not the same amount of photons.
+As we will see shortly, the equal-energy definition is practically useful since the spectrum of a light is defined as power/energy distribution, rather than quantal distribution, over wavelength.
+
+![Physiological measurements give us absolute spectral sensitivities on an equal-quantal basis (left), but in color science each cone fundamental function is usually normalized to peak at unity and then converted to an equal-energy form (right).](figs/normalized_cone_fundamentals_new){#fig-normalized_cone_fundamentals width="80%"}
+
+@fig-normalized_cone_fundamentals compares the absolute, equal-quantal cone fundamentals with the normalized, equal-energy cone fundamentals.
+A normalized, equal-energy sensitivity function tells us the relative amount of photon absorption given a unit power at each wavelength.
+For instance, the normalized L cone response is 1 at 570 nm and 0.4 at 630 nm.
+This means that given two lights that have the same power/energy, one with photons only at 570 nm and the other with photons only at 630 nm, the fraction of photons absorbed in the 630 nm light is about 40\% of that in the 570 nm light.
+
+Critically, this also means if we have a 570 nm light at 1 W and a 630 nm light at 2.5 W, the two lights would cause the same amount of pigment excitations in L cones.
+If we had only L cones, these two lights would be seen as the exact same light, because the HVS will receive the exact amount of electrical responses --- according to the Principle of Univariance.
+This explains why we could not see colors at night, when only rods are functioning.
+
+In reality, of course, most humans have three classes of cones, so what *is* the signal we receive?
+Given the Spectral Power Distribution (SPD) of a light $\Phi(\lambda)$, we can calculate the total number of photon absorptions for each cone type, given by:
+
+$$
+\begin{align}
+  L &= \int_\lambda L(\lambda) \Phi(\lambda) d\lambda \\
+  M &= \int_\lambda M(\lambda) \Phi(\lambda) d\lambda \\
+  S &= \int_\lambda S(\lambda) \Phi(\lambda) d\lambda
+\end{align}
+$$ {#eq-spd2cones_int}
+
+where $L(\lambda)$, $M(\lambda)$ and $S(\lambda)$ represent the cone sensitivity functions.
+The fact that we can directly multiply $\Phi(\lambda)$ with, say, $L(\lambda)$ is a result of defining $L(\lambda)$ on an equal-energy/power basis.
+The L/M/S values we calculate represent the total number of photon absorptions given an incident light.
+You would know why we care about photon absorption: it is equivalent to pigment excitation up to a constant scaling factor, and pigment excitations produce electrical signals that our brain actually receives.
+We sometimes simply call the L/M/S value the **cone responses** or **tristimulus values** of a light, but you should know that they do not represent the actual magnitude of the electrical responses of the cones, since the magnitude is not linearly proportional to absorption as we have discussed before.
+
+In actual computation we discretize the spectra and perform summation rather than integration.
+We also limit the summation to within the [380 nm, 780 nm] range, since the cone fundamentals are practically 0 beyond that range.
+Assuming that we are quantizing the spectra at a 1-nm interval, the cone responses are linearly related to the light spectrum by:
+
+$$
+\begin{align}
+\begin{bmatrix}
+L(380), L(381), \cdots, L(780)\\
+M(380), M(381), \cdots, M(780)\\
+S(380), S(381), \cdots, S(780)\\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+\Phi(380)\\
+\Phi(381)\\
+\vdots \\
+\Phi(780)\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+L\\
+M\\
+S\\
+\end{bmatrix}
+\end{align}
+$$ {#eq-spd2cones}
+
+We can see that this is a huge dimensionality reduction.
+That is, our brain receives only the three-dimensional cone responses, not the actual spectrum of the light, which is of a much higher dimension.
+This is the basis of the **trichromatic theory** of color vision: color is a three-dimensional system.
+The theory was first proposed by @young1802ii, who conjectured that there are three types of receptors, and later rediscovered, popularized, and extended by Hermann von Helmholtz in the later part of the nineteenth century.
+
+The huge dimensionality reduction also means there are infinitely many lights (with different SPDs) that will be seen as having the same color, as long as they cause the same cone responses.
+One way to understand this is if we try to solve the system of linear equations in @eq-spd2cones given $[L, M, S]^T$, with the constraint that the $\Phi$ vector must be non-negative everywhere (since power cannot be negative),
+we would generally end up with infinitely many solutions, since it is an *under-determined* system.
+The fact that multiple physically different lights can end up having the same color is called **metamerism**, and these lights are called **metamers** of each other.
+
+### Cone Excitation Space, Spectral Locus, and HVS Gamut {#sec-chpt-hvs-color-receptor-conespace}
+
+![Spectral locus in LMS cone space; from the interactive tutorial in @zhu2022cone2cmf.](figs/spectral_locus_lms){#fig-spectral_locus_lms width="100%"}
+
+The cone fundamentals essentially give us a color space, which we call the **LMS cone space** or **cone excitation space**.
+A color space allows us to geometrically interpret a color as a point in the coordinate system.
+In the cone space, the color of a light is interpreted as the amount of responses in each of the three cone classes produced by the light (as calculated by @eq-spd2cones).
+
+The **spectral locus** is a curve on which each point represents the color of a spectral light at a wavelength.
+@fig-spectral_locus_lms shows the spectral locus in the LMS cone space on the right and the cone fundamentals on the left.
+The L, M, and S cone responses of a spectral light at, for instance, 605 nm are 0.775, 0.265, and 0, which corresponds to the point [0.775, 0.265, 0] in the cone space.
+Connecting these points for all the spectral lights gets us the spectral locus in the LMS space.
+
+We know a color corresponds to a point in the cone space, but does an arbitrary point in the cone space correspond to a real color?
+*No*.
+For instance, if a point has a negative coordinate it obviously could not be a color of a real light, since that a negative cone response would require negative power in the light.
+Also, [1, 0, 0] is also not a real color, since there is no real light that can produce only L cone response but no responses from M and S cones --- if you examine the cone fundamentals carefully.
+We call these colors **imaginary colors**, since they cannot be produced by physically realizable lights, where the power must be non-negative at any wavelength.
+
+In principle, an [L, M, S] point corresponds to a real color if @eq-spd2cones has a non-negative solution for $\Phi$.
+The total set of [L, M, S] points that have a non-negative $\Phi$ solution corresponds to all the colors that humans can see, which is called the **gamut** of the human visual system.
+Geometrically, if a point in the cone space cannot be constructed through a *positive*, linear combination of the points on the spectral locus, it then is not a real color, since the SPD of a real light must be a positive, linear combination of the SPDs of the spectral lights.
+
+For instance, the line segment connecting two points on the spectral locus contains real colors that can be produced by mixing some amount (i.e., positive linear combinations) of the two spectral lights.
+Of course we can apply this iteratively: once you get a real color through combining spectral colors, the color itself can then be used as a basic color to create other colors.
+@zhu2022gamut is an interactive tutorial that visualizes the HVS gamut in the cone space (and others), which you are invited to go through.
+
+## Trichromatic Color Matching {#sec-chpt-hvs-color-cme-lin}
+
+We can produce, in theory, any color by mixing three other colors, which we call the **primary colors**.
+Here is the mathematical intuition.
+Let's say the SPDs of the three primary lights are $R(\lambda)$, $G(\lambda)$, $B(\lambda)$.
+What is the power of each of the primary lights we need to produce the color of a target light $\Phi(\lambda)$?
+For the color of the mixed light to match that of the target light, their corresponding cone responses must match:
+
+$$
+\begin{align}
+\begin{bmatrix}
+\sum R(\lambda)L(\lambda),~ \sum G(\lambda)L(\lambda),~ \sum B(\lambda)L(\lambda)\\
+\sum R(\lambda)M(\lambda),~ \sum G(\lambda)M(\lambda),~ \sum B(\lambda)M(\lambda)\\
+\sum R(\lambda)S(\lambda),~ \sum G(\lambda)S(\lambda),~ \sum B(\lambda)S(\lambda)\\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+r\\
+g\\
+b \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sum\Phi(\lambda)L(\lambda)\\
+\sum\Phi(\lambda)M(\lambda)\\
+\sum\Phi(\lambda)S(\lambda)\\
+\end{bmatrix},
+\end{align}
+$$ {#eq-cme}
+
+where $r, g, b$ represent the power of the three primary lights, respectively.
+This system in general has one unique solution because we have the same number of unknowns ($r, g, b$) as the number of equations.
+Each of the three equations constrains the cone-response matching of one class of cones.
+This means there is a single unique way to mix three primary lights to produce the color of an arbitrary target light.
+
+What if we have more than three primary lights?
+We would end up with an *under-determined* system (e.g., three equations but four unknowns if given four primary lights), which means there are infinitely many ways to mix the primaries to produce the target color.
+If we have only two primaries, we end up with an *over-determined* system, where there is in general no solution.
+
+<!-- % https://scholar.harvard.edu/files/schwartz/files/lecture17-color.pdf; something to point students to? -->
+
+### Color Matching Experiments and Color Matching Functions {#sec-chpt-hvs-color-cme-cmf}
+
+@eq-cme gives a mathematical explanation for trichromatic color matching, but it requires knowing the cone fundamentals, which, as we have seen before in @sec-chpt-hvs-receptor-absorb, were not experimentally measured until the mid 20^th^ century, first through microspectrophotometry [@marks1964visual; @brown1964visual; @dartnall1983human] and then through suction electrode [@schnapf1987spectral].
+But even without the cone fundamentals, nothing prevents us from performing an actual experiment to find the amount of primaries for producing a color.
+Thomas Young apparently had no interest in such an experiment [@mollon2003introduction].
+@maxwell1857xviii is believed to be the first to undertake an actual color matching experiment in the 19^th^ century, but he did the experiments using rotating discs painted with different colors, relying on the temporal integration of the HVS.
+
+Modern color matching experiments started with Wright and Guild [@wright1928trichromatic; @wright1929re; @wright1930re; @guild1931colorimetric].
+International Commission on Illumination (CIE) in 1931 standardized the color matching experiment and synthesized Wright's and Guild's data (without any additional experiments) to obtain what is now known as the CIE 1931 RGB Color Matching Functions.
+This process is discussed in detail in [@broadbent2004critical; @broadbent2008calculation; @service2016the; @zhu2020how].
+We summarize the key elements here; the experimental setup is illustrated in @fig-cme_setup.
+
+![Color matching experiment setup. In CIE 1931 standardization of the experiment, the primary lights are spectral lights at 435.8 nm, 546.1 nm, and 700 nm, and they swept the visible spectrum [380 nm, 780 nm] at a 5-nm interval as the target light. Note that CIE 1931 did not do any actual experiments; they synthesized the data from Wright and Guild.](figs/cme_setup){#fig-cme_setup width="100%"}
+
+Observers are presented with a 2$^{\circ}$ visual field.
+They are given three primary lights, which in the CIE 1931 standard are **spectral lights** (lights that have photons at only one single wavelength; also called monochromatic lights) at wavelengths 435.8 nm, 546.1 nm, and 700 nm.
+The three primary lights are pointed at the same point on one side of the visual field.
+On the other side of the visual field is the target light.
+Their goal is to adjust the power of each of the three primary lights so that the colors from the two sides of the visual field match.
+CIE 1931 swept the entire visible spectrum for the target light at a 5-nm interval.
+
+#### Color Matching Functions Require a Unit System and a White Point
+
+The results obtained through the color matching experiments are shown in @fig-cie1931_rgb_cmf (left panel).
+The three curves are collectively called the CIE 1931 RGB **Color Matching Functions** (CMFs).
+Intuitively, the CMFs tell us the amount of primaries needed to match the color at each wavelength.
+But the devil is in the details.
+Let's carefully walk through what this plot actually shows.
+
+![Left: CIE 1931 RGB Color Matching Functions (CMFs); from @cie1931rgbcmf. The $y$-axis shows the number of units needed of each primary so that the mixture matches the color at each wavelength ($x$-axis) on an equal-energy basis. The unit system is so defined that mixing equal amounts (the number of units) of the three primaries produces the color of the equal-energy white, whose SPD is constant over the entire spectrum. Right: the negative values in the CMFs indicate that the corresponding primary light is to be mixed with the target light in order to match the color of the mixture of the other primaries.](figs/cie1931_rgb_cmf){#fig-cie1931_rgb_cmf width="100%"}
+
+The $y$-axis represents the number of units required of each primary so that the mixture matches the color at a given wavelength at $x$-axis.
+What is a unit?
+The unit system is so defined that mixing the three primaries in equal units produces the color of the Equal-Energy White (EEW), whose SPD is a constant across the spectrum.
+
+There are two judgment calls here.
+First, CIE 1931 decided that EEW was going to be the "white" color in their RGB color space.
+In general, however, there is no single color that we universally define as white, so if you were to design a color space you get to pick whatever color that you think is white in the color space.
+That said, an intuitive choice of white is one that is **achromatic** (colorless), a color that, subjectively, can only be described as having a certain level of gray but that has no apparent hue.
+Daylights at different times of a day are perceptually achromatic and could be used as the white point in a color space.
+The daylight colors are shown to be very similar to the colors of black-body radiation at different temperatures [@judd1964spectral], shown in @fig-blackbody_colors.
+
+![Color from black-body radiation at different temperatures ($x$-axis; unit: Kelvin). CIE Standard Illuminant D65 approximates the SPD of a noon daylight; its color is similar to that of a 6500 K black-body radiation. From @blackbodyct.](figs/blackbody_colors){#fig-blackbody_colors width="80%"}
+
+You probably do not perceive most of the colors in @fig-blackbody_colors as achromatic on the display right now, but when you are in an environment illuminated by one of these colors, e.g., outdoors at noon, you do perceive the illuminant as achromatic; this is because of **chromatic adaptation**, a topic we will discuss later in @sec-chpt-hvs-adaptations-chroma.
+Briefly, the human visual system is evolved to adapt to different daylight colors so that when you spend enough time under such an illuminant, you will see the illuminant as achromatic.
+The adaptation to other colors, however, is weak (or "incomplete" in chromatic adaptation parlance) ^[After all, artificial lights are a very recent thing in the scale of evolution, so our HVS has not had a chance to adapt to non-daylight colors yet, if ever.], so it probably does not make much sense to pick other colors as the white point if you want your user to see your white as achromatic.
+CIE has standardized a set of what they call Standard Illuminants (D series), each of which approximates a different daylight color.
+For instance, the D65 standard illuminant approximates noon daylight and is similar to the color of a black-body radiation at a temperature of 6500 K.
+Many common color spaces, such as the sRGB color space, use D65 as the white point.
+
+Second, CIE 1931 RGB space, and virtually all color spaces, define units so that white, however defined, must be produced by an equal-unit mixture of the primaries.
+This, again, is a judgment call.
+One could totally design a color space where white is produced by mixing, say, 2 units of red and 1 unit of green and blue each --- nothing wrong with that.
+It is just more intuitive for most people that white is produced by equal amounts of the primaries.
+
+The $x$-axis in @fig-cie1931_rgb_cmf is defined on an equal-energy/power basis.
+That is, the CMFs are interpreted as showing the amount (units) of the primaries needed to produce spectral lights of equal power.
+So if we actually mix the three primaries at each wavelength as indicated by the CMFs, we will get a set of spectral lights that have the same power.
+
+#### What Does a Negative Unit Mean?
+
+If you observe @fig-cie1931_rgb_cmf carefully, you will see that some CMFs are negative over certain ranges.
+For instance, the red CMF is negative at 500 nm.
+This is perhaps a bit surprising, but mathematically it is entirely possible that some values in $[r, g, b]^T$ are negative when solving @eq-cme.
+Physically, however, what does it mean to have a negative amount/power of primary light?
+The right panel in @fig-cie1931_rgb_cmf provides the intuition.
+It turns out that it is impossible to find a combination of the three primary lights to match the color of a spectral light at 500 nm.
+What does provide a match is to add a little red primary to the target light, and then we can find a combination of the primaries such as the blue and green mixture has the same color as the target light and red primary mixture.
+
+In fact, if you examine the CMFs, you will see that there is a negative contribution from a primary at all but three wavelengths --- the only three exceptions are the wavelengths of the three primaries (where two of the primary contributions are zero and the other is positive).
+This means that no spectral light color (except the three special cases) can be physically produced by mixing the three primaries.
+
+#### Representing Colors Using CMFs
+
+Given a set of CMFs, we can describe the color of a light with a SPD $\Phi(\lambda)$ using the following equation:
+
+$$
+\begin{align}
+\begin{bmatrix}
+\bar{r}(380), \bar{r}(381), \cdots, \bar{r}(780)\\
+\bar{g}(380), \bar{g}(381), \cdots, \bar{g}(780)\\
+\bar{b}(380), \bar{b}(381), \cdots, \bar{b}(780)
+\end{bmatrix}
+\times
+\begin{bmatrix}
+\Phi(380)\\
+\Phi(381)\\
+\vdots \\
+\Phi(780)\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+R\\
+G\\
+B\\
+\end{bmatrix}
+\end{align}
+$$ {#eq-spd2rgb}
+
+\noindent where $\bar{r}(\lambda)$, $\bar{g}(\lambda)$, and $\bar{b}(\lambda)$ are the CMFs, and $R$, $G$, and $B$ are the amounts of the three primaries needed to match the color of $\Phi(\lambda)$.
+
+The CMFs give us another color space, where the color of a light is interpreted as the amount of primary lights needed to match the color of the light.
+Of course, if we choose a different set of primary lights, we might end up with a new set of CMFs and a new RGB color space.
+
+### Connecting CMFs and Cone Fundamentals {#sec-chpt-hvs-color-cme-cmf}
+
+CMFs and cone fundamentals both yield trichromatic color vision, so they must be inherently related, as they are just different ways of describing the same thing.
+We show the two are linearly related in theory, and the measurement data of the two match well, too.
+
+#### Deriving Color Matching Functions From Cone Fundamentals
+
+Given the cone fundamentals, we can derive the CMFs based on the linear system shown in @eq-cme.
+The interactive tutorial by @zhu2022cone2cmf walks through the process, which you are invited to go over, and we will describe the main steps here.
+
+In order to construct the CMFs, we have to match the colors of all the spectral lights, which means we have to specify cone-response matching at each wavelength.
+Using the basic idea of @eq-cme, we have:
+
+$$
+\begin{align}
+\begin{bmatrix}
+\sum R(\lambda)L(\lambda),~ \sum G(\lambda)L(\lambda),~ \sum B(\lambda)L(\lambda)\\
+\sum R(\lambda)M(\lambda),~ \sum G(\lambda)M(\lambda),~ \sum B(\lambda)M(\lambda)\\
+\sum R(\lambda)S(\lambda),~ \sum G(\lambda)S(\lambda),~ \sum B(\lambda)S(\lambda)\\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+r(380),\cdots,r(780)\\
+g(380),\cdots,g(780)\\
+b(380),\cdots,b(780)\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+L(380),\cdots,L(780)\\
+M(380),\cdots,M(780)\\
+S(380),\cdots,S(780)\\
+\end{bmatrix},
+\end{align}
+$$
+
+where $L(\lambda)$, $M(\lambda)$, and $S(\lambda)$ are the cone fundamentals; $L(\lambda_0)$ is the L cone response of the spectral light at a particular wavelength $\lambda_0$;
+$[r(\lambda_0), g(\lambda_0), b(\lambda_0)]^T$ represents the (to-be-solved-for) power of each primary needed to match the color of the spectral light at $\lambda_0$;
+$R(\lambda)$, $G(\lambda)$, and $B(\lambda)$ are the SPDs of the primary lights used in the CIE 1931 color matching experiment.
+The first matrix is a constant matrix given a particular set of CMFs, and we will denote it as the $\mathbf{M}$ matrix.
+We can solve the system of equations by inverting the first matrix:
+
+$$
+\begin{align}
+\begin{bmatrix}
+r(380),\cdots,r(780)\\
+g(380),\cdots,g(780)\\
+b(380),\cdots,b(780)\\
+\end{bmatrix}
+=
+\mathbf{M}^{-1}
+\times
+\begin{bmatrix}
+L(380),\cdots,L(780)\\
+M(380),\cdots,M(780)\\
+S(380),\cdots,S(780)\\
+\end{bmatrix}.
+\end{align}
+$$
+
+To get the CMFs, however, we need to turn the power measure into a unit measure.
+Recall the requirement that white must be produced by equal units of the primaries.
+We calculate the power of each primary needed to produce the EEW;
+let's denote the solution $[r_w, g_w, b_w]^T$:
+
+$$
+\begin{align}
+\begin{bmatrix}
+r_{w}\\
+g_{w}\\
+b_{w}\\
+\end{bmatrix}
+=
+\mathbf{M}^{-1}
+\times
+\begin{bmatrix}
+L_{w}\\
+M_{w}\\
+S_{w}\\
+\end{bmatrix},
+\end{align}
+$$
+
+where $[L_w, M_w, S_w]^T$ denotes the total L, M, and S cone responses of EEW.
+For the so-calculated $[r_w, g_w, b_w]$ to represent equal units, the last step is to scale $[\bar{r}(\lambda), \bar{g}(\lambda), \bar{b}(\lambda)]^T$ at each $\lambda$ by $[r_w, g_w, b_w]$:
+
+$$
+\begin{align}
+\begin{bmatrix}
+\bar{r}(380), \cdots, \bar{r}(780)\\
+\bar{g}(380), \cdots, \bar{g}(780)\\
+\bar{b}(380), \cdots, \bar{b}(780)
+\end{bmatrix}
+&=
+\begin{bmatrix}
+r_w,~0,~0\\
+0,~g_w,~0\\
+0,~0,~b_w
+\end{bmatrix}
+\times
+\begin{bmatrix}
+r(380),\cdots,r(780)\\
+g(380),\cdots,g(780)\\
+b(380),\cdots,b(780)\\
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+r_w,~0,~0\\
+0,~g_w,~0\\
+0,~0,~b_w
+\end{bmatrix}
+\times
+\mathbf{M}^{-1}
+\times
+\begin{bmatrix}
+L(380),\cdots,L(780)\\
+M(380),\cdots,M(780)\\
+S(380),\cdots,S(780)\\
+\end{bmatrix}\\
+&=
+\mathbf{T}_{lms2rgb}
+\times
+\begin{bmatrix}
+L(380),\cdots,L(780)\\
+M(380),\cdots,M(780)\\
+S(380),\cdots,S(780)\\
+\end{bmatrix}, \label{eq:cone2cmfsub}
+\end{align}
+$$ {#eq-cone2cmf}
+
+where $[\bar{r}(\lambda), \bar{g}(\lambda), \bar{b}(\lambda)]^T$ gives us the unit measure, i.e., the values of the CMFs, at each $\lambda$.
+
+#### Cone Space and RGB Space are Related by a Linear Transformation
+
+The rightmost matrix in @eq-cone2cmf is the cone fundamentals written out in the matrix form, and the leftmost matrix in @eq-cone2cmf is the CMFs written out at discrete wavelengths.
+So @eq-cone2cmf essentially describes a linear transformation from the cone fundamentals to the RGB CMFs, where the transformation is dictated by $\mathbf{T}_{lms2rgb}$.
+We can look at this in two ways.
+One, we can think of the cone fundamentals as the CMFs in the cone space: they tell us how much of each cone response we need to match the color of a spectral light.
+Two, just like how we can construct the spectral locus from cone fundamentals, the RGB CMFs also give us a way to construct the spectral locus --- in the RGB space.
+$\mathbf{T}_{lms2rgb}$ essentially transforms these two representations of the spectral locus, and this is visualized in @fig-cs_linear_transformations.
+
+![The spectral locus in the LMS cone space, CIE 1931 RGB space, and CIE 1931 XYZ space. The color spaces are a linear transformation away from each other. From the interactive tutorials in @zhu2022cone2cmf and @zhu2022xyz.](figs/cs_linear_transformations){#fig-cs_linear_transformations width="100%"}
+
+There is something deeper: $\mathbf{T}_{lms2rgb}$ not only transforms the spectral locus, it transforms the entire coordinate system from the cone space to the RGB space.
+In other words, it transforms every single color in the LMS space to its corresponding coordinates in the CIE 1931 RGB space.
+The way to think about this is to ask: given that the cone space and the CIE 1931 RGB space provide two ways to represent the color of a light $\Phi$, how are the cone-space representation $[L_c, M_c, S_c]$ and the RGB-space representation $[R_c, G_c, B_c]$ related?
+Using @eq-spd2cones, @eq-spd2rgb, and @eq-cone2cmf, it is easy to see that they are related by a linear transformation through $\mathbf{T}_{lms2rgb}$:
+
+$$
+\begin{align}
+\begin{bmatrix}
+R_c\\
+G_c\\
+B_c
+\end{bmatrix}
+=
+\mathbf{T}_{lms2rgb}
+\times
+\begin{bmatrix}
+L_c\\
+M_c\\
+S_c
+\end{bmatrix}.
+\end{align}
+$$
+
+#### Cone Responses Fully Explain Psychophysical Color Matching
+
+The CMFs can be both experimentally measured and calculated if we know the cone fundamentals (through a linear transformation), but do the mathematical estimation and the measurement data match?
+If so, we can say that the physiological process of encoding light power as cone responses can fully account for the color matching experiments in psychophysics.
+
+@baylor1987spectral performed one such comparison and showed the two sets of data matched very well.
+The results are shown in @fig-cmf_coneresponses_match, where the smooth curves are from @stiles1955interim, which uses a different set of primaries and white point than those used in the CIE 1931 RGB CMFs.
+The markers are the predicted CMFs through a linear regression from the cone fundamentals measured from macaques, after accounting for ocular and macular absorptions ^[One subtlety is that @baylor1987spectral used suction electrode to measure electrical responses (@sec-chpt-hvs-receptor-suction), so they obtained only the relative absorbance not the absolute absorption of the pigments. So what they actually ended up doing is to use the psychophysical CMFs to fit the peak axial absorption and calculate the cone fundamentals, and show that the regressed CMFs from the so-obtained cone fundamentals match that from psychophysics.].
+
+![Smooth curves are the CMFs from \citet{stiles1955interim}, which uses a different set of primaries and white point than those used in the CIE 1931 RGB CMFs. The markers are the predicted CMFs based on the cone fundamentals measured from macaques. From @baylor1987spectral[Fig. 4A].](figs/cmf_coneresponses_match){#fig-cmf_coneresponses_match width="60%"}
+
+In fact, the modern versions of the cone fundamentals are constructed so that they are precisely a linear transformation away from some RGB CMFs.
+For instance, the CIE 2006 "physiologically-relevant" LMS functions (based on @stockman1999spectral and @stockman2000spectral) are constructed by 1) first experimentally measuring the cone fundamentals in psychophysics (from color-vision deficient observers), 2) calibrating the results with a set of RGB CMFs in @stiles1959npl (which uses a different set of primary lights from the CIE 1931 RGB CMFs) to derive a best-fit linear transformation, and 3) applying the linear transformation to the CMFs to derive a "clean" set of cone fundamentals.
