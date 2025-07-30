@@ -1,0 +1,7 @@
+# Imaging Optics {#sec-chpt-imaging-optics}
+
+This chapter provides an introduction to imaging optics.
+We start from the pinhole model; from its pros and cons, we motivate a lens-based imaging system.
+We discuss important artifacts, a.k.a., aberrations, introduced by lenses that significantly impact the imaging quality.
+Finally, we conclude with a computational model for modeling the image formation process carried out by optics.
+The model provides a first-order approximation of the imaging quality and is widely used in various fields of visual computing.

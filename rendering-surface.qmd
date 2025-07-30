@@ -1,0 +1,8 @@
+# Surface Scattering {#sec-chpt-mat-ss}
+
+When a group of photons arrives at a material surface, some of the photons might be immediately turned away (i.e., reflected) while others might penetrate into the material (i.e., refracted).
+The refracted portion is scattered further inside the material, giving rise to subsurface scattering, which we will discuss in the next chapter.
+This chapter is concerned with surface scattering --- the apparent reflection at the surface.
+There are two properties we care about in surface scattering: the directions of the reflection and the energy along each direction.
+These two properties are captured by what is known as the BRDF, which is the protagonist of this chapter.
+We will then derive a few very useful equations and properties based on BRDF.

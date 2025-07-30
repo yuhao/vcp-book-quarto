@@ -1,0 +1,7 @@
+# Subsurface and Volume Scattering {#sec-chpt-mat-vs}
+
+This chapter studies subsurface scattering and volume scattering.
+While superficially different, they involve the same forms of light-matter interaction and are modeled in the same way.
+We start with an example to build some useful intuitions, and then we will get into the weeds of modeling.
+In our modeling, we start from modeling local events (absorbing and scattering photons by particles), from which we will build a general framework, called the Radiative Transfer Equation and its variant Volume Rendering Equation (VRE), to reason about subsurface and volume scattering globally.
+Finally, we will connect VRE to (neural) radiance-field rendering, a modern iteration of image-based rendering (@sec-chpt-mat-basics-radiometry-lf) that uses VRE to parameterize the image formation process.

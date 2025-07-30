@@ -1,0 +1,5 @@
+# Image Sensor Architecture {#sec-chpt-imaging-sensor}
+
+This chapter discusses image sensors, the devices that transform optical signals to electrical signals.
+We start from the basic principle that governs this signal transduction inside a pixel and then discuss how pixels are architected together to form an image sensor.
+We then turn to various in-sensor optics, which are not necessarily important for forming images but are important for forming *visually pleasing* images that, for instance, have realistic colors and are free of aliasing effects.

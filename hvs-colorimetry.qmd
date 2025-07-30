@@ -1,0 +1,12 @@
+# Colorimetry {#sec-chpt-hvs-cori}
+
+Colorimetry is about quantitatively studying color, a subjective experience.
+Not until we can put our experience into numbers can we rigorously study colors.
+In @sec-chpt-hvs-color-cme-cmf, we have seen two ways to geometrically interpret a color as a point in a three-dimensional space: the cone space and the CIE 1931 RGB space.
+We will study a few other ways to quantitatively analyze colors in this chapter.
+
+Before moving on, it is critical to note that classic colorimetry is concerned *only* with color matching under the same viewing condition.
+It tells us if two objects or light sources have the same color when viewed under exactly the same conditions (e.g., ambient illumination).
+It does not tell us 1) how different two colors are and 2) the actual appearance of a color, which depends on the viewing condition.
+This chapter will focus mostly on the classic colorimetry.
+Color difference will be briefly discussed in @sec-chpt-hvs-cori-diff; @fairchild2013color is a classic reference on *color appearance* modeling, which we will also briefly touch upon in @sec-chpt-hvs-cori-cm-ca.

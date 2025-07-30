@@ -1,0 +1,8 @@
+# Image Signal Processing {#sec-imaging-isp}
+
+This chapter reviews basics imaging signal processing algorithms.
+The output of an image sensor is what we usually call the raw pixels.
+The raw pixels are not the usual RGB images we are used to see.
+For starters, if we use the common CFA approach for color sensing, each raw pixel has only one color channel response --- the two missing channel responses must be recovered.
+We have also ignored noises, which are introduced every step along the signal transduction chain from incident lights to raw values.
+Therefore, the raw pixels usually go through a post-processing pipeline before raw sensor can be consumed, whether it is by a human observer or, increasingly, machine vision algorithms.

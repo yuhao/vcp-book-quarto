@@ -6,6 +6,8 @@ book:
   author: "Yuhao Zhu"
   date: "7/12/2025"
 
+  cover-image: cover.png
+
   chapters:
     - index.qmd
     - intro.qmd
@@ -14,7 +16,19 @@ book:
         - hvs-intro.qmd
         - hvs-receptor.qmd
         - hvs-color.qmd
+        - hvs-colorimetry.qmd
         - hvs-adaptation.qmd
+    - part: rendering.qmd
+      chapters:
+        - rendering-basics.qmd
+        - rendering-surface.qmd
+        - rendering-sss.qmd
+    - part: imaging.qmd
+      chapters:
+        - imaging-optics.qmd
+        - imaging-sensor.qmd
+        - imaging-noises.qmd
+        - imaging-isp.qmd
     - summary.qmd
     - references.qmd
 

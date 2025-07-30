@@ -1,0 +1,6 @@
+# The Basics {#sec-chpt-mat-basics}
+
+This chapter lays the land for physically modeling light-matter interactions in rendering, discussing the different levels at which the modeling can occur.
+We will then introduce one such model, an extremely high-level model that abstracts away almost all the underlying physics and models an object as its apparent reflection and transmission spectra.
+This simple modeling is functionally very useful, as it is very commonly used in practice, and serves as a curious teaser for the remaining chapters: how and when can this simple model be a good approximation of the sophisticated light-matter interactions?
+We will conclude with a brief overview of radiometry, which provides the necessary analytical tools we will use in physical modeling.
