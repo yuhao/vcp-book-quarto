@@ -369,20 +369,22 @@ Looking at the preferred stimulus of the two RGC types in @fig-rgc_rf (stimulus 
 If a visual field has a high (positive) Weber contrast, i.e., there is a small object that is significantly lighter than the background, the ON-center RGC would respond well to it.
 Similarly, an OFF-center RGC would respond well to a dark object placed against a light background.
 
-![Contrast sensitivity function (CSF) under a center-surround RGC. CSF is bandpass. It is worth emphasizing that the spatial frequency on the $x$-axis refers to the frequency of the retinal signal, not the signal in the world space. Depending on the viewing distance, the same world-space signal results in different retinal signals. From @csf, which is from @wandell1995foundations[Fig. 5.18].](figs/csf){#fig-csf width="100%"}
+![Contrast sensitivity function (CSF) under an ON-center midget RGC ^[This is actually a parvocellular LGN neuron, which is directly projected from the midget RGC and shares the same receptive field with that of the midget RGC.]; the filled circle is the represents the sensitivity of a uniform signal (i.e., 0 Hz). CSF is bandpass. It is worth emphasizing that the spatial frequency on the $x$-axis is expressed in cycles per degree (CPD), which describes the signal frequency on the retina, which is what matters for vision. Depending on the viewing distance, the same world-space signal can result in different retinal signals. Adapted from @derrington1984spatial[Fig. 3C].](figs/csf_new){#fig-csf width="80%"}
 
 We can also quantify the how the center-surround receptive fields respond to patterns of different Michelson contrast.
 A complication is that a pattern is described not only by its contrast but also by the frequency.
 At each frequency, we determine the minimal amount of contrast needed to produce a criterion level of RGC response (say 30 spikes/second) ^[The implicit assumption here is that once the RGC responses reach a criterion level, the pattern becomes subjectively detectable at the behavioral level.].
 The contrast sensitivity at that frequency is defined as the reciprocal of the threshold contrast.
 We then sweep the frequency and repeat this exercise for each frequency.
-The result of such a measurement is called the \textbf{Contrast Sensitivity Function} (CSF);
+The result of such a measurement is called the **Contrast Sensitivity Function** (CSF);
 @fig-csf shows one such example.
 
 We can see that the RGC's CSF is *bandpass*, where there is a preferred frequency to which an RGC responds the best.
-When the frequency is too low, the signal is equivalent to a uniform background;
+When the frequency is too low, the signal is equivalent to a uniform background (filled circle);
 when the frequency is too high, the positive and negative cycles of the signal cancel each other.
-In both cases, an RGC would respond weakly.
+In both cases, an RGC would respond weakly, so the contrast needed to produce a criterion level of response is high (i.e., the sensitivity is low).
+With a spatial frequency of about 5 CPD, the positive amplitude coincides with the ON-center of the cell and the negative amplitude coincides with the OFF-surround of the cell.
+As a result, the contrast required to produce the same level of response can afford to be low, resulting in a higher sensitivity.
 
 The CSF above allows us to study the joint effect of spatial frequency and contrast in detecting a patterned signal.
 In general, the ability of pattern detection depends on a number of other factors, such as the spatial frequency, eccentricity, color, and temporal frequency (if the stimulus is time-varying) [@mantiuk2022stelacsf; @ashraf2024castlecsf].
@@ -414,7 +416,7 @@ This means, behaviorally, the minimal detectable contrast is also constant, and 
 
 #### Weber's Law Means Desensitization
 
-Minimally detectable contrast being constant over different background intensities is called the **Weber's law** or the "Weber–Fechner law".
+Minimally detectable contrast being constant over different background intensities is called the **Weber's law** or the "Weber–Fechner law" [@fechner1860elemente].
 A direct interpretation of the Weber's law is that stronger signals are needed at high ambient light levels for a signal to be barely detectable.
 It is almost like our visual system is **desensitized** at higher ambient light levels.
 This desensitization is very well documented for photoreceptors [@matthews1988photoreceptor; @nakatani1988calcium; @fain2001adaptation], and it is unsurprising that photoreceptor desensitization can lead to (although does not fully account for) the desensitization observed in the RGCs and in the behavioral experiments [@dunn2007light].
@@ -453,7 +455,7 @@ We can see that in the log-log plot, the Weber's constant affects the intercept 
 
 For the Weber's law to hold exactly, the slope of the threshold-vs-background line in the log-log plot must be 1, which is roughly the case in @fig-rgc_adaptation (for the range where the relationship is linear).
 In many measurements, the slope fit from the data is not exactly 1.
-To account for this, the Weber's law is extended, phenomenologically, to take the following form, which is also called the Stevens's power law:
+To account for this, the Weber's law is extended, phenomenologically, to take the following form, which is also called the Stevens's power law [@stevens1957psychophysical; @stevens1961honor]:
 
 $$
 \begin{align}
