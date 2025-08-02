@@ -773,3 +773,323 @@ This suggests that a simple linear transformation does not exist; at least the Y
 Non-linear models have been proposed [@larimer1975opponent; @shevell2017color].
 
 <!-- so maybe an explanation is that the actual transformation, which has to be non-linear, coincides with the linear transformation at hues that do match, but not at others. just imagine two transformations, Tlinear and Tnon; both can transform YBGR correctly from LMS space to the opponent space, but in Tlinear the points along the RG line are not correctly transformed but they are in Tnon. Maybe Tnon is a piece-wise linear transformation? see also \citet[p. 257]{kaiser1996human}; related? -->
+
+## Evolution of Color Vision {#sec-chpt-hvs-color-evo}
+
+See @lamb2013evolution, @lamb2020evolution, @lamb2022photoreceptor, @lamb2007evolution, @shichida2009evolution, @jacobs2009evolution, @bowmaker2008evolution, and @bowmaker1998evolution for comprehensive discussions.
+We provide a concise summary of what is relevant to our discussions in this chapter.
+
+### The Rise of Trichromacy {#sec-chpt-hvs-color-evo-tri}
+
+#### Proto-Vertebrates Had Four Cone Opsin Genes
+
+When studying the evolution of vision and performing comparative studies of vision across species, we must understand the differences in all the molecules that participate in phototransduction and the subsequent neural circuitry.
+The photopigment/opsin itself is one of the most important components (e.g., pigments differ in their peak absorption wavelength), and its evolution is the most well-understood.
+It is the main focus of our discussion.
+
+<!-- %Animal opsins are G-protein-coupled receptors and a group of proteins made light-sensitive via a chromophore, typically retinal. When bound to retinal, opsins become retinylidene proteins but are usually still called opsins regardless.
+%https://en.wikipedia.org/wiki/Opsin -->
+
+A primordial opsin gene that existed in ancestral bilateria (before the separation of protostomes and deuterostomes), through duplications and mutations, gave rise to many opsin genes, some of which are even expressed in non-visual opsins (e.g., ipRGCs and RPEs).
+One of them is called the Long-Wavelength Sensitive (LWS) opsin gene.
+<!-- %in \citep{lamb2007evolution} an ancestral c-opsin is duplicated with two copies. the first copy duplicated (according to \citep{lamb2022photoreceptor}) to form pinopsin and LWS, and the second copy evolved to be SWS.
+% it's perhaps better to say ``the ancestral LWS'', since the LWS gene in ancestral vertebrates are most definitely different from the LWS gene in humans.
+%Pinopsins mediates (scotopic) vision in proto-vertebrates.
+%how did c-opsin come about? See figure 3 and the section on ``The evolution of vertebrate opsins.'' Before the separation of protostomes and deuterostomes, a primordial opsin had divided into three main branches: one of which is the ciliary opsin, which has given rise to many opsins that are expressed in pineal complex, retina and deep-brain regions (see also: https://en.wikipedia.org/wiki/Opsin#Opsins_in_the_human_eye,_brain,_and_skin). -->
+The LWS opsin gene was duplicated multiple times, each of which went through mutations, and eventually four opsin genes existed in proto-vertebrates.
+The sequence of duplications most likely went like the following.
+The LWS gene was duplicated, and the duplicated copy evolved to be Short-Wavelength Sensitive and is called the SWS opsin gene.
+<!-- %Both LWS and SWS genes evolved independently. -->
+The SWS gene was duplicated again.
+One of the copies is called the SWS1 gene.
+The other was duplicated once again.
+Of its two copies, one is called the SWS2 gene, and the other is called the RHL gene.
+RHL means "rod like"; it is given the name because its duplicate would later evolve to be expressed in rhodopsin (photopigment in rods).
+
+As a result, proto-vertebrates (primitive animals from which the vertebrates evolved; think of them as ancestors to vertebrates but are not vertebrates themselves) possessed 4 opsin genes: LWS, SWS1, SWS2, and RHL.
+These genes were expressed in pigments that mediate photopic vision, just like modern cones, so we will simply call them cone opsins, but keep in mind that proto-vertebrate "cones" are most definitely different from modern vertebrate cones.
+
+Generally, a modern form of a gene is different from its ancestral form, but for simplicity, we usually call them by the same name.
+This might be a common source of confusion when studying evolutionary biology.
+For instance, modern vertebrates all have LWS opsin genes (that are slightly different); they are all evolved from, but most definitively different from, the ancestral LWS gene at the time of duplication that gave rise to the SWS branch.
+It is perhaps more rigorous to say, "the ancestral LWS was duplicated; one copy evolved to become the modern LWS genes, and the other evolved to become the ancestral SWS gene, which was duplicated again; its two copies are the ancestral SWS1 gene and the ancestral SWS2 gene", but you can see how cumbersome this would be.
+Even with this it is sometimes unclear at which point in the evolution does "ancestral" refer to.
+<!-- %https://courses.lumenlearning.com/suny-mcc-biology2/chapter/the-evolution-of-primates/ -->
+
+#### Most Vertebrates are Tetrachromatic and Most Mammals are Dichromatic
+
+Then something remarkable happened.
+During the Cambrian epoch, at around 530 to 500 million years ago (Mya), there were two rounds of Whole Genome Duplication (WGD), a.k.a., polyploidy.
+Each WGD made a complete copy of all the genes.
+So two rounds of WGD would quadruple the number of genes.
+Each WGD was followed by a relatively short period of genome instability with extensive loss of genes.
+As a result, not all four copies (a result of two rounds of WGD) of a gene were retained.
+WGD in general is a major source of speciation, and the two rounds of WGD were responsible for the explosion of new species at the end of the Cambrian epoch (Cambrian explosion).
+WGDs increased the number of genes and made more genes available for mutation.
+As a result, there was a sudden radiation of species and diversification of life.
+Perhaps most importantly to human evolution, vertebrates appeared after the first round (1R) WGD.
+
+As far as the four cone opsin genes are concerned, all their copies were lost except two copies of RHL, which are now called RH1 and RH2.
+So after the two rounds of WGD, our ancestral vertebrates possessed five cone opsin genes: SWS1, SWS2, RH1, RH2, and LWS.
+RH1 evolved to be expressed in rhodopsins (pigments for rods) to mediate scotopic vision in vertebrates; the other four evolved too but retained their ability to mediate photopic vision.
+This is why most vertebrates are tetrachromatic.
+From the sequence of duplications, we can also deduce that the rod pigment evolved after all four classes of cone pigment were already present [@okano1992primary].
+In fact, rod signals largely piggyback onto the pre-existing circuitry for cone signaling [@lamb2016rods].
+
+<!-- %It is worth keeping in mind that each gene perhaps has been mutated many times.
+%So SWS1, SWS2, RH1, RH2, and LWS genes found in modern species are most likely different from those in their ancestors.
+%Duplications took place in the ancestral genes, even though for the simplicity of exposition we will simply say something like ``LWS duplicated.'' -->
+
+Early mammals arose at the age of dinosaurs and were nocturnal, so they had no need for strong color vision and lost two of the four cone opsin genes.
+Only LWS and SWS1 genes were retained.
+This is why most mammals are dichromatic.
+
+![Left: Phylogenetic tree of vertebrate visual opsins; adapted from @bowmaker2008evolution[Fig. 2]. Note how humans are trichromatic (three cone opsins), chickens (non-mammalian vertebrates) are tetrachromatic (four cone opsins), and mice (mammals) are dichromatic (two cone opsins). Right: approximate spectral sensitivity of the five visual opsins; from @jacobs2009evolution[Fig. 1].](figs/opsin_evolution){#fig-opsin_evolution width="100%"}
+
+@fig-opsin_evolution shows the phylogenetic tree of vertebrate visual opsins, of which there are five classes.
+I say "class" of opsin genes here because there are variations between, say, the SWS1 gene in humans and that in mice.
+Circles represent gene duplications.
+The first duplication on the ancestral LWS gene was local and gave rise to the SWS branch.
+The other duplications within the SWS branch are part of the two rounds of WGDs (which, recall, were followed by gene losses, which are omitted in the diagram).
+The local duplication within the LWS branch gave humans trichromacy, which we will discuss next.
+
+#### LWS Gene Duplication in Catarrhini Gave Human Trichromacy
+
+Then primates evolved from some mammals, first to prosimians, and then anthropoids (higher primates) split off from prosimians.
+Anthropoids include Platyrrhini (broad noses) and Catarrhini (narrow noses).
+Platyrrhini evolved into modern New World (South America) monkeys.
+Catarrhini is the common ancestor of Old World (Africa and Asia) monkeys, apes, and humans.
+
+Trichromacy emerged in an early Catarrhini through gene duplication.
+The LWS gene is duplicated.
+One copy is evolved to be expressed in modern L cones, and the other evolved to be expressed in modern M cones.
+Since the duplication occurred "only" about 30 Mya, which is fairly recent from an evolutionary standpoint, the L and M cone pigments are very similar.
+96\% of the amino acids in the L cone opsin and M cone opsin are the same [@nathans1986molecular]: they simply have not had much time to be mutated enough yet.
+With the SWS1 gene being expressed in S cones, all Catarrhini (including humans) are trichromatic.
+@fig-lws_duplication illustrates the duplication and the spectral sensitivities before and after the duplication.
+
+![Left: LWS duplication gave two copies of the same gene in the X chromosome, and subsequent mutations to both copies gave rise to modern L and M cone opsin genes. Middle and Right: spectral sensitivities of the two cone pigments in mammals (middle) and the three sensitivity spectra in primates (note the $x$-axis is frequency rather than wavelength); from [@rodieck1998first, p. 218].](figs/lws_duplication){#fig-lws_duplication width="100%"}
+
+What was the evolutionary pressure for the duplication that gave rise to the trichromacy?
+Since the duplication of the LWS gene gave us medium-wavelength pigments that peak at green-ish lights, one interesting theory is that the duplication offered the ability to distinguish red-ish colors from green-ish colors in order to select ripe from unripe fruit (or ripe fruits against the background of green leaves), which had an obvious evolutionary advantage [@hunt1998molecular; @bowmaker1998evolution, p. 544].
+
+### The Rise of Scotopic vs. Photopic Vision {#sec-chpt-hvs-color-evo-duplex}
+
+#### Only Jawed Vertebrates Have a ``Modern'' Scotopic Vision
+
+Vertebrates arose after 1R.
+1R is important for the rod-cone duplex vision in today's vertebrates.
+RH1, which eventually is evolved to be expressed in rhodopsins, appeared after 1R.
+1R also duplicated other non-opsin genes important for phototransduction (e.g., G proteins, PDEs, cGMPs, etc.) [@lamb2020evolution].
+These genes evolved to be expressed in distinct isoforms of many of the molecules that participate in the rod vs. cone phototransduction cascades.
+
+Jawless and jawed vertebrates (from which humans evolved) split after 1R, so they both possessed distinct scotopic and photopic vision.
+But there are differences in the scotopic vision between the two.
+Why? Because the second round (2R) WGD happened only to jawed vertebrates.
+2R introduces a few new genes that allow jawed vertebrates to possess ``true'', modern rod photoreceptors, where rod pigments are more thermally stable (lower dark noise) than cone pigments and regenerate faster than cone pigments [@lamb2007evolution; @lamb2022photoreceptor].
+In jawless vertebrates, rods also have a cone-like anatomical structure, but 2R changed the morphology of rods in jawed vertebrates so that their rods look different from cones, e.g., having sealed-off discs.
+Interestingly, morphology apparently is not important for scotopic vision: northern hemisphere lampreys (a kind of jawless vertebrate) have rods that look like cones but physiologically behave like rods, e.g., they are very sensitive to lights, so they do mediate scotopic vision [@morshedian2015single].
+Whether you call the these photoreceptors rods or cones is largely a matter of definition.
+
+#### Scotopic Vision Predates Vertebrates
+
+It is also interesting to note that proto-vertebrates, likely some chordate ancestors of ours, also possessed distinct photopic and scotopic vision way before vertebrates, except those ancestral scotopic photoreceptors utilized pinopsin [@okano1994pinopsin], rather than rhodopsin, as their photopigments [@lamb2020evolution; @sato2018pinopsin].
+Pinopsin evolved prior to 1R and, in fact, was duplicated along with LWS cone opsin in proto-vertebrates from a ciliary opsin (C-opsin).
+
+After 1R, presumably RH1-expressed rhodopsins had better performance under scotopic conditions, so they gradually superseded pinopsins to be the pigments expressed in scotopic photoreceptors.
+Mammals do not possess pinopsins anymore, but some vertebrate species still use pinopsins for scotopic vision [@sato2018pinopsin], and many vertebrates use pinopsins for non-vision functions such as regulating circadian rhythm (as they are expressed in the pineal organ) [@takanaka1998light].
+
+<!-- %C-opsins are very ancient; they are widely used even in protostomes (700 Mya), though rarely for imaging vision~\citep{lamb2020evolution}.
+%See \citet{lamb2013evolution} for discussions of how C-opsins evolved to ancestral cone and rod opsins and of where the origin of opsins in life was in the first place. -->
+
+## Color Vision Deficiencies {#sec-chpt-hvs-color-cvd}
+
+Normal color vision is trichromatic in that there are three classes of cone photoreceptors on the retina.
+If the retina is deprived of the functions of one of two cone classes, the color vision is no longer trichromatic.
+Instead of being represented in a three-dimensional space, a color would now be expressed in a two-dimensional or one-dimensional space.
+Individuals with two functioning classes of cones are **dichromatic**, and those with one functioning cone class are **monochromatic**.
+Dichromatic vision is further classified into three types: **Protanopia**, where L cones are missing; **Deuteranopia**, where M cones are missing; and **Tritanopia**, where S cones are missing.
+An interesting form of dichromatic vision is called **small-field dichromacy**.
+At the central 20 arcmin of the fovea there are no S cones, so human vision is effectively dichromatic there.
+There are also individuals who have no functioning cones, only rods, and those people have **rod monochromacy**.
+
+![Illustration of how cone fundamentals shift under each anomalous trichromatic vision; adapted from @milic2015enhancement.](figs/trichromatic_anomalous){#fig-trichromatic_anomalous width="100%"}
+
+In addition to strict dichromatic vision, another important form of CVD is **anomalous trichromatic** vision, where individuals have all three cone types, but the spectral sensitivity of a cone type deviates from normal.
+**Protanomaly**, **Deuteranomaly**, and **Tritanomaly** are the names given to the three types of anomalous trichromatic vision.
+@fig-trichromatic_anomalous illustrates how the cone fundamentals change under different anomalous trichromacy compared to normal trichromacy.
+For protanomalous and deuteranomalous individuals (by far the most common anomalous trichromats), their L and M cone fundamentals are closer than normal, so the L and M cone excitations are very similar.
+In theory their color vision is still three-dimensional, but the L and M dimensions are very correlated, which weakens their color discrimination ability.
+
+Finally, some females with anomalous trichromacy may have four cone classes on the retinal mosaic owing to random X chromosome inactivation.
+However, it is unclear whether their color vision is four-dimensional or they have a stronger color discrimination ability [@jordan2010dimensionality; @simunovic2010colour].
+
+We will primarily focus on dichromatic vision, building a phenomenological model for simulating dichromacy, and then discuss the genetic basis of CVD now that we have a good understanding of the evolution of color vision.
+
+### Models of Deficient Color Vision {#sec-chpt-hvs-color-cvd-model}
+
+Perhaps one of the most important questions in CVD is this: what exactly do individuals with CVD actually see?
+In other words, how do we simulate a particular CVD?
+It is incredibly difficult to answer, since color is a subjective experience, and we can never be so certain of one another's subjective experience.
+With the help of some luck (yes, some luck, from evolution) and some psychophysics, there is at least a consensus on how to model dichromatic vision.
+Taking Deuteranopia as an example, the interactive tutorial @zhu2022cvd walks through a commonly used model.
+We will give the main intuitions here.
+
+#### Confusion Lines
+
+Dichromatic individuals see colors only in a 2D space, because they lack (the functionality of) one cone type.
+For instance, Deuteranopes lack the M cones and, thus, any color is encoded only in the L and S cone excitations, resulting in a 2D color space.
+Therefore, any colors that differ only in the M dimension are seen as the same color by a Deuteranope.
+A line parallel to the M dimension in the LMS space is called a Deuteranopic **confusion line**, as all colors on that line look the same to a Deuteranope.
+The left panel in @fig-confusion_lines plots two such confusion lines for Deuteranopia, although it is easy to see that there are infinitely many confusion lines.
+
+![Left: two confusion lines for Deuteranopia (missing functioning M cones). Right: confusion lines in the CIE 1931 xy-chromaticity space; from @confusionlines.](figs/confusion_lines){#fig-confusion_lines width="100%"}
+
+The confusion lines are more commonly visualized in the CIE 1931 xy-chromaticity diagram, as illustrated in the three diagrams in @fig-confusion_lines to the right.
+We will discuss the xy diagram in the colorimetry lecture soon, but briefly, the xy diagram is a *perspective projection* from the LMS space that provides a useful 2D representation of colors by discarding the luminance dimension.
+Therefore, parallel confusion lines in the LMS space *converge* in the xy diagram.
+
+![In a protanomalous color space, the L and M cone fundamentals are very similar, so the L and M cone excitations are similar. C1 and C2 are colors in a trichromatic color space. They are mapped to C1' and C2' in a protanomalous color space, where both are moved closer to the L=M line (while keeping the M-axis unchanged, since the M cone fundamental is unaffected). When C1' and C2' are sufficiently close, they become confusing.](figs/protanomalous_confusion_line){#fig-protanomalous_confusion_line width="50%"}
+
+Not all colors on a dichromatic confusion line are confusing to the corresponding anomalous trichromatic individuals.
+From a modeling perspective, a typical approach is to restrict the confusing colors to a small segment on a confusion line [@flatla2015colourid].
+@fig-protanomalous_confusion_line illustrates a model to reason about this using Protanomaly as an example.
+C1 and C2 are two colors that differ only in the L cone response.
+For simplicity, @fig-protanomalous_confusion_line shows only the L and M dimensions.
+Since the L and M cone fundamentals are very similar, the L and M cone responses are similar too (the extreme case being L = M).
+So C1 and C2 are mapped to C1' and C2' in a protanomalous color space, where both colors are pulled toward the L=M line.
+C1' and C2' are never going to exactly coincide, because the L and M cone fundamentals do not exactly overlap, but when C1' and C2' are sufficiently close, they can still be perceptually undiscriminable.
+This is not unique to CVD individuals: even for normal trichromats the color discrimination is not perfect, as has been demonstrated extensively through psychophysics [@macadam1942visual], which we will discuss in @sec-chpt-sec-chpt-hvs-cori soon.
+
+#### Isochromes
+
+We know that all colors on the same confusion line are perceptually the same, but still we do not know, for all those colors on a confusion line, exactly what is the color a dichromate sees.
+The key to answering this question is the notion of **isochromes**, which are colors perceived correctly by a dichromate.
+The question is, how do we find the isochromes?
+
+It is impossible to find isochromes by simply querying trichromats and dichromates.
+Imagine we have a normal trichromat and a Protanope looking at a color; even if they have the same color sensation, how would they communicate with each other about it?
+You might be tempted to find isochromes by asking a dichromate whether two colors appear the same.
+
+Remarkably, there is an exceedingly rare form of CVD called **unilateral dichromacy**, where an individual has one dichromatic eye and another trichromatic eye.
+Color matching between the two eyes by a unilateral dichromate would allow us to identify isochromes, assuming, of course, that the dichromatic eye and the trichromatic eye are similar to those of a "normal" dichromatic and trichromatic eye, respectively.
+This is a remarkable luck we get from nature; without unilateral dichromats, we might never be able to quantitatively study dichromats' color vision.
+There are a handful of studies reported on unilaterial dichromates.
+@judd1949color meticulously summarized data from prior studies, where only 8 had quantitative data that were useful.
+@sloan1948case, @graham1958color, and @macleod1976red reported results for unilateral Protanopes/Deuteranopes, while @alpern1983perception reported results for a unilateral Tritanope.
+
+Such studies show that monochromatic lights at 475 nm and 575 nm are isochromes for protanopes and deuteranopes (i.e., no significant difference between these two types when it comes to isochromes, but of course their confusion lines are different), and for tritanopes isochromes are found at 485 nm and 660 nm.
+
+![Left: isochrome planes and Protanopia confusion lines in LMS cone space; from \citet{zhu2022cvd}. According to the \citet{brettel1997computerized} model, the intersection between the isochrome planes and a confusion line is the color a dichromat actually sees for all the colors on that confusion line. Right; the isochrome lines and Deuteranopia confusion lines in the xy-diagram; adapted from \citet{confusionlines}.](figs/cvd_model){#fig-cvd_model width="100%"}
+
+#### Brettel et al. Model
+
+There have been two main ways to build a model for dichromatic color vision: that of a phenomenological nature such as @brettel1997computerized, @vienot1999digital, and @meyer1988color and that based on first principles of the visual pathway, such as @jiang2016spectral and @rodriguez2011dichromatic.
+We will primarily focus on the phenomenological model described in @brettel1997computerized.
+Like all other models, this model is not perfect.
+It makes assumptions that are not experimentally validated on unilateral dichromats, but it is a popular model that seems to work well in practice.
+@zhu2022cvd discusses cases where this model falls apart.
+
+@brettel1997computerized assumes that Equal-Energy White (EEW) is also an isochrome.
+In fact, they assume that the entire plane that contains EEW, 475 nm, 575 nm, and Black is an isochrome plane, on which all colors are isochromes for deuteranopes and protanopes.
+Similarly, the plane that contains EEW, 485 nm, 660 nm, and Black is an isochrome plane for tritanopes.
+Two caveats must be noted here.
+First, this is not validated against unilateral dichromats; it is just an assumption.
+Second, the isochrome "plane" is not an actual plane.
+It is more like two half-planes that share a border.
+For Protanopia and Deuteranopia, the two half-planes are almost parallel so that they look like part of one plane.
+The left panel in @fig-cvd_model shows the two half planes (with distinct colors) for Protanopia.
+
+Assuming that the isochrome plane assumption by @brettel1997computerized is true, we can then reason about the colors that dichromats actually see: the intersection between the isochrome planes and a confusion line is the color a dichromat actually sees for all the colors on that confusion line.
+The left panel in @fig-cvd_model visualizes this, where the trichromatic spectral locus is projected to the isochrome planes along the direction of the confusion lines.
+The resulting locus lies completely on the isochrome planes and represents how the spectral colors will actually be perceived by a Protanope.
+
+The two isochrome half-planes become two line segments in the xy-diagram.
+The right panel in @fig-cvd_model shows how the @brettel1997computerized model predicts a Deuteranope's color perception in the xy-diagram.
+
+Modeling anomalous trichromacy is "easy" as long as we know the new set of cone fundamentals.
+Assuming their subsequent neural processing is the same as that of normal trichromacy, we can then calculate the cone responses in an anomalous trichromatic color space given any light spectrum.
+
+### CVD Assistive Technologies
+
+There are many assistive techniques attempting to enhance the color vision of CVD individuals.
+@zhu2024computational[Sec. 3] provides a good review.
+
+#### Re-Coloring Helps Color Discrimination
+
+By far the most commonly used technique is called "re-coloring"; it is available on most Operating Systems in laptops, PCs, and smartphones.
+The idea is to apply a (usually linear) transformation to colors in an image (colloquially referred to as color filters) so that initially confusing colors become distinct (i.e., no longer on a confusion line).
+
+The main limitation of re-coloring is that, while initially confusing colors might be distinguishable after a transformation, these colors will inevitably be confused with others.
+Fundamentally, a dichromat's color vision is still two-dimensional, and the confusion lines are still there.
+Usually the transformation is designed so that a set of ecologically relevant, confusing colors (colors that we commonly encounter in everyday life and are important to discriminate, e.g., red flowers and green leaves) become distinct.
+
+Re-coloring can also be done optically.
+Many commercially available glasses for CVD individuals, such as those from EnChroma and VINO, use identical spectral "notch filters" for both eyes. The filter eliminates light from a narrow spectral band, where the human L and M cone sensitivities overlap the most.
+Recall that for Protanomalous and Deuteranomalous individuals, their L and M cone fundamentals are closer than normal, so the L and M cone excitations are very similar.
+The notch filters act to pull the two cone fundamentals apart and amplify the difference between L cone and M cone excitations.
+Therefore, in principle, the method can enhance color discrimination for anomalous trichromats but provides no benefit for strict dichromats.
+In comparative tests, the functional effectiveness of such glasses for anomalous trichromats is also not definitive [@gomez2018enchroma; @patterson2022effects].
+
+#### Color Recognition By Reconstructing the Missing Dimension
+
+Re-coloring methods, thus, do not help with color *recognition* and *naming* ("pass me that pink marker" or "look at the person in a red shirt"), which is a common user complaint found in a user study [@geddes202330].
+For color recognition, we must restore a three-dimensional color space for dichromats.
+So the key is to somehow reconstruct the missing dimension.
+
+One idea is to introduce binocular color disparity, where the stimuli are differentially altered for the two eyes.
+The idea was originated by @maxwell1857xviii and then later revived by @cornsweet1970visual.
+Maxwell conjectured that the disparity across the two eyes would essentially introduce a new dimension of perception, which would augment the existing 2D percept of a dichromat, providing 3D color perception.
+@knoblauch1995discrimination shows that the improved color discrimination afforded by binocular filters might have limited use for Protanopes and Deuteranopes.
+
+@zhu2024computational introduces a smartphone App to reconstruct the missing dimension through temporally modulating colors.
+The idea is that as a user swipes their finger in the App, they apply a color-space transformation such that originally confusing colors undergo distinct color shifts.
+The combination of the initial 2D color precept with the induced temporal shifts reconstructs a new 3D space for the user.
+By spending time interacting with our system, users then learn to associate different color names in this new 3D space, thereby recognizing colors.
+
+### Genetic Basis of CVD {#sec-chpt-hvs-color-cvd-gene}
+
+L and M cone genes are on the X chromosome.
+Because the L and M genes are created from a duplication, they are tandemly arrayed (spatially adjacent in a head-to-tail manner) and, thus, are subject to crossovers during recombination of meiosis, which might lead to deletion of a whole gene or hybrid genes in a X chromosome.
+This is the genetic basis of Protanopia, Deuteranopia, Protanomaly, and Deuteranomaly.
+@onishi2002variations shows that only two in a sample of over 3000 macaque monkeys (an Old World monkey) have CVD, much lower than the CVD rate in humans, indicating that the crossovers might be recent [@lee2008evolution].
+
+#### Intergenic Crossovers Give Protanopia and Deuteranopia
+
+@fig-recombination illustrates a crossover that can potentially lead to Deuteranopia.
+The two X chromosomes, due to an **intergenic crossover**, either lose or gain an M gene after recombination.
+One of the new X chromosomes has only the L cone gene, so an individual inheriting that X chromosome from the mother would get Deuteranopia.
+Interestingly, while the other X chromosome gets an additional M open gene, only the first two genes are sufficiently expressed.
+The fact that the L and M cone genes are in an X chromosome means that biological females are less vulnerable to Protanopia and Deuteranopia than biological males, simply because there are two X chromosomes in females.
+Even if one of the inherited X chromosomes has only, say, a L cone gene, the other inherited X chromosome, if normal, can still be sufficiently be expressed to give both L and M cones.
+
+![An intergenic that can potentially give rise to Deuteranopia. Adapted from @rodieck1998first[p. 219--220].](figs/recombination){#fig-recombination width="100%"}
+
+#### Intragenic Crossovers Give Protanomaly and Deuteranomaly
+
+![An intragenic crossover that might give rise to Deuteranomaly and "Protanopia". See text.](figs/intragenic_crosssover){#fig-intragenic_crossover width="100%"}
+
+**Intragenic crossover** might also occur during recombination, and this would lead to anomalous trichromacy.
+@fig-intragenic_crossover shows an intragenic crossover that might give rise to Deuteranomaly and "Protanopia".
+The second X chromosome after recombination has a normal L opsin gene and another gene that is a mixture of the L cone gene and the M cone gene.
+The spectral sensitivity of such a hybrid pigment is in between that of an L cone and an M cone [@sharpe1999opsin], as illustrated in the left panel in @fig-abnormal_cone_fundamentals.
+This is the source of anomalous trichromats.
+
+![Left: the spectral sensitivities of the hybrid photopigments vary between those of the M- and L-cones depending on where the crossover occurs. Right: if two hybrid genes are sufficiently similar, the individual is effectively dichromatic. Slides credit: Andrew Stockman.](figs/abnormal_cone_fundamentals){#fig-abnormal_cone_fundamentals width="100%"}
+
+#### Intergenic Crossovers Can Give Abnormal Protanopia and Deuteranopia
+
+It is interesting to observe that intragenic crossovers can also give a dichromatic vision, although in a somewhat abnormal form.
+Observe in @fig-intragenic_crossover that the first X chromosome after recombination also has a hybrid gene.
+If the L cone gene dominates, that gene, when inherited, will be expressed in a pigment that has a spectral sensitivity that is closer to that of a L cone.
+If you want, you can still say that the inheriting individual has "Protanopia", but its L cone sensitivity is different from that of a normal L cone.
+
+The right panel in @fig-abnormal_cone_fundamentals illustrates another scenario where dichromatic vision can arise from intragenic crossovers.
+If the two hybrid genes in the chromosome are sufficiently similar, they will be expressed in two pigments that are sufficiently similar, and the individual effectively has a dichromatic vision [@sharpe1999opsin].
+
+#### Deuteranomaly is the Most Common CVD
+
+Tritanopia and tritanomaly are much rarer than the other forms of CVDs.
+The gene for S cone opsin is in a nonsex chromosome (chromosome 7), which is not subject to L/M gene crossovers.
+Gene mutations causing changes in S-cone pigment are much more rare.
+Among CVDs that are caused by the crossovers, anomalous trichromacy is more common than strict dichromats, and Deuteranomaly is the most common (about 4.9\% in caucasians) [@wyszecki1982color, Table 1(5.4.2), p. 464], but the statistics certainly vary across ethnic groups [@birch2012worldwide].
