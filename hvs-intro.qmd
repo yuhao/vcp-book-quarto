@@ -386,6 +386,11 @@ In both cases, an RGC would respond weakly, so the contrast needed to produce a 
 With a spatial frequency of about 5 CPD, the positive amplitude coincides with the ON-center of the cell and the negative amplitude coincides with the OFF-surround of the cell.
 As a result, the contrast required to produce the same level of response can afford to be low, resulting in a higher sensitivity.
 
+One thing subtle to note is that the Michelson contrast of a signal, as defined in @eq-michelson_contrast, is bounded between 0 and 1, so long as the signal is positive everywhere (which is of course the case in real-world visual signals).
+As a result, the contrast sensitivity is lower-bounded by 1.
+Sometimes we will see CSF plots where the $y$-axis goes below 1, because usually people fit a smooth CSF curve based on the measured data and do not cut off the curve below 1.
+In practice, any contrast sensitivity below 1 should be interpreted as "not detectable".
+
 The CSF above allows us to study the joint effect of spatial frequency and contrast in detecting a patterned signal.
 In general, the ability of pattern detection depends on a number of other factors, such as the spatial frequency, eccentricity, color, and temporal frequency (if the stimulus is time-varying) [@mantiuk2022stelacsf; @ashraf2024castlecsf].
 Customarily, this high-dimensional data is plotted as a set of different CSFs, each quantifying the contrast sensitivity as a function of other factors.
