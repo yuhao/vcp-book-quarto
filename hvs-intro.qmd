@@ -369,7 +369,7 @@ Looking at the preferred stimulus of the two RGC types in @fig-rgc_rf (stimulus 
 If a visual field has a high (positive) Weber contrast, i.e., there is a small object that is significantly lighter than the background, the ON-center RGC would respond well to it.
 Similarly, an OFF-center RGC would respond well to a dark object placed against a light background.
 
-![Contrast sensitivity function (CSF) under an ON-center midget RGC ^[This is actually a parvocellular LGN neuron, which is directly projected from the midget RGC and shares the same receptive field with that of the midget RGC.]; the filled circle is the represents the sensitivity of a uniform signal (i.e., 0 Hz). CSF is bandpass. It is worth emphasizing that the spatial frequency on the $x$-axis is expressed in cycles per degree (CPD), which describes the signal frequency on the retina, which is what matters for vision. Depending on the viewing distance, the same world-space signal can result in different retinal signals. Adapted from @derrington1984spatial[Fig. 3C].](figs/csf_new){#fig-csf width="80%"}
+![Contrast sensitivity function (CSF) under an ON-center midget RGC ^[This is actually a parvocellular LGN neuron, which is directly projected from the midget RGC and shares the same receptive field with that of the midget RGC.]; the filled circle is the represents the sensitivity of a uniform signal (i.e., 0 Hz). CSF is bandpass. $x$-axis is the cycles per degree (CPD) of the retinal signal (see @fig-cpd). Adapted from @derrington1984spatial[Fig. 3C].](figs/csf_new){#fig-csf width="80%"}
 
 We can also quantify the how the center-surround receptive fields respond to patterns of different Michelson contrast.
 A complication is that a pattern is described not only by its contrast but also by the frequency.
@@ -390,6 +390,16 @@ One thing subtle to note is that the Michelson contrast of a signal, as defined 
 As a result, the contrast sensitivity is lower-bounded by 1.
 Sometimes we will see CSF plots where the $y$-axis goes below 1, because usually people fit a smooth CSF curve based on the measured data and do not cut off the curve below 1.
 In practice, any contrast sensitivity below 1 should be interpreted as "not detectable".
+
+![The relationship between ordinary spatial frequency and cycle per degree (CPD). Signals $S_1$ and $S_2$ have different spatial frequencies but the same CPD, as they project to the same retinal signal $R_b$.  $S_2$ and $S_3$ share the same spatial frequency but differ in CPD, as they correspond to different retinal signals ($R_a$ and $R_b$). Since retinal signal is what matters for vision, we usually use CPD to represent signal frequency (e.g., @fig-csf).](figs/cpd){#fig-cpd width="80%"}
+
+@fig-csf quantifies the spatial frequency of a signal using **Cycle Per Degree** (CPD), which is the number of cycles/periods in a degree.
+CPD is an angular measure of spatial frequency.
+The relationship between the ordinary spatial frequency and CPD is illustrated in @fig-cpd.
+Why do we prefer CPD when describing the spatial frequency?
+$S_1$ and $S_2$ are two different real-world objects, but they produce identical retinal signals (assuming the eye optics is approximated as a pinhole system) and, of course, have the same CPD.
+In contrast, $S_3$ is a signal produced by moving $S_2$ closer to the eye; even though they have the same ordinary spatial frequency, but clearly the former produces a retinal signal that has a higher CPD than that of the latter.
+Since the retinal signal is what matters for vision, using CPD as a spatial frequency measure is clearly more relevant.
 
 The CSF above allows us to study the joint effect of spatial frequency and contrast in detecting a patterned signal.
 In general, the ability of pattern detection depends on a number of other factors, such as the spatial frequency, eccentricity, color, and temporal frequency (if the stimulus is time-varying) [@mantiuk2022stelacsf; @ashraf2024castlecsf].
