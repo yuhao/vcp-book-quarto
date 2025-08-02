@@ -383,25 +383,31 @@ We can see that the RGC's CSF is *bandpass*, where there is a preferred frequenc
 When the frequency is too low, the signal is equivalent to a uniform background (filled circle);
 when the frequency is too high, the positive and negative cycles of the signal cancel each other.
 In both cases, an RGC would respond weakly, so the contrast needed to produce a criterion level of response is high (i.e., the sensitivity is low).
-With a spatial frequency of about 5 CPD, the positive amplitude coincides with the ON-center of the cell and the negative amplitude coincides with the OFF-surround of the cell.
+With a spatial frequency of about 5 cycles per degree, the positive amplitude coincides with the ON-center of the cell and the negative amplitude coincides with the OFF-surround of the cell.
 As a result, the contrast required to produce the same level of response can afford to be low, resulting in a higher sensitivity.
 
-One thing subtle to note is that the Michelson contrast of a signal, as defined in @eq-michelson_contrast, is bounded between 0 and 1, so long as the signal is positive everywhere (which is of course the case in real-world visual signals).
+Note that the Michelson contrast of a signal, as defined in @eq-michelson_contrast, is bounded between 0 and 1, so long as the signal is positive everywhere (which is of course the case in real-world visual signals).
 As a result, the contrast sensitivity is lower-bounded by 1.
 Sometimes we will see CSF plots where the $y$-axis goes below 1, because usually people fit a smooth CSF curve based on the measured data and do not cut off the curve below 1.
 In practice, any contrast sensitivity below 1 should be interpreted as "not detectable".
 
 ![The relationship between ordinary spatial frequency and cycle per degree (CPD). Signals $S_1$ and $S_2$ have different spatial frequencies but the same CPD, as they project to the same retinal signal $R_b$.  $S_2$ and $S_3$ share the same spatial frequency but differ in CPD, as they correspond to different retinal signals ($R_a$ and $R_b$). Since retinal signal is what matters for vision, we usually use CPD to represent signal frequency (e.g., @fig-csf).](figs/cpd){#fig-cpd width="80%"}
 
-@fig-csf quantifies the spatial frequency of a signal using **Cycle Per Degree** (CPD), which is the number of cycles/periods in a degree.
+@fig-csf quantifies the spatial frequency of a signal using **Cycle Per Degree** (CPD), which is the number of cycles/periods in a degree ($\pi/180$ of a radian).
 CPD is an angular measure of spatial frequency.
 The relationship between the ordinary spatial frequency and CPD is illustrated in @fig-cpd.
 Why do we prefer CPD when describing the spatial frequency?
-$S_1$ and $S_2$ are two different real-world objects, but they produce identical retinal signals (assuming the eye optics is approximated as a pinhole system) and, of course, have the same CPD.
-In contrast, $S_3$ is a signal produced by moving $S_2$ closer to the eye; even though they have the same ordinary spatial frequency, but clearly the former produces a retinal signal that has a higher CPD than that of the latter.
-Since the retinal signal is what matters for vision, using CPD as a spatial frequency measure is clearly more relevant.
+This is because CPD better quantifies the frequency of retinal signals, which is what matters for vision, not the frequency of the physical objects themselves.
 
-The CSF above allows us to study the joint effect of spatial frequency and contrast in detecting a patterned signal.
+Consider an object $S_1$ in the object space.
+It produces a retinal signal $R_b$, which dictates how well the pattern in $S_1$ is detected.
+Now we shrink the size of $S_1$ but move it closer to the eye to obtain another signal $S_2$.
+Clearly $S_2$ has a higher spatial frequency that does $S_1$, but they produce identical retinal signals (assuming the eye optics is approximated as a pinhole system), so the patterns in $S_1$ and $S_2$ are equally detected.
+This is captured by the fact that $S_1$ and $S_2$ have the same CPD.
+In contrast, if we move $S_2$ closer to our eye, we get another signal $S_3$ that has as an identical ordinary spatial frequency as that of $S_2$ but whose pattern is more easily detected.
+This is adequately captured by the lower CPD in $S_3$.
+
+The CSF in @fig-csf allows us to study the joint effect of spatial frequency and contrast in detecting a patterned signal.
 In general, the ability of pattern detection depends on a number of other factors, such as the spatial frequency, eccentricity, color, and temporal frequency (if the stimulus is time-varying) [@mantiuk2022stelacsf; @ashraf2024castlecsf].
 Customarily, this high-dimensional data is plotted as a set of different CSFs, each quantifying the contrast sensitivity as a function of other factors.
 

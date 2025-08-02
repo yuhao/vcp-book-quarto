@@ -443,3 +443,333 @@ The markers are the predicted CMFs through a linear regression from the cone fun
 
 In fact, the modern versions of the cone fundamentals are constructed so that they are precisely a linear transformation away from some RGB CMFs.
 For instance, the CIE 2006 "physiologically-relevant" LMS functions (based on @stockman1999spectral and @stockman2000spectral) are constructed by 1) first experimentally measuring the cone fundamentals in psychophysics (from color-vision deficient observers), 2) calibrating the results with a set of RGB CMFs in @stiles1959npl (which uses a different set of primary lights from the CIE 1931 RGB CMFs) to derive a best-fit linear transformation, and 3) applying the linear transformation to the CMFs to derive a "clean" set of cone fundamentals.
+
+## Post-Receptoral Color Encoding: Opponent Processes {#sec-chpt-hvs-color-oppo}
+
+Cone-response encoding can perfectly explain the trichromatic theory of color vision, where any color can be mixed from three other colors.
+The trichromatic theory of color has a perfect neural basis: the human visual system has three classes of cones, so color is a three-dimensional system.
+But the trichromatic theory is not concerned with our subjective experience of color that we encounter on a daily basis.
+Here are two examples that highlight the difference between perceptual color experience and physical color mixing.
+
+First, when we see an orange color, we feel that it has a little bit of yellow in it and a little bit of red in it.
+Even though there are many ways to produce orange, some of which do not require mixing yellow and red lights, we cannot help but perceptually feel that orange combines yellow and red.
+Second, when we mix a red light with a green light, we get yellow, but perceptually, if we stare at yellow, most people would not say that yellow has contributions from red or green.
+
+@hering1878lehre ^[see translation in @hering1964outlines] hypothesized that, perceptually, there are four primary hues, which form two opposing pairs.
+Opposing hues cannot co-exist, perceptually, in a color.
+Any hue can be produced by combining two non-opposing hues.
+The four hues are: the Yellow and Blue opposing hues and the Red and Green opposing hues.
+Hering also considered light-dark as another opposing pair: no color can be simultaneously light and dark.
+In his theory, color vision is still a three-dimensional system, where the three axes are: Yellow-Blue axis, Red-Green axis, and light-dark axis.
+Any color, a point in this 3D space, is produced by mixing some amount of Red *or* Green, some amount of Yellow *or* Blue, and some level of lightness.
+
+The opponent theory seems to contradict the trichromatic theory, which was dominant for the most part of the history --- because it has both a solid psychophysical and neural basis.
+First, the color matching experiment quantitatively shows that, behaviorally, humans could match a color by mixing three other colors.
+In contrast, Hering had only a qualitative description of perceptual mixing.
+His description was something like "*after this blue comes blue of increasing redness...(blue violet, red violet, purple red), until the last trace of blueness vanishes in a true red.*" [@hering1964outlines, p. 41].
+To Hering's theory's rescue, Jameson and Hurvish performed a now-famous experiment, called the **hue cancellation experiment**, providing the first quantitative, psychophysical evidence of the opponent processes [@jameson1955some; @hurvich1957opponent].
+
+Second, the trichromatic theory has a clear neural and physiological basis (i.e., wavelength encoding by cone responses), and the physiological data match the behavioral data very well, as shown before.
+So a natural question is: are there neural mechanisms that can account for the opponent processes and, if so, how does that mechanism relate to the encoding mechanisms by the cone photoreceptors?
+
+It turns out that we do need a set of new neural mechanisms to start accounting for the opponent processes.
+Not only do these new mechanisms *not* contradict the cone encoding mechanisms, they build on top of the cone encodings and operate post-receptorally.
+@schrodinger1925verhaltnis ^[see translation in @schrodinger1994relationship] synthesized the earlier *zone theory* by @kries1905ubersicht and argued that the trichromatic theory and the opponent processes were nothing more than different stages of color encoding in the visual system.
+That said, while these new neural mechanisms seem to have what it takes to form the basis for the behavioral opponent observations, they do not fully explain those observations yet; the link between the two is still very much an open research question.
+
+The rest of this section will discuss the hue cancellation experiment and the quest for a neural and physiological basis in more detail.
+
+### Hue Cancellation Experiment {#sec-chpt-hvs-color-oppo-hue}
+
+In a landmark study, @jameson1955some (while working for Eastman Kodak in Rochester) quantitatively measured the perceptual color opponency using a behavioral experiment.
+The participant is given a test light and is asked to first judge whether the light appeared blue-ish or yellow-ish.
+If the test light is judged to be blue-ish, the participant is then given a yellow-ish *cancellation light* (e.g., a spectral light at 588 nm) and is asked to adjust the intensity of the cancellation light so that the mixture of the test and cancellation light perceptually appears neither blue nor yellow.
+If the test light is judged to be yellow-ish, the participant is then asked to adjust the power of a blue-ish cancellation light (e.g., a spectral light at 467 nm) so that the test-cancellation mixture is again neither blue nor yellow.
+We sweep the spectrum from about 400 nm to 700 nm for the test light of equal energy, and record the energy of yellow or blue cancellation light needed at each step.
+
+![Measurements from the hue cancellation experiment in @jameson1955some. (a) the Blue-Yellow measurement; the $y$-axis shows the intensity of the Yellow/Blue cancellation light, i.e., the relative strength of the "Blue-ness" and "Yellow-ness" in the test light. (b) the Red-Green measurement; notice the two zero-crossings for Green. (c) The same data as A and B except we invert the Blue and Green curves so the $y$-axis is interpreted as the strength of Red-ness and Yellow-ness.](figs/hue_cancellation_experiment_new){#fig-hue_cancellation_experiment width="100%"}
+
+The result for one subject is shown in @fig-hue_cancellation_experiment (a), where the $y$-axis is showing the intensity of the yellow and blue cancellation light, i.e., the strength of blue-ness and yellow-ness of the test light.
+For the reference, we attached a colorbar showing roughly the color of the test light between 400 nm and 700 nm, but take this color visualization as a huge grain of salt, since it is almost certain that your display will not be able to actually render the colors of the spectral lights.
+
+Unsurprisingly, we get two peaks, one in the blue range and the other in the yellow range, indicating, respectively, that the participant needs a lot of the yellow and blue cancellation lights in those two regions.
+The test light at about 500 nm requires no cancellation light, indicating light there, which roughly has a green-ish color is yellow-blue neutral: it naturally looks neither blue nor yellow.
+
+Jameson and Hurvich then repeated the same experiment, but this time measuring the red-green opponent process, where the two cancellation lights are a 700 nm red-ish light and a 490 nm green-ish light.
+The results are in @fig-hue_cancellation_experiment (b), where the $y$-axis indicates the amount of red-ness and green-ness in the test light.
+Two observations are worth noting.
+First, while it is unsurprising that long-wavelength lights have a strong red component, it is perhaps surprising that short-wavelength lights appear red-ish too.
+That, however, becomes less surprising when we realize that short-wavelength lights (shorter than pure blue) appear violet, which perceptually is a red-ish blue.
+Second, because of the two red-ish regions over the spectrum, the entire red-green curve has two zero-crossings, one at about 470 nm and the other near 570 nm: pure blue and pure yellow look neither green nor red.
+
+@fig-hue_cancellation_experiment (c) summarizes the two sets of data by inverting the blur section of the curve in (a) and the green section of the curve in (b).
+That way, the $y$-axis can be simply interpreted as the relative strength of red-ness and yellow-ness over the spectrum.
+
+### Light-Dark Mechanism and Luminous Efficiency Function {#sec-chpt-hvs-color-oppo-light}
+
+@hurvich1957opponent also performed a measurement of the white-black (light-dark) opponent process, asking participants to assess the "whiteness" of spectral lights between 400 nm and 700 nm of equal power.
+%Intuitively, the measurement tells us the perceived brightness of lights at different wavelengths.
+A more modern method to measure the luminance mechanism is heterochromatic flicker photometry, where we alternate between a test light and a fixed reference light at a frequency of, say, 25 Hz.
+We adjust the intensity of the test light so that the alternation produces no visual flickering, at which point we say the two lights produce the same level of luminance [@sharpe2005luminous; @sharpe2011luminous].
+We again sweep the entire visible spectrum for the test light and record the relative intensity at each step.
+The so-obtained function is called the **luminance efficiency function** (LEF).
+The dashed gray curve in @fig-lef shows a modern version of the photopic LEF (the so-called CIE 2008 "physiologically-relevant" 2-deg function) ^[In later research by Jameson and Hurvich, their white-black function was made equal to the CIE 1924 luminous efficiency function [@hurvich1955some, p. 604], which is known to have severe flaws at low wavelengths and which is later corrected by @judd1951report and @vos1978colorimetric.
+Compared to the Judd and Vos corrections, the function shown here has the advantage of being “physiologically relevant” in that the LEF is a linear combination of the cone fundamentals, whereas both the CIE 1924 LEF and its later corrections are not intentionally designed to be linear combinations of anything.].
+
+![The grey solid curve is the scotopic luminous efficiency function (CIE 1951 standard; based on @wald1945human and @crawford1949scotopic). The grey dashed curve is the photopic luminous efficiency function (CIE 2008 "physiologically-relevant" 2-deg function; based on @sharpe2005luminous and @sharpe2011luminous) The other three curves are the cone fundamentals, shown for the reference.](figs/lef){#fig-lef width="60%"}
+
+The way to interpret the LEF is that the $y$-axis is inversely proportional to the light power at each wavelength needed to produce the same level of perceptual brightness.
+The photopic LEF at 509 nm is about 0.5, half of that at 555 nm.
+It means we need twice as much power at 509 nm to produce the same level of brightness as that at 555 nm.
+It also explains the word "efficiency" in the name: if a wavelength needs less power to produce a criterion level of brightness, the wavelength is more efficient in its use of power.
+The way LEF is obtained, however, does *not* permit us to interpret the result as the relative brightness at different wavelengths.
+That is, 555 nm is not twice as bright as 509 nm.
+This is similar to our interpretation of the cone fundamentals.
+
+For comparison, the gray curve in @fig-lef is the scotopic LEF.
+The CIE 1951 scotopic LEF synthesizes the psychophysical measurements from @wald1945human and @crawford1949scotopic.
+Both used a threshold method where they measured the light intensity at each wavelength needed to produce a just detectable flash.
+Note that the photopic LEF peaks at about 555 nm and the scotopic LEF peaks at about 507 nm.
+
+As a result, the relative brightness of longer-wavelength colors and shorter-wavelength colors is inverted when our vision transitions from the cone-mediated photopic vision to the rod-mediated scotopic vision.
+This phenomenon is called the **Purkinje shift**.
+In the words of @glassner1995principles[p. 21], "*When the sun is still above the horizon, your cones are active, and the yellow flower will appear lighter than the leaves because yellow is closer to peak of the photopic sensitivity curve than dark green. When the sun has set and light levels are lower, your rods are the principal sensors. The scotopic sensitivity curve is more responsive in the shorter wavelengths, so the green leaves will now appear relatively lighter than the yellow flower, though both will of course be much darker due to the lower amount of incident light.*"
+
+![The solid curve is the white-black measurement, indicating the amount of whiteness in a light across the spectrum. The white-black curve in theory matches the luminous efficiency function. The two plots are for two participants. From @hurvich1957opponent[Fig. 4].](figs/hue_cancellation_experiment_white){#fig-hue_cancellation_experiment_white width="100%"}
+
+Combining the light-dark (luminance efficiency) curve with the two opponent curves in @fig-hue_cancellation_experiment (c), we again have three spectral sensitivity functions.
+@fig-hue_cancellation_experiment_white puts the three opponent measurements in one plot (the two plots are for two separate participants).
+Compare this plot with the cone fundamentals in @fig-normalized_cone_fundamentals.
+Once again, a light with its SPD can be reduce to three-dimensional point, using @eq-spd2cones_int, except 1) instead of the three cone fundamentals we use the three opponent functions and 2) instead of getting the three cone responses we get the strength of the three opponent mechanisms.
+Effectively, the hue cancellation curves and the light-dark curve construct a new three-dimensional color space.
+We call this the **hue-opponent** space, and we will return to this space in @sec-chpt-hvs-color-oppobasis-model and discuss how this space relates to the colorimetric spaces we have discussed so far.
+
+## Neural and Physiological Basis of Opponent Processes {#sec-chpt-hvs-color-oppobasis}
+
+The hue cancellation experiment solidifies Hering's opponent theory at the level of psychophysics.
+But recall @fig-abstractions; any behavioral responses measured through psychophysics are fundamentally the result of the underlying neural and physiological mechanisms.
+So the next natural step in the scientific quest is to understand what underlying neural and physiological mechanisms can account for the behavioral opponent processes.
+
+![Responses of six typical classes of LGN neurons to incremental flashes of varying wavelengths. $y$-axis shows the spikes/second under spectral lights of equal energy. Each curve represents a particular energy level. (A): these cells are excited (activity exceeds the spontaneous firing rate) by red hues and inhibited by green hues, denoted +R-G cells. (B): +G-R cells. (C): +B-Y cells. (D): +Y-B cells. (E): non-opponent excitatory cell. (F): non-opponent inhibitory cell. From @devalois1990spatial[Fig. 7.5], which is adapted from @de1966analysis[Fig. 9--12, 15--16].](figs/opponent_lgn_cells){#fig-opponent_lgn_cells width="100%"}
+
+### Spectrally-Opponent and Non-Opponent Neurons {#sec-chpt-hvs-color-oppobasis:neurons}
+
+There are RGC and LGN neurons that show opponent properties.
+@svaetichin1953cone, @svaetichin1956spectral, and @svaetichin1958retinal are the first to identify opponent neurons in a fish retina; they recorded from horizontal cells.
+@de1958response and @de1966analysis measured the responses of LGN neurons in macaques using monochromatic lights, and found spectral opponent neurons, which get excited or inhibited depending on the wavelengths.
+(A -- D) in @fig-opponent_lgn_cells show the recordings of four classes of opponent cells.
+(A) shows a class of LGN cells whose firing rate exceeds the spontaneous rate under long-wavelength, red-ish lights and whose firing rate drops below the spontaneous rate under short-wavelength, blue-is lights.
+These cells are denoted +R-G (red-ON/green-OFF) cells.
+(B), (C), and (D) show that there exists +G-R, +B-Y, and +Y-B cells, respectively.
+
+@de1966analysis also identified non-opponent cells, whose responses are universally inhibited or excited across the spectrum, as shown in (E) and (F) in @fig-opponent_lgn_cells, respectively.
+These neurons are still wavelength-sensitive, but their responses are either universally excited or universally inhibited across the spectrum, unlike the spectrally-opponent neurons whose responses change polarity across the spectrum.
+
+### Potential Neural Circuitries {#sec-chpt-hvs-color-oppobasis-cir}
+
+What are some of the underlying visual pathways that could potentially give rise to these spectral tuning curves?
+Recall that LGN cells/RGCs have antagonistic Receptive Fields (RFs), and the antagonism seems to be a perfect mechanism to implement the opponent process.
+This suggests that in order to understand the opponent cells we must study their RF structures.
+
+Much of the early work is done by @wiesel1966spatial.
+While De Valois and his collaborators used diffuse lights to illuminate a large visual field, @wiesel1966spatial used both small spot lights that stimulated the center of the RF and larger lights that covered the entire RF.
+By comparing the responses under these two stimuli across different wavelengths (and white), they suggested potential RF structures of both opponent and non-opponent cells in macaque LGN.
+@derrington1984chromatic designed a clever experiment that explicitly tied cone responses to LGN cell responses and thus more directly revealed the RF structure.
+
+Before getting into the details, it is worth reminding ourselves that studying the LGN cells and studying the RGCs are equivalent (@sec-chpt-hvs-percept-postretina-lgn), since different classes of RGCs project to distinct LGN layers with virtually the same RFs: midget RGCs project to the Parvocellular layers (P cells) in the LGN (forming the P pathway/stream), parasol RGCs project to the Magnocellular layers (M cells) in the LGN (forming the M pathway/stream), and bistratetified RGCs project to the Koniocellular layers (K cells) in the LGN (forming the K pathway/stream).
+
+#### Y-B Opponent Cells
+
+The visual pathway for the Y-B opponent cells seems to be clear.
+@derrington1984chromatic showed that some LGN cells receive antagonistic inputs from S cone vs. L and M cones.
+@dacey1994blue later identified that the small bistratified RGCs (which project to the K cells in the LGN) are responsible for carrying such signals.
+The small bistratified RGCs are excited by S cone responses and inhibited by L and M cone responses (or vice versa).
+Since blue-ish lights produce strong S cone responses and red/green lights produce strong L/M cone responses (recall red + green is yellow), it stands to reason that if a cell is excited by S cones and inhibited by L and M cones, it would give a vigorous on-response under blue lights and a vigorous off-response under yellow lights, producing the kind of yellow-ON/blue-OFF spectral tuning curve that we see in @fig-opponent_lgn_cells (C).
+
+![The small bistratefied RGCs might be the substrate for the Y-B pathway. (A): illustration of the receptive field structure of a small bistratefied RGC, which is S-on and L/M-off (there are also S-off and L/M-on ones); from @rodieck1998first[p. 348]. (B): a small bistratefied RGC receives excitatory inputs from S cones through the S-cone bipolar cells and inhibitory inputs from L and M cones through another class of bipolar cells; from @rodieck1998first[p. 346]. (C): membrane potential and spike rate of small bistratified cells under periodic, out-of-phase blue-yellow lights; adapted from @dacey1994blue[Fig. 3C].](figs/yb_pathway){#fig-yb_pathway width="100%"}
+
+@fig-yb_pathway (A) illustrates the potential Receptive Field (RF) of a yellow-ON/blue-OFF small bistratefied cell, and (B) shows the neutral circuitry that gives rise to such an RF (but also see @field2007spatial).
+The small bistratefied RGC have a center-only RF, which receives excitatory responses from a S-cone bipolar cell and inhibitory responses from another class of bipolar cells that are connected to L and M cones.
+@dacey1994blue records both the membrane potential and the spiking rate of a small bistratified RGC, shown in (C), under periodic, out-of-phase blue and yellow (red+green) lights.
+The cell's responses are the strongest under maximum yellow light (maximum excitatory S cone responses) and minimum blue lights (minimum inhibitory L and M cone responses).
+
+#### R-G Opponent Cells
+
+@derrington1984chromatic showed that most of the midget RGCs (and thus P cells in LGN) are either excited by L cone responses and inhibited by M cone responses (L-ON/M-OFF) or the other way around.
+Given that, loosely, L cones are excited by red-ish lights but not so much by green-ish lights and M cones behave oppositely, it stands to reason that L-ON/M-OFF cells produce vigorous on-responses (above spontaneous rate) under red lights and vigorous off-responses (below spontaneous rate) under green lights, giving a spectral tuning curves shown in @fig-opponent_lgn_cells (A).
+
+The actual RF structure of these cells takes two forms [@wiesel1966spatial].
+Some of these cells have a center-surround RF, so there are four combinations: L+/M- (L center-ON/M surround-OFF), L-/M+, M-/L+, and M+/L-.
+Other midget RGCs have no center-surround arrangement.
+The excitatory and inhibitory regions have the same spatial extent.
+Either way, signals from the L cones and M cones are antagonistic in these cells.
+
+#### Non-Opponent Cells
+
+Finally, the parasol RGCs (and thus M cells in LGN) seem to be the most probable source for the luminance opponent mechanism [@lee1988physiological].
+These cells do have a center-surround RF but the L cones and M cones contribute to both the center and the surround [@wiesel1966spatial]; S cones seem to be contribute little, if any, to these cells [@lennie1993luminance].
+When the total excitation by the L and M cones to the center out-weighs the total inhibition to the surround, the entire cell appears to be excited by L and M cone responses, giving a broadband, non-opponent spectral tuning curve in @fig-opponent_lgn_cells (E); otherwise we see a tuning curve like @fig-opponent_lgn_cells (F).
+
+<!-- See Dowling for this as well. -->
+
+### A Cone-Opponent Model for Color-Opponent Mechanisms {#sec-chpt-hvs-color-oppobasis-model}
+
+It is clear that there are cells that receive opponent cone signals; the spectral tuning curves of these cells seem to largely account for the perceptual opponent mechanisms.
+Based on these observations, @derrington1984chromatic proposed a *cone-opponent* color space, which is now commonly used (in color science and, to a large extent, visual neuroscience) to give a first-order approximation of the perceptual color-opponent processes.
+The color space is now famously known as the DKL color space ^[named after the three authors; the L is Peter Lennie, who was twice on the faculty at University of Rochester and served as the Provost].
+
+* The Y-B channel is given by $a$S-($b$L+$c$M), where $a$, $b$, and $c$ are all positive values representing the contributions of the S, L, and M cones to the Y-B opponent process.  It is generally said that this signal is delivered by the Koniocellular pathway.
+* The R-G channel is given by $d$L-$e$M, where $d$ and $e$ are all positive values representing the contributions of the L and M cones to the R-G opponent process.  This opponent signal is generally said to be delivered by the Parvocellular pathway.
+* The Light-Dark or luminance channel is given by $f$L+$g$M, where $f$ and $g$ are all positive values representing the contributions of the L and M cones to the luminance channel.  This luminance channel is meant to represent the LEF (@sec-chpt-hvs-color-oppo-light), which generally is believed to be delivered by the Magnocellular pathway.
+
+The DKL space operates not on raw cone responses but on response *contrasts* with respect to a perceptually neutral/achromatic color.
+The inherent assumption is that the achromatic color should have no strength in any of the three cone-opponent channels and be the origin in the cone-opponent space.
+The achromatic color depends on an observer's state of chromatic adaptation, a topic we will discuss later in @sec-chpt-hvs-cori-cm-ca.
+People usually fit data to regress the values of the free parameters, and the exact values depend on which cone fundamentals are used and the normalization convention.
+@brainard1996cone describes one such procedure.
+
+Since the cone-opponent model operates on (contrast of) cone responses, a common theory of color vision is that it is a two-stage process: the wavelength encoding by cone photoreceptors followed by opponent encoding of cone responses post-receptorally.
+While the cone response encoding can perfectly explain the color matching experiments as we have see earlier,  the cone opponent encoding is only an approximation of the hue cancellation experiments, as we will see next.
+
+### There are Many Inconvenient Truths {#sec-chpt-hvs-color-oppobasis-truth}
+
+The cone-opponent model is a good approximation for behavioral color-opponent mechanisms, but there are many inconsistencies between these two.
+Reconciling the two and thus elucidating how humans perceptually code opponent hues is still an open research question.
+
+#### P and K Pathways Do Not Fully Account For R-G and Y-B Opponent Processes
+
+The opponent neurons clearly have what it takes to start accounting for the perceptual opponent processes, but the spectral tuning curves of those neurons have only a weak correlation with the hue cancellation curves.
+Thus, it is unlikely that excitation and inhibition in opponent neurons cause our perception of red-green and blue-yellow opponency.
+
+The most jarring difference appears in the R-G process.
+The R-G hue cancellation curve (@fig-hue_cancellation_experiment (C)) shows two perceptually neutral colors, as there are two zero-crossings.
+However, the spectral tuning curve of the R-G neurons (@fig-opponent_lgn_cells (A--B)) shows only one zero-crossing.
+These neurons do not predict the R-G neutral color in the short-wavelength range and, by extension, cannot explain the fact that short-wavelength violet-ish lights appear to have a red hue.
+@derrington1984chromatic (also see @wandell1995foundations[Fig. 9.18]) shows a great deal of variation of the spectral tuning property within P cells, making them even less certain as the sole candidate for R-G opponent mechanism.
+
+In fact, people have shown that the perceptual R-G hue cancellation data can be fit by $a'$L-$b'$M+$c'$S, where $a'$, $b'$, and $c'$ are cone contributions [@poirson1993appearance; @bauml1996color].
+Intuitively, the contribution by S cones in the short-wavelength range could give rise to a positive response there.
+However, there is no physiological evidence that L cone and S cone responses combine at some point in the visual pathway, suggesting the phenomenological nature of these models.
+
+Even though the K pathway clearly shows the capability of carrying S vs. L+M signals, the latter do not accurately predict Y-B neutral signals and, thus, do not fully account for the Y-B hue opponency.
+That is, a color that leads to a null response (no significant increase or decrease compared to the spontaneous response rate) in the L-M channel is not perceptually pure yellow or pure blue [@shevell2017color, Fig. 4f].
+Similarly, a color that causes a null response in the S-(L+M) channel is not perceptually pure red or pure green.
+That is, null-response colors in the DKL cone-opponent space are not perceptually neutral in the hue-opponent space, implying fundamental discrepancies between cone-opponent and hue-opponent spaces.
+<!-- talk about the threshold of detecting chromatic change and that it matches well with the neural curves? -->
+
+#### M Pathway Does Not Fully Account For Luminance
+
+The Magnocellular pathway (starting from the parasol RGCs) is said to be responsible for the dark-light opponent cells, but that poses a dilemma.
+We know that parasol RGCs have large RFs.
+A large RF is equivalently to applying an aggressive low-pass filter to the optical image; as a result, the M pathway has a low spatial acuity.
+So if the M pathway is fully responsible for mediating our luminance perception, we should be insensitive to spatial blurring (low-pass filtering) in the luminance signal.
+But the result is the opposite: our vision is very sensitive to spatial blurring in in the luminance channel (but relatively insensitive to blurring in the two color opponent channels).
+
+![We take an image, decouple it into three channels: luminance, red-green, and blue-yellow. We then spatially blur one of the channels while keeping the other two channels unchanged and then reconstruct the image. Our vision is much more sensitive to spatially blurring in the luminance channel (a) than is to blurring in the red-green channel (b) and in the blue-yellow channel (c). This is the basis of chroma subsampling used in modern image and video compression algorithms. The original image is *The Art of Painting* from Johannes Vermeer @aop. See another example in @wandell1995foundations[Fig. 9.23].](figs/channel_blurring_new){#fig-channel_blurring width="100%"}
+
+This is illustrated in @fig-channel_blurring, where we take an image, decouple it into three channels: luminance, red-green, and blue-yellow.
+We then spatially blur one of the channels while keeping the other two channels unchanged and then reconstruct the image.
+Our vision is much more sensitive to spatially blurring in the luminance channel (a) than is to blurring in the red-green channel (b) and in the blue-yellow channel (c); in fact, this is the basis of **chroma subsampling**, a key step in modern image and video compression algorithms.
+This suggests that the M pathway alone cannot be exclusively responsible for our luminance perception.
+
+@gouras1979enhancement also shows that P cells, which are ordinarily thought of as L-M spectrally-opponent, could also give a LEF-like spectral tuning curve as if it acts as the luminance channel.
+The reason is that the surround signals reach a cell later than do the center signals, so at a high frequency the out-of-phase center-surround signals can actually come in the same phase.
+
+#### Hue-Opponent Space is Not a Linear Transformation from Cone Space
+
+It is perhaps not surprising, by now, that if there is a color space that can fully account for the perceptual coding of opponent hues, it is never going to be a linear transformation from the LMS space (or any other space that is a linear transformation away from the LMS space, e.g., the CIE 1931 XYZ space or the DKL cone-opponent space).
+
+As we have seen above, for instance, the DKL space [@derrington1984chromatic], which is a linear transformation from the LMS cone space, does not fully account for the perceptual opponent processes, e.g., does not predict any unique hue.
+People have shown that one can construct a linear transformation from the LMS space that can accurately predict three of the four unique perceptual hues by fitting data from psychophysical measurements that do not presuppose the existence of opponent mechanisms [@poirson1993appearance; @bauml1996color], but they cannot predict the fourth unique hue.
+@schrodinger1925verhaltnis also estimated a linear transformation between the cone response space and the hue-opponent space based on the four unique hues, but the transformation could not accurately predict the achromatic color (also see the commentary by Zaidi in @schrodinger1994relationship).
+
+The reason is that perceptually unique red and green hues are not *collinear* with white, the achromatic color that is perceptually neutral in both the Y-B and R-G channel, i.e., does not appear yellow, blue, red, nor green ^[Again, what is considered achromatic depends on the observer's adaptation state; there is no single achromatic color.].
+That is, red, white, and green do not lie on a line.
+Why is this significant?
+Assuming there was a linear transformation $T$ from the cone responses to the strengths of the hue-opponent mechanisms:
+
+\begin{align}
+\begin{bmatrix}
+\text{Y/B}\\
+\text{R/G}\\
+\text{Lum}
+\end{bmatrix}
+=
+T
+\times
+\begin{bmatrix}
+L\\
+M\\
+S
+\end{bmatrix}
+\end{align}
+
+Both unique red hue ($[L_R, M_R, S_R]$) and unique green hue ($[L_G, M_G, S_G]$) have no yellow (or blue) hue, so their response in the Y-B channel response would be 0:
+
+\begin{align}
+\begin{bmatrix}
+\text{0}\\
+|\\
+|
+\end{bmatrix}
+=
+T
+\times
+\begin{bmatrix}
+L_R\\
+M_R\\
+S_R
+\end{bmatrix},~~~
+\begin{bmatrix}
+\text{0}\\
+|\\
+|
+\end{bmatrix}
+=
+T
+\times
+\begin{bmatrix}
+L_G\\
+M_G\\
+S_G
+\end{bmatrix}
+\end{align}
+
+Therefore, any mixture of the unique red hue and the unique green hue would not appear to have a yellow hue either:
+
+\begin{align}
+\begin{bmatrix}
+\text{0}\\
+|\\
+|
+\end{bmatrix}
+=
+T
+\times
+\begin{bmatrix}
+a L_R + b L_G\\
+a M_R + b M_G\\
+a S_R + b S_G
+\end{bmatrix},
+\end{align}
+
+where $a$ and $b$ are contributions of red and green to the mixed color.
+However, we know that when we mix red with green colors we get yellow.
+The fact that two colors without any yellow hue can generate a color that does have a yellow hue means the hue-opponent space cannot be a linear transformation from the LMS cone space.
+
+![Circles are unique hues derived from psychophysics reported in @bauml1993ratio. Fitting lines and extrapolating the lines give us estimations of unique hues that are spectral colors. Three of the four unique spectral hues (blue at 474 nm, green at 506 nm, and yellow at 568 nm) can be accurately predicted by a linear transformation constructed by @bauml1996color, but not the unique red hue. The fact that the red, white, and green are not collinear suggests that there is no linear transformation between the hue-opponent space and the cone space. Adapted from @bauml1996color[Fig. 12].](figs/unique_hues){#fig-unique_hues width="80%"}
+
+@fig-unique_hues illustrates this point with some real data.
+The empty markers are three sets of perceptually unique hues (which do not have to be spectral colors) measured psychophysically in @bauml1993ratio.
+When we fit a straight line across each set of unique hues and extrapolate the line we can estimate what spectral colors are unique hues (blue Ⓑ, green Ⓖ, and yellow Ⓨ).
+No spectral color is seen as a unique red hue (all spectral red-ish colors appear to have a yellow hue), which requires a mixture of unique blue hue and a spectral red to cancel the yellow percept [@dimmick1939spectralyellow; @larimer1975opponent] (and also see the commentary by Zaidi in @schrodinger1994relationship).
+@dimmick1939spectralred measured that unique red hues Ⓡ are complementary to a spectral light at 494 nm; that is, spectral light at 494 nm, white Ⓦ, and unique red hues should fall on a straight line ^[Of course, it is conceivable the result might vary in population and depend on the adaptation state (i.e., what is considered white/achromatic).].
+
+@bauml1996color constructed a linear transformation from the cone space to the hue-opponent space that can accurately predict the unique spectral hues of blue, green, and yellow.
+It is comforting, and corroborates others [@larimer1974opponent], that blue Ⓑ, white Ⓦ, and yellow Ⓨ are collinear, as would be required by a linear transformation from the cone space to the hue-opponent space: mixing colors that have no green or red hue will not give a color that does.
+But clearly the predicted red hue Ⓡ' deviates significantly away from red hue Ⓡ from actual measurements.
+If we connect the unique green hue Ⓖ and unique red hue Ⓡ, the line would not across Ⓦ.
+This suggests that a simple linear transformation does not exist; at least the Y-B null-response axis is not linear with respect to the cone responses.
+Non-linear models have been proposed [@larimer1975opponent; @shevell2017color].
+
+<!-- so maybe an explanation is that the actual transformation, which has to be non-linear, coincides with the linear transformation at hues that do match, but not at others. just imagine two transformations, Tlinear and Tnon; both can transform YBGR correctly from LMS space to the opponent space, but in Tlinear the points along the RG line are not correctly transformed but they are in Tnon. Maybe Tnon is a piece-wise linear transformation? see also \citet[p. 257]{kaiser1996human}; related? -->
