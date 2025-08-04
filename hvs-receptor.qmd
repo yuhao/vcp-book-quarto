@@ -491,7 +491,7 @@ There are tens of millions of pigments in a mammalian rod cell [@nathans1992rhod
 It is the fact that almost all cGMP-gated ion channels are closed, rather than all pigments are bleached, that prevents rods from responding further to lights.
 The slow regeneration rate in rods does affect dark adaptation time, which we will discuss later in the class.
 
-## Response vs. Light Intensity
+## Response vs. Light Intensity {#sec-hvs-receptor-intensity}
 
 The Principle of Univariance tells us that the electrical response from a photon absorption is constant without regard to the photon wavelength, but it does not tell us how the *magnitude* of the electrical response varies with the *number* of photons absorbed.
 With the basic understanding of phototransduction, we can now turn to this question.
@@ -499,7 +499,7 @@ You might be tempted to think that the relationship is linear, and you would be 
 
 ![Left: the electrical response (photocurrent) kinetics of macaque rods under varying flash light intensities (quantified by the total number of pigment excitations/isomerizations); from \citet[Fig. 1]{baylor1984photocurrent}. Right: the peak response (normalized to maximum response) as a function of flash intensity; from \citet[p. 178]{rodieck1998first}, which uses the underlying data in the left plot. The tangential line shows that only 47 pigment excitations would saturate the photoreceptor \textit{if} the photoreceptor does not desensitize.](figs/peak_flash_response){#fig-peak_flash_response width="100%"}
 
-### Peak Response is Not Linearly Proportional to Light Intensity
+### Peak Response is Not Linearly Proportional to Light Intensity {#sec-hvs-receptor-intensity-peak}
 
 @fig-peak_flash_response (left) shows the response (photocurrents) kinetics of macaque rods under flash lights of different intensities.
 The right plot shows the peak response (normalized to the maximum response) as a function of flash intensity.
@@ -543,7 +543,7 @@ The second reason, first experimentally shown by @matthews1988photoreceptor and 
 Interestingly, these negative feedback mechanisms are exactly the same as those that accelerate phototransduction deactivation, as discussed in @sec-chpt-hvs-receptor-counter.
 As we will discuss more quantitatively in the adaptation chapter (@sec-chpt-hvs-adaptations-light), this is not a coincidence: desensitization and faster recovery kinetics are two hallmarks of photoreceptor light adaptation.
 
-### Linear Range
+### Linear Range {#sec-hvs-receptor-intensity-model}
 
 If you observe @fig-peak_flash_response (right) closely, you will see that the response vs. flash intensity is linear when the lights are dim.
 This linear relationship is used to estimate the single photon response: we cannot easily measure the response of a single photon as it is difficult to precisely deliver just one single photon, but this linear relationship in the dim range allows us to estimate such a response by scaling the response of a dim light by its intensity.

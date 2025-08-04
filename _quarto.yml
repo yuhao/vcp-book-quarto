@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "Learn Visual Computing"
+  title: "Foundations of Visual Computing"
   author: "Yuhao Zhu"
   date: "7/12/2025"
 

@@ -1,5 +1,7 @@
 # Visual Adaptations {#sec-chpt-hvs-adaptations}
 
+Building some intuitions using heat, pain, smell. In all cases we care about two things: 1) the behavior after full adaptation and 2) the time course of adaptation.
+
 ## Light Adaptation {#sec-chpt-hvs-adaptations-light}
 
 light adaptation

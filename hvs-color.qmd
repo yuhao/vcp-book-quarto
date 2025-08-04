@@ -3,8 +3,9 @@
 This chapter studies color vision.
 We will review two main retinal stages responsible for color vision: wavelength encoding by the photoreceptors and the opponent processes that take place post-receptorally.
 We discuss both the behavioral phenomena as well as the potential neural and physiological basis.
-That this chapter almost exclusively focuses on the retinal mechanisms should in no way be taken to imply that cortical mechanisms are insignificant to color vision.
+That this chapter almost exclusively focuses on the retinal mechanisms should in no way be taken to downplay the significance of cortical mechanisms to color vision [@gegenfurtner2003cortical].
 We take this approach because: 1) the retinal mechanisms are much better understood and 2) many real-world applications such as color reproduction and detecting colored patterns could be adequately modeled by retinal mechanisms.
+This chapter concludes by briefly reviewing the evolution of color vision and deficient color vision.
 
 ## Color Encoding at Photoreceptors {#sec-chpt-hvs-color-receptor}
 
