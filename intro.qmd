@@ -139,7 +139,7 @@ Similarly, these mechanisms must be designed with the encoder in mind in order t
 
 ### Why Should You Care? {#sec-chpt-intro-book-why}
 
-The book is initial written targeting computer science audience.
+The book is written with a computer science audience in mind.
 It is not controversial to observe that computer science is incredibly interdisciplinary.
 By the nature of computer science, we dabble at the boundary between software and hardware.
 

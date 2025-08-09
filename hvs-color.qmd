@@ -170,10 +170,10 @@ Thomas Young apparently had no interest in such an experiment [@mollon2003introd
 
 Modern color matching experiments started with Wright and Guild [@wright1928trichromatic; @wright1929re; @wright1930re; @guild1931colorimetric].
 International Commission on Illumination (CIE) in 1931 standardized the color matching experiment and synthesized Wright's and Guild's data (without any additional experiments) to obtain what is now known as the CIE 1931 RGB Color Matching Functions.
-This process is discussed in detail in [@broadbent2004critical; @broadbent2008calculation; @service2016the; @zhu2020how].
+This process is discussed in detail in @broadbent2004critical, @broadbent2008calculation, @service2016the, and @zhu2020how.
 We summarize the key elements here; the experimental setup is illustrated in @fig-cme_setup.
 
-![Color matching experiment setup. In CIE 1931 standardization of the experiment, the primary lights are spectral lights at 435.8 nm, 546.1 nm, and 700 nm, and they swept the visible spectrum [380 nm, 780 nm] at a 5-nm interval as the target light. Note that CIE 1931 did not do any actual experiments; they synthesized the data from Wright and Guild.](figs/cme_setup){#fig-cme_setup width="100%"}
+![Color matching experiment setup. In CIE 1931 standardization of the experiment, the primary lights are spectral lights at 435.8 nm, 546.1 nm, and 700 nm, and they swept the visible spectrum [380 nm, 780 nm] at a 5-nm interval as the target light. Note that CIE 1931 did not do any actual experiments; they synthesized the data collected by Wright and Guild [@wright1928trichromatic; @wright1929re; @wright1930re; @guild1931colorimetric].](figs/cme_setup){#fig-cme_setup width="100%"}
 
 Observers are presented with a 2$^{\circ}$ visual field.
 They are given three primary lights, which in the CIE 1931 standard are **spectral lights** (lights that have photons at only one single wavelength; also called monochromatic lights) at wavelengths 435.8 nm, 546.1 nm, and 700 nm.

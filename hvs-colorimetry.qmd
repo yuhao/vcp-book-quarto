@@ -367,12 +367,13 @@ What is more important is to quantify small color differences.
 For a given reference color, we can use a threshold-detection psychophysical paradigm such as the one described in @krauskopf1992color to estimate the set of colors that can just barely be discriminated from the reference color.
 These experiments are called **color discrimination** tests.
 
-Color discrimination experiments typically use a four-alternative forced choice (4AFC) paradigm [@krauskopf1992color; @hansen2009color; @duinkharjav2022color], shown in @fig-color_disc (a).
+Color discrimination experiments typically use a n-alternative forced choice (nAFC) paradigm [@krauskopf1992color; @hansen2009color; @duinkharjav2022color; @danilova2025effect; @hong2025comprehensive].
+@fig-color_disc (a) shows a 4AFC variant from @duinkharjav2022color.
 The visual field consists of an adapting background and four color patches.
 The background controls the light and chromatic adaptation state of the participant, which is shown to have significant impact on the color discrimination results [@krauskopf1992color].
 Among the four color patches, three have the same *reference* color whose discrimination contour we want to estimate.
 The other randomly placed color patch, the *test* patch, has a different color.
-A participant is instructed to identify which one of the 4 color disks appeared different.
+A participant is instructed to identify which one of the 4 color disks appears different.
 The participant fixes their gaze on a crosshair at the center of the screen for the duration that the stimuli are shown; this makes sure that the four color patches are all placed at a given eccentricity.
 
 ![(a): A 4AFC color discrimination trial; adapted from @duinkharjav2022color[Fig. 2a]. (b): iso-luminance discrimination contours plotted in the DKL space [@derrington1984chromatic], where all the colors have the same luminance (L+M response); from @krauskopf1992color[Fig. 14]. (c): MacAdam ellipses (measured at 2$^{\circ}$ eccentricity) plotted in the xy-chromaticity diagram (the ellipse sizes are magnified 10 times to be more visible); from @macadam. (d): iso-luminance discrimination contours in the DKL space similar to (b), but now the adapting field is the reference color itself; from @krauskopf1992color[Fig. 8]. (e): contours corresponding to a $\Delta E_{00}$ = 1.0 in the $a^*$-$b^*$ plane in the CIELAB space; from @sharma2003color[Fig. 1.18]. (f): discrimination contours under two different eccentricities (10$^{\circ}$ and 25$^{\circ}$); from @duinkharjav2022color[Fig. 4a].](figs/color_disc){#fig-color_disc width="100%"}

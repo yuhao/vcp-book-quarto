@@ -44,6 +44,8 @@ format:
       - cosmo
       - brand
     default-image-extension: svg
+    # include-in-header:
+    #   - mathjax.html
     toc: true
     toc-location: right
     #toc-scroll: true
