@@ -22,8 +22,6 @@ $$
 \def\H{{\mathbf{H}}}
 \newcommand{\cM}{\mathcal{M}}
 \newcommand{\cL}{\mathcal{L}}
-
-\newcommand{\Eqn}[1]{Equation~\eqref{#1}}
 $$
 :::
 
@@ -285,7 +283,7 @@ Here we write the irradiance as $E(p, \Omega)$ to explicitly signify that the ir
 
 Using the interpretation of radiance in @eq-radiance_4, we can also give a more operational interpretation of @eq-int_radiance: we first calculate the infinitesimal irradiance $\d E_\bot(p) = L(p, \omega)\do$ made by lights at the direction $\omega$, then "transfer" that to the infinitesimal irradiance at the detector surface through the $\cos\theta$ factor, and then repeat this for all the directions to accumulate the contributions from all directions.
 
-## Lambert's Cosine Law
+## Lambert's Cosine Law {#sec-chpt-mat-basics-radiometry-lamb}
 
 A **Lambertian emitter** or an ideal *diffuse emitter* is a flux-emitting point whose emitted radiance is constant regardless of the outgoing direction.
 A related concept is a **Lambertian scatterer** or an ideal *diffuse surface*, which is a surface point where the scattered radiance is independent of the scattering direction.
