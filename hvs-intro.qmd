@@ -95,7 +95,7 @@ Color vision is fundamentally tied to the power distribution of light over wavel
 
 @boettner1962transmission[Fig. 7] measured the spectral transmittance of the eye, which defines the amount of light allowed to transmit through the media at each wavelength; the results are shown in @fig-eye_transmittance.
 Each curve represents the percentage of light remaining at each ocular media and the retina (including both direct transmission and forward scattering).
-Considering the visible range (we will discuss in the next Chapter why there are even invisible lights) roughly between 380 nm and 780 nm, we can see the ocular media significantly reduces the light power at short wavelengths.
+Considering the visible range (we will discuss in the next Chapter why there are even invisible lights) roughly between 380 $\text{nm}$ and 780 $\text{nm}$, we can see the ocular media significantly reduces the light power at short wavelengths.
 As a result, the transmittance spectrum of the ocular media is generally lower at short wavelengths, which means the ocular media generally absorbs blue-ish lights; so if the incident light is white-ish, the light would appear yellow after traveling through the ocular media.
 
 ## Retina: Basic Facts {#sec-chpt-hvs-percept-retina}

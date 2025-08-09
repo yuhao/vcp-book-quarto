@@ -126,7 +126,7 @@ $$
 The way to think about this is that each photon carries a certain amount of energy so if you monitor photons passing across a surface over a period of time $\Delta t$, you can calculate the average power of that period by dividing the total energy passed by by $\Delta t$.
 As $\Delta t$ approaches 0, we get the instantaneous power.
 
-Of course, energy/power is a function of wavelength, so more rigorously we should be talking about *spectral* power $\Phi(\lambda)$, which has a unit of $W/nm$:
+Of course, energy/power is a function of wavelength, so more rigorously we should be talking about *spectral* power $\Phi(\lambda)$, which has a unit of $\text{W}/\text{nm}$:
 
 $$
 \begin{align}

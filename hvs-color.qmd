@@ -32,10 +32,10 @@ As we will see shortly, the equal-energy definition is practically useful since 
 
 @fig-normalized_cone_fundamentals compares the absolute, equal-quantal cone fundamentals with the normalized, equal-energy cone fundamentals.
 A normalized, equal-energy sensitivity function tells us the relative amount of photon absorption given a unit power at each wavelength.
-For instance, the normalized L cone response is 1 at 570 nm and 0.4 at 630 nm.
-This means that given two lights that have the same power/energy, one with photons only at 570 nm and the other with photons only at 630 nm, the fraction of photons absorbed in the 630 nm light is about 40\% of that in the 570 nm light.
+For instance, the normalized L cone response is 1 at 570 $\text{nm}$ and 0.4 at 630 $\text{nm}$.
+This means that given two lights that have the same power/energy, one with photons only at 570 $\text{nm}$ and the other with photons only at 630 $\text{nm}$, the fraction of photons absorbed in the 630 $\text{nm}$ light is about 40\% of that in the 570 $\text{nm}$ light.
 
-Critically, this also means if we have a 570 nm light at 1 W and a 630 nm light at 2.5 W, the two lights would cause the same amount of pigment excitations in L cones.
+Critically, this also means if we have a 570 $\text{nm}$ light at 1 $\text{W}$ and a 630 $\text{nm}$ light at 2.5 W, the two lights would cause the same amount of pigment excitations in L cones.
 If we had only L cones, these two lights would be seen as the exact same light, because the HVS will receive the exact amount of electrical responses --- according to the Principle of Univariance.
 This explains why we could not see colors at night, when only rods are functioning.
 
@@ -57,8 +57,8 @@ You would know why we care about photon absorption: it is equivalent to pigment 
 We sometimes simply call the L/M/S value the **cone responses** or **tristimulus values** of a light, but you should know that they do not represent the actual magnitude of the electrical responses of the cones, since the magnitude is not linearly proportional to absorption as we have discussed before.
 
 In actual computation we discretize the spectra and perform summation rather than integration.
-We also limit the summation to within the [380 nm, 780 nm] range, since the cone fundamentals are practically 0 beyond that range.
-Assuming that we are quantizing the spectra at a 1-nm interval, the cone responses are linearly related to the light spectrum by:
+We also limit the summation to within the [380 $\text{nm}$, 780 $\text{nm}$] range, since the cone fundamentals are practically 0 beyond that range.
+Assuming that we are quantizing the spectra at a 1-$\text{nm}$ interval, the cone responses are linearly related to the light spectrum by:
 
 $$
 \begin{align}
@@ -103,7 +103,7 @@ In the cone space, the color of a light is interpreted as the amount of response
 
 The **spectral locus** is a curve on which each point represents the color of a spectral light at a wavelength.
 @fig-spectral_locus_lms shows the spectral locus in the LMS cone space on the right and the cone fundamentals on the left.
-The L, M, and S cone responses of a spectral light at, for instance, 605 nm are 0.775, 0.265, and 0, which corresponds to the point [0.775, 0.265, 0] in the cone space.
+The L, M, and S cone responses of a spectral light at, for instance, 605 $\text{nm}$ are 0.775, 0.265, and 0, which corresponds to the point [0.775, 0.265, 0] in the cone space.
 Connecting these points for all the spectral lights gets us the spectral locus in the LMS space.
 
 We know a color corresponds to a point in the cone space, but does an arbitrary point in the cone space correspond to a real color?
@@ -173,14 +173,14 @@ International Commission on Illumination (CIE) in 1931 standardized the color ma
 This process is discussed in detail in @broadbent2004critical, @broadbent2008calculation, @service2016the, and @zhu2020how.
 We summarize the key elements here; the experimental setup is illustrated in @fig-cme_setup.
 
-![Color matching experiment setup. In CIE 1931 standardization of the experiment, the primary lights are spectral lights at 435.8 nm, 546.1 nm, and 700 nm, and they swept the visible spectrum [380 nm, 780 nm] at a 5-nm interval as the target light. Note that CIE 1931 did not do any actual experiments; they synthesized the data collected by Wright and Guild [@wright1928trichromatic; @wright1929re; @wright1930re; @guild1931colorimetric].](figs/cme_setup){#fig-cme_setup width="100%"}
+![Color matching experiment setup. In CIE 1931 standardization of the experiment, the primary lights are spectral lights at 435.8 $\text{nm}$, 546.1 $\text{nm}$, and 700 $\text{nm}$, and they swept the visible spectrum [380 $\text{nm}$, 780 $\text{nm}$] at a 5-$\text{nm}$ interval as the target light. Note that CIE 1931 did not do any actual experiments; they synthesized the data collected by Wright and Guild [@wright1928trichromatic; @wright1929re; @wright1930re; @guild1931colorimetric].](figs/cme_setup){#fig-cme_setup width="100%"}
 
 Observers are presented with a 2$^{\circ}$ visual field.
-They are given three primary lights, which in the CIE 1931 standard are **spectral lights** (lights that have photons at only one single wavelength; also called monochromatic lights) at wavelengths 435.8 nm, 546.1 nm, and 700 nm.
+They are given three primary lights, which in the CIE 1931 standard are **spectral lights** (lights that have photons at only one single wavelength; also called monochromatic lights) at wavelengths 435.8 $\text{nm}$, 546.1 $\text{nm}$, and 700 $\text{nm}$.
 The three primary lights are pointed at the same point on one side of the visual field.
 On the other side of the visual field is the target light.
 Their goal is to adjust the power of each of the three primary lights so that the colors from the two sides of the visual field match.
-CIE 1931 swept the entire visible spectrum for the target light at a 5-nm interval.
+CIE 1931 swept the entire visible spectrum for the target light at a 5-$\text{nm}$ interval.
 
 #### Color Matching Functions Require a Unit System and a White Point
 
@@ -224,11 +224,11 @@ So if we actually mix the three primaries at each wavelength as indicated by the
 #### What Does a Negative Unit Mean?
 
 If you observe @fig-cie1931_rgb_cmf carefully, you will see that some CMFs are negative over certain ranges.
-For instance, the red CMF is negative at 500 nm.
+For instance, the red CMF is negative at 500 $\text{nm}$.
 This is perhaps a bit surprising, but mathematically it is entirely possible that some values in $[r, g, b]^T$ are negative when solving @eq-cme.
 Physically, however, what does it mean to have a negative amount/power of primary light?
 The right panel in @fig-cie1931_rgb_cmf provides the intuition.
-It turns out that it is impossible to find a combination of the three primary lights to match the color of a spectral light at 500 nm.
+It turns out that it is impossible to find a combination of the three primary lights to match the color of a spectral light at 500 $\text{nm}$.
 What does provide a match is to add a little red primary to the target light, and then we can find a combination of the primaries such as the blue and green mixture has the same color as the target light and red primary mixture.
 
 In fact, if you examine the CMFs, you will see that there is a negative contribution from a primary at all but three wavelengths --- the only three exceptions are the wavelengths of the three primaries (where two of the primary contributions are zero and the other is positive).
@@ -484,31 +484,31 @@ The rest of this section will discuss the hue cancellation experiment and the qu
 
 In a landmark study, @jameson1955some (while working for Eastman Kodak in Rochester) quantitatively measured the perceptual color opponency using a behavioral experiment.
 The participant is given a test light and is asked to first judge whether the light appeared blue-ish or yellow-ish.
-If the test light is judged to be blue-ish, the participant is then given a yellow-ish *cancellation light* (e.g., a spectral light at 588 nm) and is asked to adjust the intensity of the cancellation light so that the mixture of the test and cancellation light perceptually appears neither blue nor yellow.
-If the test light is judged to be yellow-ish, the participant is then asked to adjust the power of a blue-ish cancellation light (e.g., a spectral light at 467 nm) so that the test-cancellation mixture is again neither blue nor yellow.
-We sweep the spectrum from about 400 nm to 700 nm for the test light of equal energy, and record the energy of yellow or blue cancellation light needed at each step.
+If the test light is judged to be blue-ish, the participant is then given a yellow-ish *cancellation light* (e.g., a spectral light at 588 $\text{nm}$) and is asked to adjust the intensity of the cancellation light so that the mixture of the test and cancellation light perceptually appears neither blue nor yellow.
+If the test light is judged to be yellow-ish, the participant is then asked to adjust the power of a blue-ish cancellation light (e.g., a spectral light at 467 $\text{nm}$) so that the test-cancellation mixture is again neither blue nor yellow.
+We sweep the spectrum from about 400 $\text{nm}$ to 700 $\text{nm}$ for the test light of equal energy, and record the energy of yellow or blue cancellation light needed at each step.
 
 ![Measurements from the hue cancellation experiment in @jameson1955some. (a) the Blue-Yellow measurement; the $y$-axis shows the intensity of the Yellow/Blue cancellation light, i.e., the relative strength of the "Blue-ness" and "Yellow-ness" in the test light. (b) the Red-Green measurement; notice the two zero-crossings for Green. (c) The same data as A and B except we invert the Blue and Green curves so the $y$-axis is interpreted as the strength of Red-ness and Yellow-ness.](figs/hue_cancellation_experiment_new){#fig-hue_cancellation_experiment width="100%"}
 
 The result for one subject is shown in @fig-hue_cancellation_experiment (a), where the $y$-axis is showing the intensity of the yellow and blue cancellation light, i.e., the strength of blue-ness and yellow-ness of the test light.
-For the reference, we attached a colorbar showing roughly the color of the test light between 400 nm and 700 nm, but take this color visualization as a huge grain of salt, since it is almost certain that your display will not be able to actually render the colors of the spectral lights.
+For the reference, we attached a colorbar showing roughly the color of the test light between 400 $\text{nm}$ and 700 $\text{nm}$, but take this color visualization as a huge grain of salt, since it is almost certain that your display will not be able to actually render the colors of the spectral lights.
 
 Unsurprisingly, we get two peaks, one in the blue range and the other in the yellow range, indicating, respectively, that the participant needs a lot of the yellow and blue cancellation lights in those two regions.
-The test light at about 500 nm requires no cancellation light, indicating light there, which roughly has a green-ish color is yellow-blue neutral: it naturally looks neither blue nor yellow.
+The test light at about 500 $\text{nm}$ requires no cancellation light, indicating light there, which roughly has a green-ish color is yellow-blue neutral: it naturally looks neither blue nor yellow.
 
-Jameson and Hurvich then repeated the same experiment, but this time measuring the red-green opponent process, where the two cancellation lights are a 700 nm red-ish light and a 490 nm green-ish light.
+Jameson and Hurvich then repeated the same experiment, but this time measuring the red-green opponent process, where the two cancellation lights are a 700 $\text{nm}$ red-ish light and a 490 $\text{nm}$ green-ish light.
 The results are in @fig-hue_cancellation_experiment (b), where the $y$-axis indicates the amount of red-ness and green-ness in the test light.
 Two observations are worth noting.
 First, while it is unsurprising that long-wavelength lights have a strong red component, it is perhaps surprising that short-wavelength lights appear red-ish too.
 That, however, becomes less surprising when we realize that short-wavelength lights (shorter than pure blue) appear violet, which perceptually is a red-ish blue.
-Second, because of the two red-ish regions over the spectrum, the entire red-green curve has two zero-crossings, one at about 470 nm and the other near 570 nm: pure blue and pure yellow look neither green nor red.
+Second, because of the two red-ish regions over the spectrum, the entire red-green curve has two zero-crossings, one at about 470 $\text{nm}$ and the other near 570 $\text{nm}$: pure blue and pure yellow look neither green nor red.
 
 @fig-hue_cancellation_experiment (c) summarizes the two sets of data by inverting the blur section of the curve in (a) and the green section of the curve in (b).
 That way, the $y$-axis can be simply interpreted as the relative strength of red-ness and yellow-ness over the spectrum.
 
 ### Light-Dark Mechanism and Luminous Efficiency Function {#sec-chpt-hvs-color-oppo-light}
 
-@hurvich1957opponent also performed a measurement of the white-black (light-dark) opponent process, asking participants to assess the "whiteness" of spectral lights between 400 nm and 700 nm of equal power.
+@hurvich1957opponent also performed a measurement of the white-black (light-dark) opponent process, asking participants to assess the "whiteness" of spectral lights between 400 $\text{nm}$ and 700 $\text{nm}$ of equal power.
 %Intuitively, the measurement tells us the perceived brightness of lights at different wavelengths.
 A more modern method to measure the luminance mechanism is heterochromatic flicker photometry, where we alternate between a test light and a fixed reference light at a frequency of, say, 25 Hz.
 We adjust the intensity of the test light so that the alternation produces no visual flickering, at which point we say the two lights produce the same level of luminance [@sharpe2005luminous; @sharpe2011luminous].
@@ -520,17 +520,17 @@ Compared to the Judd and Vos corrections, the function shown here has the advant
 ![The grey solid curve is the scotopic luminous efficiency function (CIE 1951 standard; based on @wald1945human and @crawford1949scotopic). The grey dashed curve is the photopic luminous efficiency function (CIE 2008 "physiologically-relevant" 2-deg function; based on @sharpe2005luminous and @sharpe2011luminous) The other three curves are the cone fundamentals, shown for the reference.](figs/lef){#fig-lef width="60%"}
 
 The way to interpret the LEF is that the $y$-axis is inversely proportional to the light power at each wavelength needed to produce the same level of perceptual brightness.
-The photopic LEF at 509 nm is about 0.5, half of that at 555 nm.
-It means we need twice as much power at 509 nm to produce the same level of brightness as that at 555 nm.
+The photopic LEF at 509 $\text{nm}$ is about 0.5, half of that at 555 $\text{nm}$.
+It means we need twice as much power at 509 $\text{nm}$ to produce the same level of brightness as that at 555 $\text{nm}$.
 It also explains the word "efficiency" in the name: if a wavelength needs less power to produce a criterion level of brightness, the wavelength is more efficient in its use of power.
 The way LEF is obtained, however, does *not* permit us to interpret the result as the relative brightness at different wavelengths.
-That is, 555 nm is not twice as bright as 509 nm.
+That is, 555 $\text{nm}$ is not twice as bright as 509 $\text{nm}$.
 This is similar to our interpretation of the cone fundamentals.
 
 For comparison, the gray curve in @fig-lef is the scotopic LEF.
 The CIE 1951 scotopic LEF synthesizes the psychophysical measurements from @wald1945human and @crawford1949scotopic.
 Both used a threshold method where they measured the light intensity at each wavelength needed to produce a just detectable flash.
-Note that the photopic LEF peaks at about 555 nm and the scotopic LEF peaks at about 507 nm.
+Note that the photopic LEF peaks at about 555 $\text{nm}$ and the scotopic LEF peaks at about 507 $\text{nm}$.
 
 As a result, the relative brightness of longer-wavelength colors and shorter-wavelength colors is inverted when our vision transitions from the cone-mediated photopic vision to the rod-mediated scotopic vision.
 This phenomenon is called the **Purkinje shift**.
@@ -758,13 +758,13 @@ where $a$ and $b$ are contributions of red and green to the mixed color.
 However, we know that when we mix red with green colors we get yellow.
 The fact that two colors without any yellow hue can generate a color that does have a yellow hue means the hue-opponent space cannot be a linear transformation from the LMS cone space.
 
-![Circles are unique hues derived from psychophysics reported in @bauml1993ratio. Fitting lines and extrapolating the lines give us estimations of unique hues that are spectral colors. Three of the four unique spectral hues (blue at 474 nm, green at 506 nm, and yellow at 568 nm) can be accurately predicted by a linear transformation constructed by @bauml1996color, but not the unique red hue. The fact that the red, white, and green are not collinear suggests that there is no linear transformation between the hue-opponent space and the cone space. Adapted from @bauml1996color[Fig. 12].](figs/unique_hues){#fig-unique_hues width="80%"}
+![Circles are unique hues derived from psychophysics reported in @bauml1993ratio. Fitting lines and extrapolating the lines give us estimations of unique hues that are spectral colors. Three of the four unique spectral hues (blue at 474 $\text{nm}$, green at 506 $\text{nm}$, and yellow at 568 $\text{nm}$) can be accurately predicted by a linear transformation constructed by @bauml1996color, but not the unique red hue. The fact that the red, white, and green are not collinear suggests that there is no linear transformation between the hue-opponent space and the cone space. Adapted from @bauml1996color[Fig. 12].](figs/unique_hues){#fig-unique_hues width="80%"}
 
 @fig-unique_hues illustrates this point with some real data.
 The empty markers are three sets of perceptually unique hues (which do not have to be spectral colors) measured psychophysically in @bauml1993ratio.
 When we fit a straight line across each set of unique hues and extrapolate the line we can estimate what spectral colors are unique hues (blue Ⓑ, green Ⓖ, and yellow Ⓨ).
 No spectral color is seen as a unique red hue (all spectral red-ish colors appear to have a yellow hue), which requires a mixture of unique blue hue and a spectral red to cancel the yellow percept [@dimmick1939spectralyellow; @larimer1975opponent] (and also see the commentary by Zaidi in @schrodinger1994relationship).
-@dimmick1939spectralred measured that unique red hues Ⓡ are complementary to a spectral light at 494 nm; that is, spectral light at 494 nm, white Ⓦ, and unique red hues should fall on a straight line ^[Of course, it is conceivable the result might vary in population and depend on the adaptation state (i.e., what is considered white/achromatic).].
+@dimmick1939spectralred measured that unique red hues Ⓡ are complementary to a spectral light at 494 $\text{nm}$; that is, spectral light at 494 $\text{nm}$, white Ⓦ, and unique red hues should fall on a straight line ^[Of course, it is conceivable the result might vary in population and depend on the adaptation state (i.e., what is considered white/achromatic).].
 
 @bauml1996color constructed a linear transformation from the cone space to the hue-opponent space that can accurately predict the unique spectral hues of blue, green, and yellow.
 It is comforting, and corroborates others [@larimer1974opponent], that blue Ⓑ, white Ⓦ, and yellow Ⓨ are collinear, as would be required by a linear transformation from the cone space to the hue-opponent space: mixing colors that have no green or red hue will not give a color that does.
@@ -979,7 +979,7 @@ There are a handful of studies reported on unilaterial dichromates.
 @judd1949color meticulously summarized data from prior studies, where only 8 had quantitative data that were useful.
 @sloan1948case, @graham1958color, and @macleod1976red reported results for unilateral Protanopes/Deuteranopes, while @alpern1983perception reported results for a unilateral Tritanope.
 
-Such studies show that monochromatic lights at 475 nm and 575 nm are isochromes for protanopes and deuteranopes (i.e., no significant difference between these two types when it comes to isochromes, but of course their confusion lines are different), and for tritanopes isochromes are found at 485 nm and 660 nm.
+Such studies show that monochromatic lights at 475 $\text{nm}$ and 575 $\text{nm}$ are isochromes for protanopes and deuteranopes (i.e., no significant difference between these two types when it comes to isochromes, but of course their confusion lines are different), and for tritanopes isochromes are found at 485 $\text{nm}$ and 660 $\text{nm}$.
 
 ![Left: isochrome planes and Protanopia confusion lines in LMS cone space; from \citet{zhu2022cvd}. According to the \citet{brettel1997computerized} model, the intersection between the isochrome planes and a confusion line is the color a dichromat actually sees for all the colors on that confusion line. Right; the isochrome lines and Deuteranopia confusion lines in the xy-diagram; adapted from \citet{confusionlines}.](figs/cvd_model){#fig-cvd_model width="100%"}
 
@@ -992,8 +992,8 @@ It makes assumptions that are not experimentally validated on unilateral dichrom
 @zhu2022cvd discusses cases where this model falls apart.
 
 @brettel1997computerized assumes that Equal-Energy White (EEW) is also an isochrome.
-In fact, they assume that the entire plane that contains EEW, 475 nm, 575 nm, and Black is an isochrome plane, on which all colors are isochromes for deuteranopes and protanopes.
-Similarly, the plane that contains EEW, 485 nm, 660 nm, and Black is an isochrome plane for tritanopes.
+In fact, they assume that the entire plane that contains EEW, 475 $\text{nm}$, 575 $\text{nm}$, and Black is an isochrome plane, on which all colors are isochromes for deuteranopes and protanopes.
+Similarly, the plane that contains EEW, 485 $\text{nm}$, 660 $\text{nm}$, and Black is an isochrome plane for tritanopes.
 Two caveats must be noted here.
 First, this is not validated against unilateral dichromats; it is just an assumption.
 Second, the isochrome "plane" is not an actual plane.

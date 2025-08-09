@@ -121,7 +121,7 @@ There is one more complication.
 With MSP, we illuminate a photoreceptor *transversely*, i.e., the light passes from one side of the photoreceptor to the other side.
 In reality, when a photon enters a photoreceptor, it travels *axially* from the inner segment through the outer segment.
 The main difference between these two scenarios is the optical length that a photon has to travel.
-A photoreceptor is tall and skinny, so its width is much smaller than its length, about 2.5 $\mu m$ wide and 35 $\mu m$ long for a fovea L/M cone [@polyak1941retina].
+A photoreceptor is tall and skinny, so its width is much smaller than its length, about 2.5 $\mu\text{m}$ wide and 35 $\mu\text{m}$ long for a fovea L/M cone [@polyak1941retina].
 <!-- %http://www.cvrl.org/database/text/outseg/length.htm
 %bowmaker1980visual cites polyak 1941 "25 um for parafoveal S cone"
 %bowmaker1980microspectrophotometric cites polyak 1941 "35 um for foveal cones and 25 um for extra-foveal rods," -->
@@ -145,15 +145,15 @@ Spectra so estimated are usually called the spectral sensitivity of the photorec
 
 ![Each curve shows the electrical response (in photovoltage; $y$-axis) as a function of light intensity ($x$-axis) at a given wavelength. To estimate the relative sensitivity/absorptance between two wavelengths, we laterally shift one curve so that it coincides with the other. Given the Principle of Univariance, the amount of shift is proportional to the relative absorptance. From @baylor1973detection[Fig. 8].](figs/spectral_sensitivity_from_photocurrents){#fig-spectral_sensitivity_from_photocurrents width="80%"}
 
-@fig-spectral_sensitivity_from_photocurrents illustrates the idea, where @baylor1973detection measured the peak electrical response of a turtle cone (in photovoltage; $y$-axis) as a function of light intensity ($x$-axis) at two wavelengths: 644 $nm$ and 539 $nm$.
-We see that the curves are almost parallel to each other: we can laterally move the 644 $nm$ curve to coincide with that of 539 $nm$.
+@fig-spectral_sensitivity_from_photocurrents illustrates the idea, where @baylor1973detection measured the peak electrical response of a turtle cone (in photovoltage; $y$-axis) as a function of light intensity ($x$-axis) at two wavelengths: 644 $\text{nm}$ and 539 $\text{nm}$.
+We see that the curves are almost parallel to each other: we can laterally move the 644 $\text{nm}$ curve to coincide with that of 539 $\text{nm}$.
 In this case, we have to shift the former by 1.27 log units.
 
 Think for a second what this means.
-When we increase the intensity at 644 $nm$ by a factor of $10^{1.27}$, the sheer number of photons absorbed at 644 nm is increased by a factor of $10^{1.27}$, too.
-That means without scaling the number of incident photons at 644 $nm$ is $10^{-1.27}$ (about 5.4\%) of that at 539 $nm$.
-Even with just 5.4\% of incident photons, 644 $nm$ light is able to produce the same level of electrical response, i.e., cause the same amount of photon absorption (given the Principle of Univariance), as the light at 539 $nm$.
-Therefore, we can say the absorption rate (absorptance) at 644 $nm$ is $10^{1.27}$ higher than of that at 539 $nm$.
+When we increase the intensity at 644 $\text{nm}$ by a factor of $10^{1.27}$, the sheer number of photons absorbed at 644 nm is increased by a factor of $10^{1.27}$, too.
+That means without scaling the number of incident photons at 644 $\text{nm}$ is $10^{-1.27}$ (about 5.4\%) of that at 539 $\text{nm}$.
+Even with just 5.4\% of incident photons, 644 $\text{nm}$ light is able to produce the same level of electrical response, i.e., cause the same amount of photon absorption (given the Principle of Univariance), as the light at 539 $\text{nm}$.
+Therefore, we can say the absorption rate (absorptance) at 644 $\text{nm}$ is $10^{1.27}$ higher than of that at 539 $\text{nm}$.
 
 We repeat this experiment across other wavelengths and obtain the relative spectral sensitivity/absorptance spectra.
 The left panel in @fig-receptor_sensitivity_2 shows one such example obtained by @baylor1987spectral on macaque cones.
@@ -205,9 +205,9 @@ We call $E(\lambda)$ the cornea-referred spectral sensitivity function, since it
 When $a(\lambda)$ is replaced by the absorptance spectra of the three classes of cones, the resulting sensitivity functions are more commonly referred to as the **cone fundamentals**.
 
 We can make a few general observations about the cone fundamentals.
-First, the cone sensitivity drops to 0 beyond the 380 nm and 780 nm range, a range we usually call the visible spectrum, since there will be no pigment excitation beyond that range: lights beyond that range are invisible.
+First, the cone sensitivity drops to 0 beyond the 380 $\text{nm}$ and 780 $\text{nm}$ range, a range we usually call the visible spectrum, since there will be no pigment excitation beyond that range: lights beyond that range are invisible.
 Second, S cones are generally the least sensitive of the three cone types, but it is not because of the photoreceptors but because of the pre-receptoral filters, which absorb mostly low-wavelength lights.
-Finally, the sensitivity peaks of the L cones and M cones are very similar (off by about 20 $nm$), but both are rather far from the peak of the S cones.
+Finally, the sensitivity peaks of the L cones and M cones are very similar (off by about 20 $\text{nm}$), but both are rather far from the peak of the S cones.
 We have discussed the reason behind this when discussing @fig-receptor_sensitivity.
 
 ### Cone Fundamentals From Psychophysics

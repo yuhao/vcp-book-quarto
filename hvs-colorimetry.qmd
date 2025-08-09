@@ -28,7 +28,7 @@ The cone space is tied intrinsically to the HVS, so it does not vary (significan
 It is also a color space where all the colors are expressed using positive amounts of the primaries (cone responses).
 These are all true, but remember the cone fundamentals were not reliably available back in 1931 (@sec-chpt-hvs-receptor-absorb).
 
-![The CIE 1931 XYZ color space (right) is constructed to be a linear transformation from the CIE 1931 RGB color space (left). Notice how a color, say, 600 nm spectral light is represented differently in the two color spaces. This figure visualizes how the spectral locus and the CMFs are transformed. The exact coefficients of the transformation matrix $T_{rgb2xyz}$ are omitted here but are widely available online. The CIE 1931 RGB CMFs figure is adapted from @cie1931rgbcmf, and the XYZ CMFs figure is adapted from @cie1931xyz.](figs/rgb_to_xyz){#fig-rgb_to_xyz width="100%"}
+![The CIE 1931 XYZ color space (right) is constructed to be a linear transformation from the CIE 1931 RGB color space (left). Notice how a color, say, 600 $\text{nm}$ spectral light is represented differently in the two color spaces. This figure visualizes how the spectral locus and the CMFs are transformed. The exact coefficients of the transformation matrix $T_{rgb2xyz}$ are omitted here but are widely available online. The CIE 1931 RGB CMFs figure is adapted from @cie1931rgbcmf, and the XYZ CMFs figure is adapted from @cie1931xyz.](figs/rgb_to_xyz){#fig-rgb_to_xyz width="100%"}
 
 @fairman1997cie, @brill1998cie, and @service2016the[Sec. 4] describe the process and the (sometimes rather arbitrary) design decisions that went into turning the CIE 1931 RGB space into the 1931 XYZ space.
 @zhu2022xyz is an interactive tutorial that walks through the math.
