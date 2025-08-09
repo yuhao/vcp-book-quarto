@@ -95,7 +95,7 @@ How such a reflectance spectrum can be obtained in measurement (to the extent th
 The reflectance is a "quick-and-dirty" abstraction that we often use to give a rough estimation/explanation of a material's color, but it is so high-level that it hides lots of the low-level details: what exactly are the light-matter interactions that cause the surface and subsurface scattering behaviors that eventually give rise to the apparent reflectance and transmittance spectra?
 The remaining chapters in this part essentially answer this question.
 
-## A Little Bit of Radiometry and Photometry {#sec-chpt-mat-basics-radiometry}
+## Key Concepts in Radiometry {#sec-chpt-mat-basics-radiometry}
 
 To be more formal about surface and volume scattering, we need to scientifically define a few physical properties pertaining to light propagation spatially and angularly.
 This is called **radiometry**, which operates completely at the geometric optics level, so we will be describing light as a collection of photons, each of which can travel along a particular direction with certain energy associated with it.
@@ -153,7 +153,7 @@ $$
 \end{align}
 $$ {#eq-irradiance}
 
-Irradiance is a more primitive measure than power, because we can derive the power of a surface by integrating the irradiance over the surface area:
+Irradiance is a more primitive measure than power: in calculus terms, irradiance is a power density function, which means we can derive the power of a surface by integrating the irradiance over the surface area:
 
 $$
 \begin{align}
@@ -161,7 +161,7 @@ $$
 \end{align}
 $$
 
-Irradiance has a unit of $W/m^2$, and *spectral* irradiance has a unit of $W/(m^2 \cdot nm)$.
+Irradiance has a unit of $\text{W}/\text{m}^\text{2}$, and *spectral* irradiance has a unit of $\text{W}/(\text{m}^\text{2} \cdot \text{nm})$.
 
 ### Solid Angle
 
@@ -243,7 +243,7 @@ In calculus terms, when we let the detector size and baffle's solid angle approa
 $$
 \begin{align}
     L(p, \omega) = \lim_{\D \omega \rightarrow 0} \lim_{\D A \rightarrow 0} \frac{\D \Phi}{\D A \cos\theta \D \omega}
-    = \frac{\text{d}}{\text{d}\omega}\frac{\text{d}\Phi(p)}{\text{d}A \cos\theta} = \frac{\text{d}^2\Phi(p)}{\text{d}\omega\text{d}A \cos\theta}
+    = \frac{\text{d}}{\text{d}\omega}\frac{\text{d}\Phi(p)}{\text{d}A \cos\theta} = \frac{\text{d}^2\Phi(p)}{\text{d}\omega\text{d}A \cos\theta}.
 \end{align}
 $$ {#eq-radiance_2}
 
@@ -251,12 +251,25 @@ $$ {#eq-radiance_2}
 
 $$
 \begin{align}
-    L(p, \omega) = \frac{\text{d}E(p)}{\text{d}\omega\cos\theta}
+    L(p, \omega) = \frac{\text{d}E(p)}{\text{d}\omega\cos\theta}.
 \end{align}
 $$ {#eq-radiance_3}
 
 Radiance is an intrinsic property of the radiation field, and the reason we have the $\cos\theta$ term in the definition is merely due to the way we have chosen to measure the property (using a detector that is $\theta$-oriented).
-Radiance has a unit of $W/(m^2\cdot sr)$, and *spectral* radiance has a unit of $W/(m^2\cdot sr \cdot nm)$.
+Radiance has a unit of $\text{W}/(\text{m}^\text{2}\cdot \text{sr})$, and *spectral* radiance has a unit of $\text{W}/(\text{m}^\text{2}\cdot \text{sr} \cdot \text{nm})$.
+
+Looking at the effective area in @fig-radiance, if the irradiance at the infinitesimal area $p$ is $\d E(p)$, the irradiance at the (infinitesimal) effective area (projected from $\d A$ along $\omega$) is $\frac{\d E(p)}{\cos\theta}$, which we denote $\d E_\bot(p)$.
+Combining this with @eq-radiance_3, radiance $L(p, \omega)$ can also be defined as:
+
+$$
+\begin{align}
+    L(p, \omega) = \frac{\text{d}E_\bot(p)}{\text{d}\omega}.
+\end{align}
+$$ {#eq-radiance_4}
+
+@eq-radiance_4 and @eq-radiance_3 each corresponds to a concrete way of measuring the radiance.
+@eq-radiance_4 places the detector perpendicular to the direction of light that we care to measure, and the detector used by @eq-radiance_3 is $\theta$-oriented with respect to the direction of interest.
+They give us an identical radiance result because radiance, again, is an inherent property of the radiation field invariant to how we measure it.
 
 Radiance is a density function: the density of power at a point along a direction.
 As with any density function, it is useful when it gets integrated to compute some other quantities.
@@ -270,14 +283,128 @@ $$ {#eq-int_radiance}
 
 Here we write the irradiance as $E(p, \Omega)$ to explicitly signify that the irradiance depends not only on the specific position $p$ but also the solid angle $\Omega$ over which the lights are coming.
 
-Looking at the effective area in @fig-radiance, if the irradiance at the infinitesimal area $p$ is $\d E(p)$, the irradiance at the (infinitesimal) effective area, which is projected from $\d A$ along $\omega$, is $\frac{\d E(p)}{\cos\theta}$.
-Combining this with @eq-radiance_3, we can interpret the radiance $L(p, \omega)$ differently: it is the ratio between $\d E_\bot(p)$, the infinitesimal irradiance defined at the surface perpendicular to the light direction, and the infinitesimal solid angle.
-This is shown in @eq-radiance_4.
+Using the interpretation of radiance in @eq-radiance_4, we can also give a more operational interpretation of @eq-int_radiance: we first calculate the infinitesimal irradiance $\d E_\bot(p) = L(p, \omega)\do$ made by lights at the direction $\omega$, then "transfer" that to the infinitesimal irradiance at the detector surface through the $\cos\theta$ factor, and then repeat this for all the directions to accumulate the contributions from all directions.
+
+## Lambert's Cosine Law
+
+A **Lambertian emitter** or an ideal *diffuse emitter* is a flux-emitting point whose emitted radiance is constant regardless of the outgoing direction.
+A related concept is a **Lambertian scatterer** or an ideal *diffuse surface*, which is a surface point where the scattered radiance is independent of the scattering direction.
+
+It might come as a surprise that the flux emitted by a Lambertian emitter through a fixed solid angle is different for different  emission directions.
+Consider a setup where a Lambertian emitter has an infinitesimal area $\d A$.
+The power emitted by $\d A$ toward its normal direction in an infinitesimal solid angle of $\do$ is $\d\Phi_0 = L\do\d A$, where $L$ is the radiance.
+The power emitted toward an oblique direction $\omega$ through the same solid angle is $\d\Phi_\theta = L \do \cos\theta \d A$.
+
+In radiometry, the ratio of infinitesimal power and infinitesimal solid angle is called the **radiant intensity**^[Or simply, the "intensity", which is an extremely overloaded term, so we will be verbose and use "radiant intensity" when we mean it.], denoted $I$:
 
 $$
 \begin{align}
-    L(p, \omega) = \frac{\text{d}E_\bot(p)}{\text{d}\omega}
+    I(\omega) = \frac{\d\Phi}{\do}.
 \end{align}
-$$ {#eq-radiance_4}
+$$ {#eq-intensity}
 
-Using this interpretation of radiance, we can also give a more operational interpretation of @eq-int_radiance: we first calculate the infinitesimal irradiance $\d E_\bot(p) = L(p, \omega)\do$ made by lights at the direction $\omega$, then "transfer" that to the infinitesimal irradiance at the detector surface through the $\cos\theta$ factor, and then repeat this for all the directions to accumulate the contributions from all directions.
+$I$ is a meaningful measure only for a point source (e.g., our infinitesimal Lambertian emitter here).
+We can see that for a Lambertian emitter, the radiant intensity decays by a factor of $\cos\theta$: $\frac{\d\Phi_\theta}{\d\omega} = \frac{\d\Phi_0}{\d\omega}\cos\theta$.
+This is usually called the **Lambert's cosine law**, named after Johann Heinrich Lambert, from his Photometria [@lambert1760photometria].
+Similarly, if we have a Lambertian scatterer, its scattered radiant intensity will also decay by $\cos\theta$ as the polar angle $\theta$ of the viewing direction $\omega$ increases.
+
+![Comparison between the radiance distribution (constant w.r.t. viewing direction $\omega$) and radiant intensity distribution (weakens by a factor of $\cos\theta$) of a Lambertian emitter/scatterer.](figs/intensity_vs_radiance_lobe_new){#fig-intensity_vs_radiance_lobe width="60%"}
+
+@fig-intensity_vs_radiance_lobe compares the radiance distribution and radiant intensity distribution of a Lambertian emitter/scatterer.
+Both distributions are over the entire hemisphere, but we show only a cross section.
+The distributions are visualized as two lobes, and the distance of a point on the lobe to the origin is proportional to the value at that point.
+The radiance distribution is constant regardless of $\omega$ but the radiant intensity is proportional to $\cos\theta$.
+This difference stems from the fact that intensity is defined with respect to the power at the detector/emission area ($\d A$) while radiance is defined with respect to power at the effective area ($\d A \cos\theta$).
+
+## The Measurement Equation in Camera Imaging {#sec-chpt-mat-basics-radiometry-cam}
+
+We will study this more carefully in the imaging chapters, but given that we have the basic understanding of radiometry, now seems like a good time to show you how radiometry is of fundamental importance to camera imaging.
+For simplicity, let's just consider one single pixel.
+
+Each pixel is very small, but it has a finite area, say $A_p$.
+Each pixel is constantly being bombarded by lights that enter the aperture, which has a size $V$.
+The raw pixel value is roughly proportional to the energy it receives during the exposure time^[Assuming there is no noise and there is no quantization error in converting analog signals to digital signals.].
+So using the basic radiometry, we can write the total energy received by a pixel during the exposure time $T$ as:
+
+$$
+\begin{align}
+    Q = \int^{T} \int^{A_p} \int^{\Omega(p, V)} L(p, \omega) \cos\theta~\text{d}\omega~\text{d}p~\text{d}t,
+\end{align}
+$$ {#eq-cam}
+
+where $\Omega(p, V)$ explicitly expresses that a solid angle is determined by the aperture $V$ and a point $p$ on the pixel surface.
+Of course this quantity changes with $p$.
+We sometimes omit $p$ and $V$ when it is clear what $\Omega$ refers to, but here, since the solid angle changes with the dummy variable $p$ in the integral equation, we express it explicitly.
+<!-- %similar to Equ 6.65b in CIFA. -->
+In graphics literature, this equation is sometimes called the **measurement equation** of an image sensor [@kolb1995realistic; @reinhard2008color[Chpt. 6.8.1]; @pharr2023physically[Chpt. 5.4]].
+
+Usually the inner integral over the solid angle is expressed as a spatial integral over the aperture;
+the derivation is available in standard texts and is omitted here.
+$\textcolor{red}{show the equation, draw diagram}$
+
+We can see, again, that radiance is the most fundamental quantity.
+Knowing the radiance distribution in the camera, we can, in theory, synthesize the value of any pixel and, thus, an entire image.
+How do we know the radiance distribution inside a camera?
+We can calculate it if we know 1) the distribution of the radiance impinging on the camera optics and 2) the material properties of the camera optics (e.g., lenses, filters, etc.).
+The effects of the camera optics are nothing more than surface scattering and volume scattering, so using the principles we will introduce in the next two chapters, we can convert the radiance distribution outside the camera (in the scene) to that inside the camera.
+
+## Light Field {#sec-chpt-mat-basics-radiometry-lf}
+
+There is a name for the distribution of the radiance in the space --- it is called the **light field**, which refers to the complete set of all the possible radiances flowing through every possible direction.
+Knowing the light field of a scene, we can in theory synthesize any image captured by any camera --- limited only by the limitations of geometric optics.
+This is feasible fundamentally because, given the light field information, we can estimate the irradiance, power, and energy of any position at any time at will.
+
+The field of **light-field imaging** is concerned with capturing the light field of a scene.
+**Light-field display** is a 3D display technology that attempts to reproduce the light field of a scene, which is usually captured beforehand by some sort of light-field imaging technique.
+Reproducing the light field provides the depth information of a scene that is missing in conventional 2D displays, and is one of the technologies for an immersive experience (other technologies include varifocal displays, multi-focal displays, and holographic displays).
+
+**Light-field rendering** is concerned with rendering a new image/photo at a novel perspective given a set of photons taken at other perspectives.
+It is a form of **image-based rendering**.
+The idea is that each image capture is a sample of the light field followed by a low-pass filter (i.e., the integration in @eq-cam).
+Rendering an image at a new perspective is a classic signal sampling and reconstruction problem, where the new image is nothing more than another sample of the light field.
+In this sense, many familiar tasks such as interpolating between video frames, panoramic photography, and (stereoscopic) 360$^\circ$ video rendering are all light-field rendering in disguise.
+
+As with any signal resampling task, the ideal solution to light-field rendering is to first estimate the underlying light field from a set of samples and then re-sample the light field given the new perspective.
+Signal filtering is necessary for both signal reconstruction and anti-aliasing, and the name of the game is to design good filters that are practically useful and computationally tractable.
+Of course, modern-day image-based rendering, known under the name (neural) radiance-field rendering [@mildenhall2021nerf; @kerbl20233d], treats the whole problem as a learning problem and learns to reconstruct from massive amounts of data.
+
+## Photometric Quantities {#sec-chpt-mat-basics-radiometry-pm}
+
+Spectral radiant flux (power), irradiance, radiant intensity, and radiance are all radiometric quantities.
+They all have a **photometric** counterpart, which weighs the radiometric quantity by the luminous efficiency function (LEF).
+The LEF, as we have discussed in @sec-chpt-hvs-color-oppo-light, at a particular wavelength is inversely proportional to the radiometric quantity at each wavelength needed to produce the same level of perceptual brightness.
+
+For instance, given a spectral radiant flux $\Phi(\lambda)$, the corresponding photometric counterpart is then:
+
+$$
+\begin{align}
+    \Phi_v(\lambda) = K \Phi(\lambda) V(\lambda),
+\end{align}
+$$
+
+where $\Phi_v(\lambda)$ is the spectral **luminous flux**, $V(\lambda)$ is the LEF, and K is a constant that, for historical reasons, takes the value of 683.002.
+The total luminous flux is then:
+
+$$
+\begin{align}
+    \Phi_v = \int_\lambda K \Phi(\lambda) V(\lambda) \d \lambda.
+\end{align}
+$$
+
+Luminous flux has a unit of **lumen** ($\text{lm}$), so K has a unit of $\text{lm}/\text{W}$.
+We can also weigh the radiant power by the scotopic LEF, in which case $\text{K} = 1700$ ($\text{lm}/\text{W}$).
+
+Other radiometric quantities can be similarly converted to the photometric counterparts.
+Specifically:
+
+* the photometric counterpart of irradiance is **illumination**, which has a unit of $\text{lx} = \text{lm}/\text{m}^2$, which is also called the **lux**;
+* the photometric counterpart of radiance intensity is **luminous intensity**, which has a unit of $\text{cd} = \text{lm}/\text{sr}$, which is called the **candela**;
+* the photometric counterpart of radiance is **luminance**, which has a unit of $\text{lm}/(\text{m}^2\text{sr}) = \text{cd}/(\text{m}^2)$, which is also called the **nit**.
+
+Sometimes radiometric vs. photometric quantities are also called the radiant vs. luminous quantities.
+The way to interpret the photometric quantities is that they take into account the spectral sensitivity of a particular photodetector, which in our case is the photoreceptors on the retina.
+But if we use other detectors, such as an image sensor, we will have a different spectral sensitivity, and the corresponding photometric measurements will be different.
+We will study the spectral sensitivity of image sensors in @sec-chpt-imaging-sensor-??.
+
+A **radiometer** measures the absolute radiometric quantities, whereas a **photometer** reports photometric quantities.
+An image sensor and our retina can both be thought of as a photometer but the spectral sensitivities in the two cases are different, so the raw pixel readings and the photoreceptor responses are different even under an identical illumination.
