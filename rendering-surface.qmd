@@ -188,15 +188,79 @@ $$ {#eq-albedo_1}
 @eq-albedo_1 defines $\rho_{hh}$, which is called the **hemispherical-hemispherical reflectance** when both $\Omega_i$ and $\Omega_s$ are hemispheres.
 $\rho_{hh}$ has another name: **albedo**.
 
-When $f_r(p, \os, \oi)$ is independent of (invariant to) $\oi$ and $\os$, i.e., when $p$ is an ideal **Lambertian** surface (see @sec-chpt-mat-basics-radiometry-lamb and @sec-chpt-mat-ss-mat), @eq-albedo_0 can be re-written as:
+When $f_r(p, \os, \oi)$ is independent of (invariant to) $\oi$ and $\os$, i.e., when $p$ is an ideal **Lambertian** surface (see @sec-chpt-mat-ss-mat), @eq-albedo_0 can be re-written as:
 
 $$
 \begin{align}
-    E_o = E_i \rho_{hh}(p) = & \int^{\Omega_s} f_r(p, \os, \oi) (\int^{\Omega_i} L(p, \oi) \cos\theta_i\text{d}\oi) \cos\theta_s \dos \label{eq:lamb_0} \\
-    = & \int^{\Omega_s} f_r(p, \os, \oi) E_i \cos\theta_s \dos \label{eq:lamb_1} \\
-    = & E_i  \int^{\Omega_s} f_r(p, \os, \oi) \cos\theta_s \dos \label{eq:lamb_2} \\
-    = & E_i \rho_{dh}(p, \oi) \label{eq:lamb_3},
+    E_o = \int^{\Omega_s} f_r(p, \os, \oi) (\int^{\Omega_i} L(p, \oi) \cos\theta_i\text{d}\oi) \cos\theta_s \dos.
+\end{align}
+$$  {#eq-lamb_0}
+
+Plugging in the definition of $E_i$ from @eq-albedo_0, we have:
+$$
+\begin{align}
+    E_o = \int^{\Omega_s} f_r(p, \os, \oi) E_i \cos\theta_s \dos.
+\end{align}
+$$ {#eq-lamb_1} 
+
+Since $E_i$ is independent of $\os$, we have:
+
+$$
+\begin{align}
+    E_o = E_i  \int^{\Omega_s} f_r(p, \os, \oi) \cos\theta_s \dos.
+\end{align}
+$$ {#eq-lamb_2}
+
+Using the definition of $\rho_{dh}$ in @eq-energy_con_1, we have:
+
+$$
+\begin{align}
+    E_o = E_i \rho_{dh}(p, \oi).
+\end{align}
+$$ {#eq-lamb_3}
+
+Comparing @eq-lamb_3 and @eq-albedo_1, we can see that for a Lambertian surface the albedo ($\rho_{hh}$) is equivalent to $\rho_{dh}$ and $\rho_{hd}$, but this relationship is not true in general.
+
+We can also show that for a Lambertian surface, the BRDF is the constant $\frac{\rho_{hh}}{\pi}$.
+Starting from @eq-lamb_2 and using the assumption that $f_r(p, \os, \oi)$ is independent of $\os$:
+
+$$
+\begin{align}
+    E_o = E_i \rho_{hh} &= E_i  \int^{\Omega_s} f_r(p, \os, \oi) \cos\theta_s \dos \\
+    &= E_i f_r(p, \os, \oi) \int^{\Omega_s} \cos\theta_s \dos \\
+    &= E_i f_r(p, \os, \oi) \pi.
+\end{align}
+$$ {#eq-lamb_4}
+
+Thus:
+$$
+\begin{align}
+    f_r(p, \os, \oi) = \frac{\rho_{hh}}{\pi}.
+\end{align}
+$$ {#eq-lamb_5}
+
+The last step in @eq-lamb_4 uses the integral results that:
+
+$$
+\begin{align}
+    \d\omega &= \sin\theta\d\theta\d\phi, \\
+    \int^{\Omega=2\pi} \cos\theta \d\omega &= \int^{2\pi}_0 \int^{\pi/2}_{0} \cos\theta \sin\theta\d\theta\d\phi \nonumber\\
+    &= 2\pi\int^{\pi/2}_{0} \cos\theta \sin\theta\d\theta \nonumber \\
+    &= \pi,
 \end{align}
 $$
 
-where \Eqn{eq:lamb_1} is derived using the definition of $E_i$ in \Eqn{eq:albedo_0}, \Eqn{eq:lamb_2} is derived since $E_i$ is independent of $\os$, and \Eqn{eq:lamb_3} is derived by using the definition of $\rho_{dh}$ in \Eqn{eq:energy_con_1}.
+when $\Omega$ is the hemisphere.
+
+A fun exercise you can entertain yourself with is to show that if $f_r$ is independent of $\oi$, it must also be independent of $\os$.
+An informal way to do so is the following.
+Since $f_r(p, \os, \oi)$ is independent of $\oi$, let's  rewrite it as $g(p, \os)$.
+Now we invoke the reciprocity and rewrite $f_r(p, \os, \oi)$ as $g(p, \oi)$.
+The only way for $g(p, \os) = g(p, \oi)$ is for $g$ to be dependent only on $p$.
+
+Finally, one can also define the **directional-directional reflectance**, which is naturally a function of both the incident direction and outgoing direction and can be defined as the ratio between the incident irradiance and the outgoing irradiance when both the incident and outgoing solid angles approach 0.
+
+BRDF and directional-directional reflectance are both sensitive to both the incident and outgoing directions.
+But the former is a density measure, whereas the latter is a fraction/percentage measure.
+Integrating BRDF over a finite set of directions gives us some measure reflectance.
+This is why the BRDF is defined as the radiance/ irradiance ratio rather than radiance/radiance or irradiance/irradiance ratio; it is to reflect the fact that the energy of a small cone of incident directions is distributed over all the directions over the hemisphere, and what we care to characterize is the *distribution* of the incident energy over all outgoing directions.
