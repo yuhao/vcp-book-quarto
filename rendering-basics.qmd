@@ -317,10 +317,12 @@ This difference stems from the fact that intensity is defined with respect to th
 ## The Measurement Equation {#sec-chpt-mat-basics-radiometry-cam}
 
 We will study this more carefully in the imaging chapters, but given that we have the basic understanding of radiometry, now seems like a good time to show you how radiometry is of fundamental importance to camera imaging.
-For simplicity, let's just consider one single pixel.
+For simplicity, let's just consider one single pixel with a setup illustrated in @fig-cam_measurement_setup.
+
+![Geometric setting for the camera measurement equation.](figs/cam_measurement_setup){#fig-cam_measurement_setup width="40%"}
 
 Each pixel is very small, but it has a finite area, say $A_p$.
-Each pixel is constantly being bombarded by lights that enter the aperture, which has a size $V$.
+Each pixel is constantly being bombarded by lights that enter the aperture, which has an area $V$.
 The raw pixel value is roughly proportional to the energy it receives during the exposure time^[Assuming there is no noise and there is no quantization error in converting analog signals to digital signals.].
 So using the basic radiometry, we can write the total energy received by a pixel during the exposure time $T$ as:
 
@@ -336,9 +338,18 @@ We sometimes omit $p$ and $V$ when it is clear what $\Omega$ refers to, but here
 <!-- %similar to Equ 6.65b in CIFA. -->
 In graphics literature, this equation is sometimes called the **measurement equation** of an image sensor [@kolb1995realistic; @reinhard2008color, Chpt. 6.8.1; @pharr2023physically, Chpt. 5.4].
 
-Usually the inner integral over the solid angle is expressed as a spatial integral over the aperture;
-the derivation is available in standard texts and is omitted here.
-$\textcolor{red}{show the equation, draw diagram}$
+The inner integral in @eq-cam is expressed over the solid angle, which varies with $p$.
+A more common, but equivalent, formulation of the measurement equation is to re-express the inner integral over the aperture area $V$:
+
+$$
+\begin{align}
+    Q = \frac{1}{d^2} \int^{T} \int^{A_p} \int^{V} L(p, \omega) |\cos^4\theta|~\text{d}p'~\text{d}p~\text{d}t,
+\end{align}
+$$ {#eq-cam_area}
+
+where $d$ is the distance between the aperture plane and the sensor plane, and $p'$ is a point on the aperture plane.
+The derivation is available in standard texts [@pharr2023physically, Chpt. 5.4.1] and is omitted here.
+
 
 We can see, again, that radiance is the most fundamental quantity.
 Knowing the radiance distribution in the camera, we can, in theory, synthesize the value of any pixel and, thus, an entire image.
@@ -380,7 +391,7 @@ $$
 \end{align}
 $$
 
-where $\Phi_v(\lambda)$ is the spectral **luminous flux**, $V(\lambda)$ is the LEF, and K is a constant that, for historical reasons, takes the value of 683.002.
+where $\Phi_v(\lambda)$ is the spectral **luminous flux**, $V(\lambda)$ is the LEF, and $K$ is a constant that, for historical reasons, takes the value of 683.002.
 The total luminous flux is then:
 
 $$
