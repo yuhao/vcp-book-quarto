@@ -314,7 +314,7 @@ The distributions are visualized as two lobes, and the distance of a point on th
 The radiance distribution is constant regardless of $\omega$ but the radiant intensity is proportional to $\cos\theta$.
 This difference stems from the fact that intensity is defined with respect to the power at the detector/emission area ($\d A$) while radiance is defined with respect to power at the effective area ($\d A \cos\theta$).
 
-## The Measurement Equation in Camera Imaging {#sec-chpt-mat-basics-radiometry-cam}
+## The Measurement Equation {#sec-chpt-mat-basics-radiometry-cam}
 
 We will study this more carefully in the imaging chapters, but given that we have the basic understanding of radiometry, now seems like a good time to show you how radiometry is of fundamental importance to camera imaging.
 For simplicity, let's just consider one single pixel.
@@ -334,7 +334,7 @@ where $\Omega(p, V)$ explicitly expresses that a solid angle is determined by th
 Of course this quantity changes with $p$.
 We sometimes omit $p$ and $V$ when it is clear what $\Omega$ refers to, but here, since the solid angle changes with the dummy variable $p$ in the integral equation, we express it explicitly.
 <!-- %similar to Equ 6.65b in CIFA. -->
-In graphics literature, this equation is sometimes called the **measurement equation** of an image sensor [@kolb1995realistic; @reinhard2008color[Chpt. 6.8.1]; @pharr2023physically[Chpt. 5.4]].
+In graphics literature, this equation is sometimes called the **measurement equation** of an image sensor [@kolb1995realistic; @reinhard2008color, Chpt. 6.8.1; @pharr2023physically, Chpt. 5.4].
 
 Usually the inner integral over the solid angle is expressed as a spatial integral over the aperture;
 the derivation is available in standard texts and is omitted here.

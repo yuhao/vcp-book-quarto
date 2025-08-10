@@ -15,6 +15,6 @@ Any coverage of physics in rendering is necessarily an approximation --- based o
 Deep learning and AI techniques push this kind of approximation to the extreme.
 With these techniques, rendering is re-branded as **novel view synthesis**, the prime example of which is the increasingly popular class of (neural) radiance-field rendering methods such as NeRF and 3DGS.
 
-These methods are fundamentally image-based rendering (@sec-chpt-mat-basics-radiometry-lf): they sample, reconstruct, and re-sample the light field --- using modern learning methods such as (stochastic) gradient descent.
+These methods are fundamentally image-based rendering: they sample, reconstruct, and re-sample the light field --- using modern learning methods such as (stochastic) gradient descent.
 Interestingly, even though they do not exactly model the physics governing the light-matter interactions, their learning model is parameterized with physics-inspired formulations.
 By understanding the governing physics, we can better interpret these learning-based methods, understand their limits, and reason about potential opportunities for improvement.

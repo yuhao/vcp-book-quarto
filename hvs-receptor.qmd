@@ -1,4 +1,4 @@
-# How Do Photoreceptors Work {#sec-chpt-hvs-receptor}
+# Photoreceptors {#sec-chpt-hvs-receptor}
 
 In this chapter we will review how photoreceptors work.
 We will start from the highest level of abstraction, where photoreceptors can be seen as photon counting devices.

@@ -1,4 +1,4 @@
-# From Light to Vision: An Overview {#sec-chpt-hvs-percept}
+# From Light to Vision {#sec-chpt-hvs-percept}
 
 This chapter gives an overview of the human visual system.
 We start from eye optics, which direct light to the retina, where the optical-to-electrical signal transduction takes place.
