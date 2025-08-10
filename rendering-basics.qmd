@@ -316,10 +316,10 @@ This difference stems from the fact that intensity is defined with respect to th
 
 ## The Measurement Equation {#sec-chpt-mat-basics-radiometry-cam}
 
-We will study this more carefully in the imaging chapters, but given that we have the basic understanding of radiometry, now seems like a good time to show you how radiometry is of fundamental importance to camera imaging.
+Given that we have the basic understanding of radiometry, now seems like a good time to show how radiometry is of fundamental importance to computer graphics and imaging.
 For simplicity, let's just consider one single pixel with a setup illustrated in @fig-cam_measurement_setup.
 
-![Geometric setting for the camera measurement equation.](figs/cam_measurement_setup){#fig-cam_measurement_setup width="40%"}
+![Geometric setting for the camera measurement equation. Calculating the pixel value requires integrating the energy of all the rays hitting the pixel area, which requires knowing the light field inside the camera, which, in turn, requires knowing the light field in the scene and how the camera optics transfer the external light field to the internal light field.](figs/cam_measurement_setup){#fig-cam_measurement_setup width="30%"}
 
 Each pixel is very small, but it has a finite area, say $A_p$.
 Each pixel is constantly being bombarded by lights that enter the aperture, which has an area $V$.
@@ -350,32 +350,75 @@ $$ {#eq-cam_area}
 where $d$ is the distance between the aperture plane and the sensor plane, and $p'$ is a point on the aperture plane.
 The derivation is available in standard texts [@pharr2023physically, Chpt. 5.4.1] and is omitted here.
 
+The measurement equation is concerned with the radiance distribution inside a camera, but the only reason there is a radiance distribution inside the camera is because there is an external radiance distribution in the scene impinging upon the camera optics, which act as a transfer function that turns external radiance into internal radiance.
+The transfer function is determined by the material properties of the camera optics (e.g., lenses, filters, etc.), whose effects are nothing more than surface scattering and volume scattering, topics of the next two chapters.
 
-We can see, again, that radiance is the most fundamental quantity.
-Knowing the radiance distribution in the camera, we can, in theory, synthesize the value of any pixel and, thus, an entire image.
-How do we know the radiance distribution inside a camera?
-We can calculate it if we know 1) the distribution of the radiance impinging on the camera optics and 2) the material properties of the camera optics (e.g., lenses, filters, etc.).
-The effects of the camera optics are nothing more than surface scattering and volume scattering, so using the principles we will introduce in the next two chapters, we can convert the radiance distribution outside the camera (in the scene) to that inside the camera.
+Using @fig-cam_measurement_setup as a concrete example, to know the radiance $L(p, \omega)$ inside the camera, we need to know $L(p', \omega')$, the corresponding radiance in the scene and how the latter is transferred to the former.
+If the camera is an ideal pinhole, we have $\omega = \omega'$ and $L(p, \omega) = L(p', \omega')$ (ignoring diffraction).
+If the camera uses an ideal convex lens, the relationship between the two rays is governed by the Gauss lens equation (@sec-chpt-imaging-optics-??) and, with some simplifications, $L(p, \omega) = L(p', \omega')$ still holds (@sec-chpt-imaging-optics-??).
+The transfer function is more complicated when as the camera optics become more complicated.
+Imaging we replace the lenses with a duck tape --- how would the radiance be transferred?
 
-## Light Field {#sec-chpt-mat-basics-radiometry-lf}
+The measurement equation is important because it fundamentally allows us to, in theory, synthesize/render any image taken by any camera at any viewpoint --- given that we know the radiance distribution of the scene.
+Using @fig-lf_setup as an example, let us simulate a new camera where the sensor is moved closer to the lens.
+To calculate the pixel value $p_c$ of this new camera imaging the scene, it requires nothing more than invoking the measurement equation @eq-cam at $p_c$, integrating over all the incident rays, which is a portion of the overall radiance distribution.
+This is why having access to the underlying radiance field allows us to synthesize new images.
+
+![The light field is described by the plenoptic function, which describes the radiance of any ray, i.e., the energy at any position, along any ray direction, at any wavelength, and at any time. In free space, the plenoptic function is invariant to traversal along the ray propagation direction ($P_1$ and $P_2$ share the same radiance but not with $P_3$). Having access to the entire light field allows us to synthesize any image taken by any camera (e.g., moving the sensor closer to the lens). A lens-based camera, however, is a poor device to capture the light field, since each pixel necessarily integrates many rays.](figs/lf_setup){#fig-lf_setup width="70%"}
+
+Critically, observe that two of the rays that $p_c$ needs are already captured by $p_a$ and $p_b$ in the current camera.
+So it is only natural to ask: can we synthesize new images from images taken from the same scene?
+How do we systematically reason about this? Read on.
+
+## Light Field and Radiance Field {#sec-chpt-mat-basics-radiometry-lf}
 
 There is a name for the distribution of the radiance in the space --- it is called the **light field**, which refers to the complete set of all the possible radiances flowing through every possible direction.
-Knowing the light field of a scene, we can in theory synthesize any image captured by any camera --- limited only by the limitations of geometric optics.
-This is feasible fundamentally because, given the light field information, we can estimate the irradiance, power, and energy of any position at any time at will.
+The light field is thus a function $L(p, \omega, \lambda, t)$, describing the energy of a ray passing the position $p$, along the direction $\omega$, at time $t$ and wavelength $\lambda$.
+This function is also called the **plenoptic function** [@bergen1991plenoptic; @gortler1996lumigraph; @levoy1996light].
+@fig-lf_setup shows a tiny portion of the light field --- six rays in fact; three inside the camera and three outside the camera.
 
-The field of **light-field imaging** is concerned with capturing the light field of a scene.
-**Light-field display** is a 3D display technology that attempts to reproduce the light field of a scene, which is usually captured beforehand by some sort of light-field imaging technique.
-Reproducing the light field provides the depth information of a scene that is missing in conventional 2D displays, and is one of the technologies for an immersive experience (other technologies include varifocal displays, multi-focal displays, and holographic displays).
+### Light-Field Imaging, Rendering, and Display
 
-**Light-field rendering** is concerned with rendering a new image/photo at a novel perspective given a set of photons taken at other perspectives.
+The field of **light-field imaging** is concerned with measuring the light field of a scene, which is a task impossible --- we cannot possibly measure the radiance of every single ray.
+There are some simplifications we can make.
+For instance, we can assume that a ray's energy does not change in free space during propagation, so the plenoptic function is invariant along the ray traversal direction; we can also assume that the light field is time-invariant during the period of interest.
+But still, the task of measuring the entire field is a daunting one.
+
+The next best thing is to sample the light field.
+A lens-based camera does a poor job of sampling the light field.
+The pixel $p_a$ integrates a bundle of rays, two of which are shown.
+Even assuming that the ray’s radiance remains unchanged as it passes through the lens, the inherent integration by the pixel (i.e., the measurement equation in @eq-cam) still means from the pixel value itself we could not decouple the radiance of the incident rays.
+Therefore, the ray that $p_c$ wants cannot be easily extracted from $p_a$.
+Using an ideal pinhole helps, but pinhole imaging comes with its own limitations that make it infeasible in practice (@sec-chpt-imaging-optics-??).
+A vast literature exists on efficient light-field imaging.
+
+The main reason we want to measure the light field is so that we can render new images.
+**Light-field rendering** is concerned with rendering a new image/photo at a novel perspective (or by a novel camera configuration) given a set of images from other perspectives.
 It is a form of **image-based rendering**.
-The idea is that each image capture is a sample of the light field followed by a low-pass filter (i.e., the integration in @eq-cam).
-Rendering an image at a new perspective is a classic signal sampling and reconstruction problem, where the new image is nothing more than another sample of the light field.
+Given that each image pixel is a sample of the light field followed by a low-pass filter (i.e., the integration in @eq-cam), rendering an image at a new perspective becomes a classic reconstruction and resampling problem, where the new image is nothing more than another sample of the light field.
 In this sense, many familiar tasks such as interpolating between video frames, panoramic photography, and (stereoscopic) 360$^\circ$ video rendering are all light-field rendering in disguise.
 
 As with any signal resampling task, the ideal solution to light-field rendering is to first estimate the underlying light field from a set of samples and then re-sample the light field given the new perspective.
 Signal filtering is necessary for both signal reconstruction and anti-aliasing, and the name of the game is to design good filters that are practically useful and computationally tractable.
 Of course, modern-day image-based rendering, known under the name (neural) radiance-field rendering [@mildenhall2021nerf; @kerbl20233d], treats the whole problem as a learning problem and learns to reconstruct from massive amounts of data.
+
+**Light-field display** is a 3D display technology that attempts to reproduce the light field of a scene, which is usually captured beforehand by some sort of light-field imaging technique.
+Reproducing the light field provides the depth information of a scene that is missing in conventional 2D displays, and is one of the technologies for an immersive experience (other technologies include varifocal displays, multi-focal displays, and holographic displays).
+
+### Radiance Field
+
+A radiance field, popularized by @mildenhall2021nerf, applies a simplification and an addition to a light field.
+A radiance field is described by a function $R(p, \omega, (r, g, b), \sigma)$, describing the $(r, g, b)$ color and the density $\sigma$ of a ray passing through a position $p$ along the direction $\omega$.
+Compare that with the plenoptic function, we can see that the radiance field function simplifies the the energy spectrum into just the tristimulus color values and assumes that the energy is time-invariant.
+
+Importantly, the radiance field incorporates a new quantity, density.
+Density has nothing to do with the energy of a ray; rather, it is an intrinsic property of the material (at position $p$ along ray direction $\omega$).
+Materials are important for imaging and rendering, because they change the light field of the scene --- through surface scattering and volume scattering.
+In essence, a radiance field combines both a (simplified) light field, a property of the light, and a density field, a property of the materials.
+
+This simple extension from light to materials means radiance field can now be used for rendering, a process of simulating the light-matter interactions.
+Radiance-field rendering works in a physically-inspired, but not physically-based, way.
+We will study the notion of density and radiance field in much greater detail in @sec-chpt-mat-vs-???.
 
 ## Photometric Quantities {#sec-chpt-mat-basics-radiometry-pm}
 
