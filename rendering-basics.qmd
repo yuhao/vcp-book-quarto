@@ -377,7 +377,7 @@ The light field is thus a function $L(p, \omega, \lambda, t)$, describing the en
 This function is also called the **plenoptic function** [@bergen1991plenoptic; @gortler1996lumigraph; @levoy1996light].
 @fig-lf_setup shows a tiny portion of the light field --- six rays in fact; three inside the camera and three outside the camera.
 
-### Light-Field Imaging, Rendering, and Display
+### Light-Field Imaging {#sec-chpt-mat-basics-radiometry-lf-im}
 
 The field of **light-field imaging** is concerned with measuring the light field of a scene, which is a task impossible --- we cannot possibly measure the radiance of every single ray.
 There are some simplifications we can make.
@@ -390,35 +390,70 @@ The pixel $p_a$ integrates a bundle of rays, two of which are shown.
 Even assuming that the ray’s radiance remains unchanged as it passes through the lens, the inherent integration by the pixel (i.e., the measurement equation in @eq-cam) still means from the pixel value itself we could not decouple the radiance of the incident rays.
 Therefore, the ray that $p_c$ wants cannot be easily extracted from $p_a$.
 Using an ideal pinhole helps, but pinhole imaging comes with its own limitations that make it infeasible in practice (@sec-chpt-imaging-optics-??).
-A vast literature exists on efficient light-field imaging.
+
+![A pixel in a conventional camera (e.g., $q$) integrates over a large portion of the light field. By placing a microlens array (here at where the sensor plane would have been in lieu of the microlens array), each pixel (e.g., $p$) now integrates over a small portion of the light field.](figs/lf_microlens_array){#fig-lf_microlens_array width="80%"}
+
+A vast literature exists in effective light-field sampling [@lam2015computational, Sec. 3].
+A good trade-off in practice is to insert a lenticular array or a microlens array between the main imaging lens and the sensor plane [@ng2006digital; @adelson1992single].
+The idea was first conceptualized by Gabriel Lippmann [@lippmann1908epreuves]^[Lippmann did not get to implement the idea.  He won the Nobel Prize in Physics in 1908 for inventing, for the first time, a method for color photography.]
+@fig-lf_microlens_array shows one such example.
+Without the microlens array, a pixel (e.g., $q$) would integrate over all the rays that are subtended by the main lens, which is relatively large.
+Now we insert a microlens array and move the sensor plane a little farther back; each pixel (e.g., $q$) now integrates over a much smaller portion of the light field (rays subtended by a microlens), providing a higher angular resolution in light-field measurement.
+
+### Light-Field Rendering and Radiance Field
 
 The main reason we want to measure the light field is so that we can render new images.
-**Light-field rendering** is concerned with rendering a new image/photo at a novel perspective (or by a novel camera configuration) given a set of images from other perspectives.
+**Light-field rendering** is concerned with rendering a new image at a novel perspective (or by a novel camera configuration) given a set of images from other perspectives/configurations.
 It is a form of **image-based rendering**.
-Given that each image pixel is a sample of the light field followed by a low-pass filter (i.e., the integration in @eq-cam), rendering an image at a new perspective becomes a classic reconstruction and resampling problem, where the new image is nothing more than another sample of the light field.
 In this sense, many familiar tasks such as interpolating between video frames, panoramic photography, and (stereoscopic) 360$^\circ$ video rendering are all light-field rendering in disguise.
 
+Given that each image is a sample of a portion of the light field followed by a low-pass filter (i.e., the integration in @eq-cam), rendering an image at a new perspective is nothing more than estimating another sample of the light field.
 As with any signal resampling task, the ideal solution to light-field rendering is to first estimate the underlying light field from a set of samples and then re-sample the light field given the new perspective.
 Signal filtering is necessary for both signal reconstruction and anti-aliasing, and the name of the game is to design good filters that are practically useful and computationally tractable.
-Of course, modern-day image-based rendering, known under the name (neural) radiance-field rendering [@mildenhall2021nerf; @kerbl20233d], treats the whole problem as a learning problem and learns to reconstruct from massive amounts of data.
 
-**Light-field display** is a 3D display technology that attempts to reproduce the light field of a scene, which is usually captured beforehand by some sort of light-field imaging technique.
-Reproducing the light field provides the depth information of a scene that is missing in conventional 2D displays, and is one of the technologies for an immersive experience (other technologies include varifocal displays, multi-focal displays, and holographic displays).
+Of course, modern image-based rendering, known under the name (neural) radiance-field rendering [@mildenhall2021nerf; @kerbl20233d], approaches the whole problem through machine learning and learns to reconstruct from massive amounts of data.
+To be precise, these methods do not reconstruct the light field; they reconstruct the radiance field.
 
-### Radiance Field
+#### Radiance Field
 
-A radiance field, popularized by @mildenhall2021nerf, applies a simplification and an addition to a light field.
-A radiance field is described by a function $R(p, \omega, (r, g, b), \sigma)$, describing the $(r, g, b)$ color and the density $\sigma$ of a ray passing through a position $p$ along the direction $\omega$.
+**Radiance field**, popularized by @mildenhall2021nerf, applies a simplification and an addition to a light field.
+A radiance field is described by a function $R(p, \omega, r, g, b, \sigma)$, describing the $(r, g, b)$ color and the density $\sigma$ of a ray passing through a position $p$ along the direction $\omega$.
 Compare that with the plenoptic function, we can see that the radiance field function simplifies the the energy spectrum into just the tristimulus color values and assumes that the energy is time-invariant.
 
-Importantly, the radiance field incorporates a new quantity, density.
-Density has nothing to do with the energy of a ray; rather, it is an intrinsic property of the material (at position $p$ along ray direction $\omega$).
+Importantly, the radiance field incorporates a new quantity, density, that is absent in the light field.
+Density has nothing to do with the energy of a ray; rather, it is/models an intrinsic property of the material (at position $p$ along ray direction $\omega$).
 Materials are important for imaging and rendering, because they change the light field of the scene --- through surface scattering and volume scattering.
-In essence, a radiance field combines both a (simplified) light field, a property of the light, and a density field, a property of the materials.
+After all, rendering is a process of simulating the light-matter interactions.
 
-This simple extension from light to materials means radiance field can now be used for rendering, a process of simulating the light-matter interactions.
-Radiance-field rendering works in a physically-inspired, but not physically-based, way.
-We will study the notion of density and radiance field in much greater detail in @sec-chpt-mat-vs-???.
+In essence, a radiance field combines both a (simplified) light field, a property of the light, and a density field, a property of the materials.
+This simple extension from light to materials allows radiance-field methods to model (in fact, learn) material properties, which in turn enables more effective light-field rendering.
+Conventional light-field rendering, in contrast, does not attempt to decouple the light field from the material properties.
+
+Radiance-field methods learn, from offline captured images (hence image-based rendering), to predict the tristimulus color values and density of a given point along a given direction:
+
+$$
+f: (p, \omega) \mapsto r, g, b, \sigma.
+$$
+
+The function $f$ can be parameterized in many ways.
+Two of most popular parameterizations are to use either a neural network [@mildenhall2021nerf] or a mixture of Gaussians [@kerbl20233d].
+With $f$, we can then synthesize/rendering any image --- by co-opting the classic volume rendering.
+We will study density and radiance field in much greater detail in @sec-chpt-mat-vs-???.
+
+### Light-Field Display
+
+**Light-field display** is a 3D display technology that attempts to reproduce the light field of a scene [@jones2007rendering; @wetzstein2012tensor; @lanman2013near].
+Reproducing the light field provides the depth information of a scene that is missing in conventional 2D displays and can, thus, accurately drive the accommodation of eye lens in immersive (AR/VR) environment [@wann1995natural; @hoffman2008vergence].
+Other technologies include varifocal displays, multi-focal displays, and holographic displays.
+
+![We first capture the light field (here using a pinhole array) and then reproduce the light field (by placing the displays on the other side of the pinhole array), offering depth cues.](figs/lf_disp){#fig-lf_disp width="100%"}
+
+@fig-lf_disp shows a usual two-stage process of displaying a light-field.
+The first step is to capture the light field using some form of light-field imaging technique discussed in @sec-chpt-mat-basics-radiometry-lf-im; here we use a pinhole array placed in front of the sensor plane.
+Each pinhole covers a small group of the pixels on the sensor; the image captured by the group of pixels under each pinhole is called an *elemental image*.
+Once we have recorded the light field, we can then reproduce it.
+This is done by displaying the elemental images, each with a display placed on the other side of the pinhole array.
+Note that the relative positions of the display pixels are reversed from that of the the image pixels during light-field recording.
 
 ## Photometric Quantities {#sec-chpt-mat-basics-radiometry-pm}
 
