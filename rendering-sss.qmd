@@ -5,3 +5,600 @@ While superficially different, they involve the same forms of light-matter inter
 We start with an example to build some useful intuitions, and then we will get into the weeds of modeling.
 In our modeling, we start from modeling local events (absorbing and scattering photons by particles), from which we will build a general framework, called the Radiative Transfer Equation and its variant Volume Rendering Equation (VRE), to reason about subsurface and volume scattering globally.
 Finally, we will connect VRE to (neural) radiance-field rendering, a modern iteration of image-based rendering (@sec-chpt-mat-basics-radiometry-lf) that uses VRE to parameterize the image formation process.
+
+::: {.hidden}
+$$
+\def\oi{{\omega_i}}
+\def\os{{\omega_s}}
+\def\Oi{{\Omega_i}}
+\def\Os{{\Omega_s}}
+\def\d{{\text{d}}}
+\def\D{{\Delta}}
+\def\do{{\d\omega}}
+\def\Do{{\Delta\omega}}
+\def\doi{{\d\omega_i}}
+\def\dos{{\d\omega_s}}
+\def\Doi{{\D\omega_i}}
+\def\Dos{{\D\omega_s}}
+\def\H{{\mathbf{H}}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cL}{\mathcal{L}}
+$$
+:::
+
+## An Informal Discussion to Build Intuition {#sec-chpt-mat-vs-ov}
+
+Once inside the material (through surface refraction), a photon roams about until it meets a particle.
+The interactions between photons and particles are governed by the subsurface scattering (SSS) or volume scattering processes.
+As noted before, photon emission, absorption, and scattering all take place during the SSS/volume scattering processes, not just scattering, even though the names suggest otherwise.
+We will generally ignore emission in our discussion unless otherwise noted, but just note that emission does happen and is correlated with absorption, since emission is the result of absorbed photons having (e.g., chemical) reactions with the particles.
+
+Also a reminder that SSS and volume scattering are governed by exactly the same principles, because they are exactly the same thing.
+In computer vision and graphics literature they might be used to refer to superficially different phenomena.
+Volume scattering is concerned with materials that can be modeled as a volume of particles, like fog, clouds, and smoke;
+they are given the name **participating media** in computer graphics.
+SSS is, instead, more commonly used to refer to solids where subsurface-scattered photons contribute to their observed colors.
+
+Subsurface scattering is so termed to distinguish itself from surface scattering, but what is beneath the surface is nothing more than a volume of particles.
+In fact, what is above the surface is also a volume of particles.
+Looking at @fig-photon_particle_interactions, the air, Material~1~, and Material~2~ can all be thought of as participating media.
+We usually model the air as a vacuum so photons traverse in straight lines undisturbedly, but if we were to be exact, we would want to model the particles in the air, which becomes a participating medium.
+So "above-surface scattering" is as different from as surface scattering as is subsurface scattering.
+
+![At the Air-Material~1~ interface, photons are either reflected directly back or penetrate into the material through refraction. The refracted photons interact with the material particles through the volume scattering processes, where some photons are absorbed and others penetrate into Material~2~. For someone observing from the outside, a portion of the photons would eventually leave the material composite altogether and re-enter the air. Some of these leaving photons are called the back-scattered photons that contribute to the apparent surface reflectance; others transmit through the materials and contribute to the apparent transmittance of the material composite.](figs/photon_particle_interactions){#fig-photon_particle_interactions width="80%"}
+
+### General Intuitions
+
+We will use @fig-photon_particle_interactions as a running example to discuss the life of photons inside the material.
+At the Air-Material 1 interface, photons are either reflected directly back or penetrate into the material through refraction.
+When a refracted photon meets a particle, the particle might absorb the photon or scatter it away.
+If absorbed, the photon is "dead" and can be removed from the discussion.
+If scattered, the photon might appear to change its direction and continue to travel on a straight line until it meets another particle, so in principle a photon can be scattered multiple times.
+
+There are three fates a photon eventually has to accept: 1) it might be absorbed along the way, 2) it might re-emerge from Material 1 back to the air, or 3) it might emerge to the air from the bottom of Material 2.
+Absorption is easy to understand: a photon has a certain probability of being absorbed when it meets a particle, so the longer it travels, the more likely it will be absorbed.
+Let's examine the other two cases where a photon escapes the media.
+
+* After multiple scattering, some of the initial photons that enter Material 1 from the air will reach the Material 1-air boundary again, but this time from the material side.
+At that point, the photons necessarily go through another round of reflection-refraction governed by the surface scattering processes.
+The refracted photons will re-emerge from Material 1.
+
+    This is called **back-scattering**, because these photons are scattered back to where they come.
+As a consequence, when we observe the material from the same side of the illumination, the lights that enter our eye come from two sources: the initial surface scattering and the back-scattering.
+
+* Some photons might leave Material 1 from the other side and enter Material 2, in which photons go through the same volume scattering processes, where some are absorbed, some can be turned back to Material 1, and some, critically, can hit the Air-Material 2 interface.
+    Just like what happens at the Air-Material 1 interface, some of the photons will eventually emerge from Material 2.
+    These photons essentially survive the absorption of all the particles in the media.
+    When you observe the material from the opposite side of the illumination, it is these transmitted photons that dictate the color of the material.
+
+Sometimes people will also say, "sub-surface scattering is caused by photons exiting at a point different from the incident point".
+It points to the fact that a photon can re-emerge anywhere from the material after SSS, whereas surface scattering is *modeled* to be taking place only at the incident point (although we will see later that this is just a useful macroscopic abstraction or, rather, modeling strategy).
+
+### Transparent vs. Opaque vs. Translucent Materials
+
+We often hear materials being described as opaque, translucent, and transparent.
+We can now more scientifically approach these terms given the intuitions we have built so far.
+
+#### Transparent Materials
+
+Transparent materials either scatter light predominantly in forward directions or they scatter very little light (other than surface scattering).
+As a result, most photons traveling through the material are either absorbed or go through without changing much of their the directions.
+So if you hold a transparent material against a light source, you can clearly see through the material and see the light on the other side.
+This does not mean transparent materials always have the same color as the light source --- absorption could be wavelength-selective.
+An example is aqueous/dye solutions where dye molecules are very small ($\sim nm$ range) and, thus, scatter little light so they look transparent, but depending on the absorption spectrum (which depends on how the dye molecules interact with molecules in the solvent), most dye solutions are not colorless.
+
+#### Opaque Materials
+
+In many materials, photons arriving at the material surface are either reflected right away at the surface or, for those that do penetrate into the materials, are all absorbed by the subsurface particles.
+Examples include conductors like metals, whose subsurface absorption is very strong, or sufficiently thick dielectrics.
+These materials are **opaque** in two senses.
+First, their transmittance is practically 0.
+Because of strong absorption, no photon re-emerges at the other side of the material.
+If you hold, say, a brick (dielectric) against a light bulb, the brick would completely block the light.
+Second, their reflectance is independent of the substrate or the material beneath them, so they completely hide the color of the substrate\footnote{Technically speaking, having a zero transmittance requires the material to have a stronger absorption than hiding the substrate, because in the latter case photons have to make a round trip, so they have more opportunities to be absorbed.}.
+Painters know that if they want to cover a layer in their painting, they will need to apply a very thick layer of paint on top.
+
+#### Translucent Materials
+
+**Translucent** materials such as jade, wax, and human skin are neither opaque nor transparent.
+If you hold wax against a light bulb, the wax will not completely block the light, so you will see some light, but you will not be able to see clearly the other side through the wax, since photons from the light bulb are very much volume-scattered after passing through the wax.
+Clearly modeling SSS is critical for accurately estimating the color of translucent materials.
+In fact, in graphics literature we sometimes see things like "modeling translucent material must consider sub-surface scattering".
+In this sense, we might be tempted to classify participating media as translucent materials, because their colors certainly very much depend on volume scattering.
+While it is technically correct, people rarely do that, perhaps just because of the weirdness of calling, say, smokes, a material rather than a medium?
+
+It is *not* true that SSS is important only in modeling translucency.
+Modeling SSS can be important for opaque materials.
+Consider the wax case: what if we make the wax very thick?
+The thick wax will eventually become opaque in that it will completely hide the material behind it.
+But that does not mean volume scattering does not matter here; the back-scattered photons do contribute to the apparent color of a thick wax.
+
+#### Oil Painting Example
+
+To put things together, consider a painting.
+One way paintings are characterized is by how they were painted, and we might see things like ``oil on canvas''.
+Oil means the paint is oil paint, where paint pigments are dispersed into (usually linseed) oil, which is usually called the binder or the vehicle.
+Canvas is the substrate, which is nothing more than another material that is right beneath the painting.
+
+The oil itself is somewhat transparent, especially when you just apply a thin layer on the canvas.
+But with the paint pigments, the entire oil paint becomes a translucent material.
+When photons leave the oil paints, they immediately interact with the canvas.
+If the paint layer is thick enough, virtually no photon can ever reach the canvas.
+But if the paint is relatively thin, the property of the substrate will contribute to the overall color of the paint.
+For instance, if the canvas is white-ish, a good percentage of the photons will be reflected back.
+The same paint would look much darker if the canvas is black, which absorbs a lot of photons.
+
+### Equilibrium
+
+We can view the light-material interaction as a dynamical system under an equilibrium.
+To appreciate this, consider again @fig-photon_particle_interactions.
+Some photons entering Material 1 are back-scattered and hit the Air-Material 1 interface and some of those photons will re-enter Material 1 through internal reflection.
+Those photons will then go through multiple scattering, and as a result some will be back-scattered again and hit the Air-Material 1 interface.
+The cycle goes on.
+The secondary back-scattering is weaker in power than the first back-scattering, and the third-order back-scattering is even weaker, and so on.
+So eventually you can imagine that the total number of photons back-scattered at the surface will reach a constant.
+
+In fact, this sort of dynamics takes place everywhere inside the material along every direction.
+If you pick a point $p$ in the material (or at the surface) and a direction $\omega$ starting at the point, the radiance at ($p, \omega$) is a constant under equilibrium.
+In other words, the spatial radiance distribution (a.k.a., the light field) is not changing over time.
+
+The equilibrium is reached almost instantaneously, since light propagates incredibly fast.
+So the equilibrium discussion is probably of no practical impact in modeling or actual measurement, but it is still important to keep this in mind.
+The (spectral) reflectance/BRDF modeling/measurement is done assuming equilibrium, and later when we model volume scattering, we will set up the differential equations under the equilibrium assumption, too.
+
+## Absorption {#sec-chpt-mat-vs-abs}
+
+We will focus on modeling absorption in this chapter, and the way we build the models is fundamental to how scattering will be dealt with later.
+
+### A Simple Case: Collimated Illumination on Uniform Medium {#sec-chpt-mat-vs-abs-simple}
+
+Imagine that a beam of light hits a volume of particles.
+The light is **collimated** in that all photons travel along the same direction.
+We take a slice of the material perpendicular to the incident direction.
+The slice is so thin that no particles in that material cover each other from the direction of the incident light.
+This is shown in @fig-absorption_model (a).
+We also, for now, assume that the medium is *uniform* in that the **number concentration** $c$ (i.e., the number of particles per unit volume) of each slice is exactly the same.
+
+![Conceptual model to help reason about photon absorption. (a): the setting for calculating the radiance reduction over a very thin slice. (b): the radiance reduction over a finite length is calculated by accumulating the radiance reduction over infinitely many thin slices.](figs/absorption_model){#fig-absorption_model width="80%"}
+
+Say the slice has a depth of $\D s$ and a geometrical cross-sectional area of $E$.
+All the particles have the same geometrical cross-sectional area of $\epsilon_g$.
+In the simplest model, a photon is absorbed whenever it hits a particle.
+In reality, the chance of absorption can be higher or lower.
+The *effective* area available for absorption is:
+
+$$
+\begin{align}
+    \epsilon = \epsilon_g Q_a,
+\end{align}
+$$
+
+where $Q_a$ is called the **absorption efficiency** and is usually smaller than 1 for molecules (which have small $\epsilon_g$) and greater than 1 for large particles (whose $\epsilon_g$ can be large).
+$Q_a$ is wavelength dependent, so we should have written it as $Q_a(\lambda)$, but we will omit the wavelength in our notations for simplicity's sake.
+In physics, $\epsilon$ is called the **absorption cross section** of the particle; it characterizes the intrinsic capability of a particle to absorb photons.
+Mind the subtle but important difference between the geometrical cross-sectional area and the cross section of a particle.
+
+The question we are interested in is, if the incident radiance is $L$, what is the radiance leaving the slice $L+\D L$?
+By convention, $\D L$ is defined as the exitant radiance minus the incident radiance and, in this case, has to be negative.
+The percentage of photons that are absorbed by this slice of particles ($-\frac{\D L}{L}$) is equivalent to the cross-sectional area of the slice that is covered by the total cross sections of the particles:
+
+$$
+\begin{align}
+    -\frac{\D L}{L} &= \frac{cE\D s\epsilon}{E},
+\end{align}
+$$ {#eq-abs_1}
+
+where $c$ is the particle concentration of the slice, and $E\D s$ is the total volume of the slice.
+So $cE\D s$ is the number of particles in this thin slice, and $cE\D s\epsilon$ is the total cross section of all the particles.
+Given the assumption that no particles are covering each other, $\frac{cE\D l\epsilon}{E}$ is then the percentage of the thin slice's cross-sectional area that is available for photon absorption and, thus, the percentage of the incident photons that are absorbed.
+The negative sign on the left-hand side of @eq-abs_1 signals the fact that $\D L$ is negative.
+
+We rewrite @eq-abs_1 as @eq-abs_2:
+$$
+\begin{align}
+    \frac{\D L}{\D s} &= -c\epsilon L = -\sigma_a L,
+\end{align}
+$$ {#eq-abs_2}
+
+which shows that the amount of photon absorption per unit length ($\frac{\D L}{\D s}$) is proportional to the current amount of photons up to a scaling factor $c\epsilon$.
+In the computer graphics literature, $c\epsilon$ is called the **absorption coefficient**, denoted $\sigma_a$.
+
+#### Bouguer-Beer-Lambert's Law
+
+When $\D s$ approaches infinity, we can rewrite @eq-abs_2 as a differential equation:
+
+$$
+\begin{align}
+    \frac{\d L}{\d s} = \lim_{\D s \rightarrow 0}\frac{\D L}{\D s} = -\sigma_a L
+\end{align}
+$$ {#eq-abs_3}
+
+This equation is a classic case of exponential decay, and its solution is given by:
+
+$$
+\begin{align}
+    L(s) = L_0 e^{-\sigma_a s}.
+\end{align}
+$$ {#eq-abs_4}
+
+where $L_0 = L(0)$ is the initial radiance of the light before interacting with the particles, as visualized in @fig-absorption_model (b), $L(s)$ denotes the radiance at a particular length $s$.
+
+@eq-abs_4 allows us to calculate the remaining radiance after the light travels a length $s$.
+@eq-abs_4 is called the **Bouguer-Beer-Lambert's law** (BBL), which is a geometrical optics' simplification of the electromagnetic theory of light-matter interaction where the matter is purely absorptive [@mayerhofer2020bouguer].
+
+
+#### An Alternative Derivation
+
+An equivalent way of deriving the BBL law is the following.
+We divide the entire volume (with a total length of $s$) into $N$ thin slices, each with a length of $\D s$.
+After the first slice, the surviving portion of the initial radiance is $L = L_0(1-\sigma_a \D s)$, so after going through all the $N$ slices, the remaining radiance is given by:
+
+$$
+\begin{align}
+    L_N = L_0(1-\sigma_a \D s)^N = L_0(1-\sigma_a \frac{s}{N})^N.
+\end{align}
+$$ {#eq-alt_abs_1}
+
+Now when $\D s$ becomes infinitesimally small, $N$ approaches infinity, so the limit of the remaining radiance as a function of the total length $s$ is given in @eq-alt_abs_2, which is the same as @eq-abs_4.
+
+$$
+\begin{align}
+    L(s) = \lim_{N \rightarrow \infty}L_0(1-\sigma_a \frac{s}{N})^N = L_0 e^{-\sigma_a s}.
+\end{align}
+$$ {#eq-alt_abs_2}
+
+### Absorption Coefficient
+
+The absorption coefficient is an important measure of the medium's ability to absorb photons.
+It has a unit of $\text{m}^\text{-1}$, which means it is not bound by 0 and 1.
+One way to interpret the absorption coefficient is to observe that $\sigma_a \d s = \d L/L$, which is the fraction of the radiance absorbed or the probability of light absorption by an infinitesimal slice.
+So $\sigma_a = (\d L/L)/\d s$ can be interpreted as the probability *density* of photon absorption, i.e., the probability of absorption per unit length traveled:
+
+$$
+\begin{align}
+    \sigma_a = \lim_{\D s \rightarrow 0} \frac{\D L}{L}/\D s = \frac{\d L}{L \d s}.
+\end{align}
+$$
+
+Like any density measure, absorption coefficient is most useful when it is integrated: when we integrate $\sigma_a$ over the length that light travels, we get the fraction/percentage of the light absorbed.
+One can also show that $1/\sigma_a$ is the expected value of the distance a photon can travel before being absorbed [@bohren2006fundamentals, Chpt. 5.1.3]; this quantity is given the name **mean free path** (l).
+To derive $l$, observe that the probability that a photon is absorbed after traveling a distance $s$ is $1-e^{-\sigma_as}$.
+So the probability *density* of absorption as a function of the distance $s$ is:
+
+$$
+\begin{align}
+    f(s) = \frac{\text{d}(1-e^{-\sigma_a s})}{\text{d}s} = \sigma_ae^{-\sigma_a s}.
+\end{align}
+$$
+
+So the expected value of $s$, which we can interpret as the distance a photon can travel on average before being absorbed, is:
+
+$$
+\begin{align}
+    l = \int_0^\infty sf(s)\text{d}s = 1/\sigma_a.
+\end{align}
+$$ {#eq-mfp}
+
+### A Few Important Quantities {#sec-chpt-mat-vs-abs-quan}
+
+We can now define a few other commonly used quantities (omitting the wavelength dependence for simplicity).
+The **transmittance** $T$ of a volume with a total thickness of $s$ is defined as the percentage of the transmitted/unabsorbed photons after traveling the length of $s$ (@eq-trans):
+$$
+\begin{align}
+    T = \frac{L(s)}{L_0} = e^{-\sigma_a s}.
+\end{align}
+$$ {#eq-trans}
+
+The **absorbance** $A$ is the product of $\sigma_a s$:
+$$
+\begin{align}
+    A = -\ln T = \ln\frac{L(s)}{L_0} = \sigma_a s.
+\end{align}
+$$ {#eq-absorbance}
+
+The **absorptance** $a$ of a volume is defined as the percentage of the absorbed photons by the volume, which relates to $T$ and $A$ by @eq-absorbance:
+$$
+\begin{align}
+    a = 1 - T = 1 - e^{-A}.
+\end{align}
+$$ {#eq-absorptance}
+
+We have seen these definitions in @sec-chpt-hvs-receptor-absorb-msp.
+One very nice thing about the absorbance $A$ is that it is approximately equivalent to absorptance $a$ when $A$ is small (which would be true when, e.g., the length $s$ is very small, as is the case when discussing how a photoreceptor absorbs photons when illuminated transversely).
+
+Another nice thing about absorbance is that absorbances add, because *absorption coefficients add*.
+Imagine you have $n$ kinds of particles mixed up in a medium, each with a different absorption coefficient $\sigma_a^i$.
+The overall absorbance of the medium is the sum of the individual absorbance $A^i$ derived as if the medium is made up of only one kind of particles.
+That is:
+$$
+\begin{align}
+    A = \sum_i^n A^i = s\sum_i^n\sigma_a^i = s\sum_i^n c^i\epsilon^i,
+\end{align}
+$$ {#eq-absorbances_add}
+
+where $c^i$ and $\epsilon^i$ are the concentration and absorption cross section of the $i^{th}$ particles.
+Specifically, $c^i$ is defined as:
+$$
+\begin{align}
+    c^i = \frac{n_i}{V},
+\end{align}
+$$
+
+where $n_i$ is the number of the $i^{th}$ kind of particles in the material, and $V$ is the material volume.
+
+This is not a surprising result.
+As long as particles in a thin slice of this new heterogeneous medium do not cover each other, we can easily extend @eq-abs_1 and the rest of the derivation to consider multiple kinds of particles;
+eventually @eq-absorbances_add would be a natural conclusion.
+We will omit the derivation here for simplicity sake.
+
+@eq-absorbances_add is a nice conclusion to have, because usually we *are* dealing with hybrid media.
+For instance, paint is a mixture of binder particles and pigment particles, and a mist is a mixture of water droplets and air particles.
+<!-- %\fixme{true to model this way? how to model a suspension of particles?} -->
+If we do not want to model individual matters, we can use a single absorption coefficient to describe the aggregate behavior of the mixture.
+That absorption coefficient does have a physical meaning: it is the concentration-weighted sum of the individual absorption coefficients.
+
+There are a bunch of other quantities defined in the literature.
+The state of the definitions is a bit of a mess, largely because different communities use different definitions.
+
+* In visual neuroscience people sometimes use a quantity called **specific absorbance** (see, e.g., @bowmaker1980visual), which is the absorbance per unit length $\frac{A}{s}$.
+Whenever you see a quantity that starts with the word "specific", chances are that the quantity is defined per unit length.
+You can see that specific absorbance is actually just our absorption coefficient.
+
+* In scientific communities, especially chemistry and spectroscopy, people define $\epsilon$, rather than $c\epsilon$, to be the absorption coefficient.
+You can see the appeal of doing that --- $\epsilon$ is a more fundamental measure of a medium's ability to absorb photons, independent of the particle concentration $c$ (and certainly independent of the traversal length $s$).
+
+* The absorbance defined in @eq-absorbance is technically called the **Naperian absorbance**, because we take the natural logarithm of $T$.
+Sometimes people also use the **decadic absorbance**, which is defined as $-\log T$.
+This quantity is also called the **optical density**.
+
+* Finally, the number concentration $c$ here is defined in terms of the absolute quantity per unit volume, but sometimes people want to define $c$ as the **molar concentration**, which is the number of moles per unit volume.
+If so, all other derived quantities are then prefixed with "molar".
+Next time when you see something like the **molar decadic absorption coefficient**, you know what it is!
+
+The annoying thing is that people do not always tell you which definition they use.
+The plea I have to you is to be specific about which definition *you* use in your writing and tell me when I am being vague!
+
+### General Case
+
+So far we have assumed that the absorption coefficient $\sigma_a = c\epsilon$ is a constant regardless of the position $p$ in the medium and along any direction $\omega$.
+The former property assumes that the medium is uniform, and
+the latter property is called **isotropic**^["Isotropic" is a very overloaded term; it just means some physical property is invariant when measured from different directions. So depending on what physical property you care about, "isotropic" can mean different things.
+The property we care about here is a volume's ability to absorb photons, which is different from our earlier use of isotropy, which is concerned with the ability of a surface to scatter photons.] in that the medium's ability to absorb photons is independent of the light direction.
+
+Both assumptions are problematic in practice.
+The concentration can change spatially and should be denoted $c(p)$, where $p$ is an arbitrary position in space.
+$\epsilon$ can also change with $p$ and, more importantly, change with the direction of light incidence $\omega$.
+For instance, the particles might not be spherical, so their geometrical cross-sectional area and, thus, the cross section $\epsilon$ available for absorbing photons can depend on $\omega$.
+As a result, the absorption coefficient should generally be denoted $\sigma_a(p, \omega)$.
+
+![A conceptual model to help reason about photon absorption in the general case, where the absorption coefficient can vary spatially and directionally. The medium is divided into many tiny elemental volumes, each of which is so small that particles do not cover each from any direction.](figs/absorption_model_general){#fig-absorption_model_general width="60%"}
+
+Effectively, our conceptual model, shown in \Fig{fig:absorption_model_general}, has to be changed to one where the entire body of particles is divided into many equally-sized volumes (with a length $\D s$ and an area $\D A$), each of which is so small that particles do not cover each other from any direction.
+The radiance reduction per unit length in a small volume is then expressed as:
+
+$$
+\begin{align}
+    \frac{\D L(p, \omega)}{\D s} = -\sigma_a(p, \omega)L.
+\end{align}
+$$ {#eq-abs_dif_cont}
+
+Given this model, we can calculate the exitant radiance after light travels a length $s$ through the medium:
+
+$$
+\begin{align}
+    L(p+s\omega, \omega) = L(p, \omega) e^{-\int_0^s \sigma_a(p+t\omega, \omega) \d t},
+\end{align}
+$$ {#eq-abs_cont}
+
+\noindent where $\omega$ is the (unit) direction of the incident radiance, $L(p, \omega)$ is the incident radiance, and $L(p+s\omega, \omega)$ is the exitance radiance (radiance toward $\omega$ leaving the entire medium after traveling $s$).
+
+You would notice that for a beam with an oblique incident direction, the distance traveled, say $\D s'$, can be different (longer or shorter than) from $\D s$.
+Our model can account for this by folding the factor $\D s'/\D s$ specific to a particular direction $\omega'$ into the absorption coefficient $\sigma_a(p, \omega')$.
+Note that the $\D s'/\D s$ factor should be the average for all the incident photons with the same direction $\omega'$ across the entire $\D A$.
+
+### Nature and Applicability of the Model
+
+The absorption model (the BBL law) derived before (@eq-abs_4 and @eq-abs_cont) is a continuous one, but it is derived based on modeling discrete particles and events.
+It is another example of the modeling methodology discussed on @sec-chpt-mat-ss-para-model.
+
+@eq-abs_cont seems to suggest that absorption coefficient $\sigma_a(p, \omega)$ is continuously defined at any position $p$ in the medium along any direction $\omega$.
+It is not true.
+For starters, concentration $c$ is not continuous.
+Rather, it exhibits the triphasic profile shown in @fig-model_scale.
+As we keep shrinking the size of the volume to the molecular scale, eventually the concentration depends on whether the tiny volume contains any molecules or not, so it becomes wildly discontinuous, not to mention the headache of dealing with a partial molecule in a volume --- should it be counted or not?
+In general, the absorption coefficient can be an arbitrary discontinuous function that is not integrable.
+
+What about @eq-abs_4 where the absorption coefficient is uniform so we do not have to take the integral?
+Well, that is a lie too: concentration is not continuous, so it cannot be uniform everywhere, and, by extension, the absorption coefficient cannot be a constant everywhere either.
+So @eq-abs_3 is technically wrong when we let $\D s \rightarrow 0$ (i.e., $N \rightarrow \infty$), which is necessary for us to construct the differential equation (or take the limit in @eq-alt_abs_2).
+For @eq-abs_3 to be true, the concentration/absorption coefficient must be a constant everywhere, which can be true only if the volume is continuous.
+
+What has to happen is that the limit of $\D s$ cannot be literally 0 and the limit of $N$ cannot be infinity.
+What we do is to keep reducing $\D s$ to the point where the concentration (and thus absorption coefficient) is insensitive to slight perturbation of $\D s$ (i.e., operating in the stable range in @fig-model_scale), and call it the concentration/absorption coefficient of that specific $\D s$.
+And we repeat this for all the $\D s$.
+This certainly applies to the general-case models in @eq-abs_dif_cont and @eq-abs_cont, where we iterate over not the thin slices $\D s$ but all the tiny volumes ($\D A \times \D s$).
+So all the integral symbols are secretly summing over an extremely fine-grained grid.
+
+How big of an error are we introducing here?
+Technically, we should sum all $N$ slices across the total traversal length $s$ in @eq-alt_abs_1.
+If we assume $\D s$ to be very small (even though not infinitesimal) compared to $s$, $N$ would be large, so taking the integration (equivalent to letting $N \rightarrow \infty$) would be very close to summing over $N$.
+Similarly, the integral in \Eqn{eq:abs_cont} should have been a summation of the concentration in each of the $N$ slices.
+If you want to be pedantic, however, the integration there is exact: we can model $c$ as a piece-wise function, where the value at each piece is the concentration of the corresponding volume.
+Integrating over a piece-wise function is the same as summing all the pieces.
+Only the exponential expression in @eq-abs_cont is inexact.
+
+The discontinuity of the medium is, of course, orthogonal to the discontinuity and non-uniformity in the light field itself.
+For instance, the fact that we use $\frac{cE\D l\epsilon}{E}$ as the percentage of photon absorption in @eq-abs_1 (and implicitly in @eq-abs_4) assumes that the irradiance of the incident illumination is continuous and uniform in the small volume.
+This is technically not true because photons are discrete packets of energy.
+But in practice this is not a concern because we can assume that there is an enormous amount of photons incident on the small volume, and these photons are randomly distributed.
+<!-- %on the same point, Bohren p. 110 ``Implicit in the definition of cross sections is that the irradiance of the incident illumination be constant over lateral dimensions large compared with the size of the particle.'' -->
+
+In essence, we are using the aggregated behavior of many photons to model the behavior of a small volume.
+This is similar to the microfacet models, where we use the aggregated behavior of many microfacets to statistically model the behavior of a small macro-surface.
+
+This sort of modeling strategy is a weird case where the discrete model provides the "ground truth", which is approximated by a continuous model.
+I say ground truth --- to the extent that the geometrical optics can approximate the electromagnetic theory of light-matter interaction.
+The BBL law fails when the wave nature of photons has to be considered [@mayerhofer2020bouguer].
+
+<!-- \fixme{talk about distribution of the particles. they can't be non-random: two extreme cases.} -->
+
+## Scattering {#sec-chpt-mat-vs-sca}
+
+Scattering is much more difficult to reason about than absorption, primarily because a scattered photon is not "dead" and continues to participate in light-matter interaction.
+The way to study scattering is to first understand the behavior of a single scattering event and then consider the overall behavior of a large of collection of particles.
+
+This section focuses a single scattering event (@sec-chpt-mat-vs-sca-single), and the next section discusses the general case where a large collection of particles interacts with photons.
+Before all these, though, it is useful to first build some intuitions as to why there is a distinction between a single scattering event and scattering by a particle collection and explicitly lay out the assumptions made for the rest of our discussions (@sec-chpt-mat-vs-sca-intuition).
+
+### Scattering by a Particle vs. a Collection of Particles {#sec-chpt-mat-vs-sca-intuition}
+
+In geometric optics terms, scattering can be thought of as an event that takes place between a photon and a particle.
+In the real world, however, objects and media are usually made of a large collection of particles, which introduces two complications: multiple scattering and interference.
+
+#### Multiple Scattering
+
+First, it is possible that a scattered photon, after traveling a certain distance, meets another particle and gets scattered again.
+This makes it considerably more difficult to analyze the effect of scattering by a medium than does the scattering of a single particle.
+
+![Left: The atmospheric scattering of the sand coming from the Sahara during Harmattan glows in the sun and gives a hazy view of the remote mountains. Nigeria's National Mosque is in the foreground; from \citet{haze}. Right: illustrations of the glow of the sun and the haze. Both are due to scattering, and the difference is purely visual but not fundamental.](figs/haze_scattering){#fig-haze_scattering width="100%"}
+
+Look at @fig-haze_scattering (left) taken during Harmattan, where the atmosphere is full of sand and dust blown from the Sahara.
+The large collection of particles in the atmosphere scatters light, glowing the sun and giving the remote mountains a hazy view.
+The right panel illustrates the scattering events that give rise to the glow and the haze.
+
+Without scattering, sunlight enters the eye directly.
+With scattering, some photons from the sun are first knocked out of the view and could potentially be then scattered again back to the eye.
+Some photons that enter the eye might even come from nearby objects other than the sun.
+The scattering creates a glow around the sun, and, for the observer, the sun appears larger than it actually is.
+The hazy view of the mountains is created by exactly the same scattering processes.
+The photons that enter the eyes are mixed up from different parts of the mountains and from other objects.
+The mountains appear hazy rather than glowing as the sun does simply because the sun has a higher brightness contrast against the background than does a region on the mountain.
+So the distinction between "glow" and "haze" is nothing more than a visual difference at a superficial level rather than anything deeper in physics.
+
+You can see why multiple scattering by large collections of particles poses challenges to our analysis.
+If a photon is scattered once in the medium, the only effect of scattering would be to knock photons out of our line of sight, and thus, remote objects would only look dimmer rather than hazy.
+In this case, scattering would function exactly like absorption, for modeling purposes at least.
+With multiple scattering, we have to track not only photons that are scattered out but also photons that are scattered into the rays that enter our eyes^[Technically photons from other objects can enter our eye through a single-scattering event; see the discussion at the end.].
+This is a daunting task considering that we are usually dealing with millions of particles and billions of photons, if not more.
+
+If you want to be absolutely pedantic, we can distinguish the following cases:
+
+* a single scattering event, where a photon meets a particle and is scattered away;
+* single scattering, where a photon is scattered *once* by a medium (a large collection of photons), which is under
+    * a collimated illumination, so the radiance of a ray can only be weakened because photons are scattered to other directions,
+    * an arbitrary illumination, so the radiance of a ray can be both weakened and augmented (by photons scattered from other directions);
+* multiple scattering, where a photon is scattered *multiple times* by a medium, so the radiance of a ray can both be weakened and augmented.
+
+@sec-chpt-mat-vs-sca-single studies Case 1 and Case 2(a) together, because the latter is the statistical consequence of the former.
+@sec-chpt-mat-vs-rte studies Case 2(b) and Case 3 together because they have the same observable effects and, thus, are modeled in the same way.
+
+#### Interference and Coherence
+
+Second, when there is a large collection of particles, the scattered radiation fields of individual particles can interfere with each other.
+The exact impact of interference can only be calculated by considering the wave nature of the light.
+But to the first order, the inference depends on how densely packed the particles are.
+
+In fact, the specular surface scattering we discussed in @sec-chpt-mat-ss-mat is just a macroscopic approximation of the microscopic volume scattering where particles interfere non-randomly.
+In a mirror or a glass of water, the particles/molecules are very densely packed to the point that the distance between two particles is smaller than the wavelength of the light.
+As a result, the scattering is *coherent*, which gives rise to the *illusion* of a specular surface.
+One can show that the Fresnel equations are the solution to the Maxwell's equations when surface particles are densely packed.
+
+Why would the particle density matter?
+If particles are very close to each other, their radiation fields are close too, so the interference is stronger and cannot be ignored.
+More importantly, when particles are close to each other, their spatial positions can no longer be treated as random, so the interference can become coherent.
+Imagine you drop particles into a vast empty space; the particle sizes are much smaller relative to the space, so their spatial distribution can be roughly described as random.
+But if the particles are very densely packed, where the next particle can be is very much restrained, so their positions are highly correlated, leading to coherent scattering.
+
+We will generally assume **incoherent scattering** unless otherwise noted, where individual scattering events interfere each other in random ways, so we are spared of the complication of thinking of the wave nature of the photons.
+Under this assumption, the total power scattered by a collection of particles is the same as the sum of the power scattered by the individual particles.
+This happens when the particles are sufficient sufficiently distant (separated by more than multiple wavelengths) and their spatial arrangements are uncorrelated.
+
+<!-- %according to bohren and huffman p. 9, it's possible that particles are sufficiently apart but they are still not randomly positioned so their scattered fields can still interfere in a coherent way.
+%when they say single scattering, they just mean particles are very apart, and their multiple scattering means particles are close.
+%this definition is technically precise but can be weird since if particles are apart even if they interfere the effect is weak.
+%so in our definition (and many others) here we assume that incoherent scattering means particles are both sufficiently apart and sufficiently randomly positioned so that individual scatterings are independent of each other. -->
+
+### A Single Scattering Event {#sec-chpt-mat-vs-sca-single}
+
+#### Scattering Efficiency and Coefficient {#sec-chpt-mat-vs-sca-single-coeff}
+
+Intuitively, scattering has a similar effect as absorption: it weakens the radiance by taking photons away from a beam of light.
+The difference is that scattered photons are not dead; they are re-directed to other directions.
+We can define two important quantities, one to characterize a *particle*'s ability to scatter photons and the other to characterize a *medium*'s ability to scatter photons.
+
+Similar to the situation in absorption, the intrinsic capability of a particle to scatter photons is defined by the particle's **scattering cross section** $\epsilon_s$, which itself is the product of the geometrical cross-sectional area of the particle $\epsilon_g$ and the **scattering efficiency** $Q_s$.
+We can then define the **scattering coefficient** $\sigma_s$ of a medium (a large collection of particles), which characterizes the ability of the medium to scatter photons away from its incident radiance.
+$\sigma_s$ is the product of the particle concentration of the medium $c$ and the particle's scattering cross section $\epsilon_s$.
+Again, $\sigma_s$ has a unit $\text{m}^\text{-1}$ and is not bound by 0 and 1; it is best interpreted as the probability density (i.e., probability per unit length) of light being scattered away.
+Of course, both the scattering efficiency and scattering coefficient can vary spatially, angularly, and spectrally.
+
+The effects of scattering and absorption add up, because they both weaken a radiance.
+We can extend @eq-abs_cont to consider scattering (again omitting the wavelength from the equations):
+
+$$
+\begin{align}
+    L(p+s\omega, \omega) = L(p, \omega) e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t}, \label{eq:scat_cont} \\
+    T(p \rightarrow p+s\omega) = \frac{L(p+s\omega, \omega)}{L(p, \omega)} = e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t}, \label{eq:transmittance}
+\end{align}
+$$
+
+where $\sigma_s(p, \omega)$ is the scattering coefficient at $p$ toward the direction $\omega$, and $T(p \rightarrow p+s\omega)$ is defined as the **transmittance** between $p$ and $p+s\omega$ along the direction $\omega$.
+
+@eq-scat_cont can be derived using the same idea as that used for deriving the absorption equation in @sec-chpt-mat-vs-abs-simple by modeling a thin layer $\D x$ --- with an additional assumption that $\D x$ is so thin that a photon is scattered at most once before leaving $\D x$.
+Therefore, scattering by a single particle has the same effect as absorption: they both take the photon out of the radiance, and that is why the absorption equation (@eq-abs_cont) can be directly extended here.
+
+Think of the applicability of @eq-scat_cont: it says that the radiance of a ray can only be weakened.
+If the incident light has only one direction (e.g., a collimated beam), @eq-scat_cont is true when a photon is scattered at most once in the medium.
+This is because a scattered photon will not have a chance to get back to the ray.
+If the incident light is not mono-directional, e.g., diffuse illumination, @eq-scat_cont in general does not apply --- even if we consider only single scattering.
+This is because photons originally not along the direction $\omega$ can be scattered toward it through just one single scattering event.
+We can see how limited @eq-scat_cont is: it applies only when the illumination is collimated and we assume only single scattering.
+We will relax this constraint later.
+<!-- %same as the text above Equ 3.108 in Bohren. -->
+
+Just like the absorption case (@eq-absorbances_add), if a medium is mixed with different particles, each with a different scattering coefficient, the overall scattering coefficient is the sum of the individual scattering coefficients as if the medium is made up of a particular kind of particles.
+
+The sum of the scattering coefficient and absorption coefficient is called the **extinction coefficient** or **attenuation coefficient**, denoted $\sigma_t(p, \omega)$:
+
+$$
+\begin{align}
+    \sigma_t(p, \omega) = \sigma_a(p, \omega) + \sigma_s(p, \omega).
+\end{align}
+$$
+
+The ratio between the scattering coefficient and the attenuation coefficient is called the **single-scattering albedo** of the medium:
+
+$$
+\begin{align}
+    \rho = \frac{\sigma_s(p, \omega)}{\sigma_t(p, \omega)}.
+\end{align}
+$$
+
+This albedo can be seen as the volumetric counterpart of the surface albedo discussed in @eq-albedo.
+The two forms of albedo have the same physical meaning: the fraction of the incident energy that is scattered away (i.e., not absorbed).
+A dark medium (e.g., smoke) has a lower albedo, and a bright medium (e.g., mist) has a higher albedo.
+
+The sum of the scattering and absorption cross sections is called the **extinction cross section** or **attenuation cross section**, denoted $\epsilon_t = \epsilon_a + \epsilon_s$.
+And of course $1/\sigma_t$ is the mean free path in a medium where both absorption and scattering take place, i.e., the mean distance a photon can travel without being absorbed or scattered away.
+
+### Scattering Direction Distribution: Phase Function {#sec-chpt-mat-vs-sca-single:pf}
+
+While the scattering efficiency (coefficient) characterizes how well a particle (medium) is able to scatter photons, it tells us nothing about the *direction* of scattering.
+The direction of a single scattering event is characterized by the **phase function** $f_p(p, \os, \oi)$, which can be interpreted as the probability *density* function that a photon incident from a direction $\oi$ is scattered toward a direction $\os$.
+We will omit $p$ and write the phase function as $f_p(\os, \oi)$ when the discussion is unconcerned of $p$.
+
+$f_p(\os, \oi)$ is defined as the fraction of the irradiance incident from an infinitesimal solid angle $\doi$ that is scattered toward an infinitesimal solid angle $\dos$ per unit solid angle:
+
+$$
+\begin{align}
+    f_p(\os, \oi) = \lim_{\Dos \rightarrow 0} \lim_{\Doi \rightarrow 0} \frac{\D E_o(\os)}{\D E_i(\oi)} / \Dos = \frac{\d^2 E_o(\os)}{\d E_i(\oi)\dos} = \frac{\d^2 E_o(\os)}{L(\oi) \doi \dos}.
+\end{align}
+$$ {#eq-phase_func_def}
+
+$\D E_i(\oi)$ is the incident irradiance over a small solid angle $\Doi$ and scatters in all directions.
+$\D E_o(\oi)$ is the outgoing irradiance over a small solid angle $\Dos$, so $\frac{\D E_o(\os)}{\D E_i(\oi)}$ is the fraction of the photons incident from $\Doi$ that are scattered over $\Dos$ or, alternatively, the probability that a photon incident from $\Doi$ is scattered toward $\Dos$; this ratio/fraction is clearly a value between 0 and 1.
+Dividing that fraction by $\Dos$ gets us the probability per unit solid angle.
+When both the incident solid angle $\Doi$ and the outgoing solid angle $\Dos$ approach 0, the fraction can be interpreted as the directional-directional reflectance (@sec-chpt-mat-ss-reflectance), and the probability per solid angle within $\Dos$ becomes the probability *density* toward $\os$.
+
+Like all density functions, the meaning of a phase function is most clear when it is integrated to compute some other quantity.
+Integrating @eq-phase_func_def over all the outgoing directions $\os$:
