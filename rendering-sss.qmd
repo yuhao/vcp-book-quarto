@@ -537,12 +537,18 @@ We can extend @eq-abs_cont to consider scattering (again omitting the wavelength
 
 $$
 \begin{align}
-    L(p+s\omega, \omega) = L(p, \omega) e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t}, \label{eq:scat_cont} \\
-    T(p \rightarrow p+s\omega) = \frac{L(p+s\omega, \omega)}{L(p, \omega)} = e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t}, \label{eq:transmittance}
+    L(p+s\omega, \omega) = L(p, \omega) e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t},
 \end{align}
-$$
+$$ {#eq-scat_cont}
 
-where $\sigma_s(p, \omega)$ is the scattering coefficient at $p$ toward the direction $\omega$, and $T(p \rightarrow p+s\omega)$ is defined as the **transmittance** between $p$ and $p+s\omega$ along the direction $\omega$.
+where $\sigma_s(p, \omega)$ is the scattering coefficient at $p$ toward the direction $\omega$.
+
+Rearranging the terms, we can express the **transmittance** between $p$ and $p+s\omega$ along the direction $\omega$, denoted $T(p \rightarrow p+s\omega)$:
+$$
+\begin{align}
+    T(p \rightarrow p+s\omega) = \frac{L(p+s\omega, \omega)}{L(p, \omega)} = e^{-\int_0^s (\sigma_a(p+t\omega, \omega) + \sigma_s(p+t\omega, \omega)) \d t}.
+\end{align}
+$$ {#eq-transmittance}
 
 @eq-scat_cont can be derived using the same idea as that used for deriving the absorption equation in @sec-chpt-mat-vs-abs-simple by modeling a thin layer $\D x$ --- with an additional assumption that $\D x$ is so thin that a photon is scattered at most once before leaving $\D x$.
 Therefore, scattering by a single particle has the same effect as absorption: they both take the photon out of the radiance, and that is why the absorption equation (@eq-abs_cont) can be directly extended here.
@@ -602,3 +608,233 @@ When both the incident solid angle $\Doi$ and the outgoing solid angle $\Dos$ ap
 
 Like all density functions, the meaning of a phase function is most clear when it is integrated to compute some other quantity.
 Integrating @eq-phase_func_def over all the outgoing directions $\os$:
+
+$$
+\begin{align}
+    \d E_o &= \int^{\Omega = 4\pi} f_p(\os, \oi)L(\oi)\doi\dos \label{eq:energy_con_phase_func_1a} \\
+    &= L(\oi)\doi\int^{\Omega = 4\pi} f_p(\os, \oi)\dos \label{eq:energy_con_phase_func_1b} \\
+    &= \d E_i\int^{\Omega = 4\pi} f_p(\os, \oi)\dos \label{eq:energy_con_phase_func_1c}.
+\end{align}
+$$ {#eq-energy_con_phase_func_1}
+
+To interpret this integration, consider a point that receives an incident radiance of $L(\oi)$ over an infinitesimal solid angle $\doi$.
+The point receives a total irradiance of $\d E_i = L(\oi)\doi$, which is scattered in all directions.
+The density of the irradiance scattered toward a particular direction $\os$ is $f_p(\os, \oi)L(\oi)\doi$^[A direction $\os$ has a solid angle of 0, so its associated irradiance is technically 0, too.  What $f_p(\os, \oi)L(\oi)\doi$ represents is the irradiance per solid angle.], which when multiplied by $\dos$ gives us the actual irradiance scattered over a small solid angle $\dos$ around $\os$.
+Integrating all outgoing directions over the entire sphere ($4\pi$) we have @eq-energy_con_phase_func_1.
+
+Now, of course, some of the photons in $\d E_i$ might not be scattered; they could be absorbed, or they could simply not hit the cross section of any particle.
+So technically $\d E_o \leq \d E_i$ in @eq-energy_con_phase_func_1, just like how energy conservation is expressed in surface scattering in @eq-energy_con_1.
+By the convention in the volume scattering literature, however, the phase function is defined such that $\d E_i$ refers to only the portion of the incident irradiance that does get scattered.
+Therefore, $\d E_o = \d E_i$, so we have:
+
+$$
+\begin{align}
+    \int^{\Omega = 4\pi} f_p(\os, \oi) \dos = \int^{\Omega = 4\pi} f_p(\os, \oi) \doi = 1.
+\end{align}
+$$ {#eq-energy_con_phase_func_2}
+
+That is, the phase function integrates to 1; the second integral can be derived using the Helmholtz reciprocity (since we are still dealing with geometrical optics):
+
+$$
+\begin{align}
+    f_p(\oi, \os) = f_p(\os, \oi).
+\end{align}
+$$
+
+One way to interpret the fact that the phase function integrates to 1 is that the phase function is the *conditional* probability density function of scattering: given that a photon is scattered, what is the probability (density) of scattering to a particular direction?
+
+#### Phase Function vs. BRDF
+
+The phase function can be seen as the volumetric counterpart (in the sense that we are talking about volume scattering) of BRDF (@sec-chpt-mat-ss-brdf) --- with two differences.
+First, the definition of the BRDF accounts for absorption, so the BRDF integrates to *at most* 1, whereas the integral of the phase function is normalized to 1.
+This difference in definition is born purely of convention.
+
+The second difference is more fundamental.
+There is no $\cos\theta$ term when using the phase function; see, e.g., @eq-energy_con_phase_func_1, unlike how the BRDF is used to turn irradiance into radiance (e.g., @eq-energy_con_1).
+In fact, from @eq-energy_con_phase_func_1 we can see that given a radiance $L(\oi)$ and a solid angle $\doi$, the irradiance is simply $L(\oi)\doi$ rather than $L(\oi)\cos\theta_i\doi$.
+Didn't we say that there is a cosine fall-off between radiance and irradiance (@sec-chpt-mat-basics-radiometry-radiance)?
+
+One intuition that might help is that in volume scattering we are dealing with points, which can receive flux from the entire sphere and have no definition of a normal (because points are dimensionless and shapeless) or, perhaps more conveniently, have a "flexible" normal that changes with the illumination direction and is always facing directly at the illumination.
+Entertain this thought experiment.
+We set up a small surface detector at a point and measure the power of the detector;
+if the incident light is parallel to the surface, the detector would receive no power, but would you say that the *point* does not receive any light and that the radiation field has no power?
+Of course not.
+
+The fact that a parallel surface would receive no photons absolutely does not mean the illumination has no power; the radiation field is the same whether it is illuminating a surface or illuminating a point.
+But if we are modeling a surface, we *want* our model to say that the power received by the surface is 0, because it matches our phenomenological observation (that a detector arranged that way would receive no recording); when we are modeling a point in volume scattering, we *want* the point to receive a power as if the point has a "normal" that is directly facing the illumination because, again, this matches our phenomenological observation.
+
+Ultimately, the difference is a conscious choice of modeling strategy even though the underlying physics is exactly the same.
+That is why models based on BRDF and phase function are phenomenological models.
+If you deal with electromagnetic theories and QED, you would not have to have this distinction between modeling surface and volume scattering.
+
+With the understanding that there is no cosine fall-off in volume scattering, @eq-phase_func_def can be re-written as:
+
+$$
+\begin{align}
+    f_p(\os, \oi) = \frac{\d^2 E_o(\os)}{\d E_i(\oi)\dos} = \frac{\d}{\d E_i(\oi)}\frac{\d E_o(\os)}{\dos} = \frac{\d L_o(\os)}{\d E_i(\oi)} = \frac{\d L_o(\os)}{L_i(\oi)\doi},
+\end{align}
+$$ {#eq-phase_func_def2}
+
+where $\d L_o(\os)$ is the infinitesimal outgoing radiance toward $\os$.
+In this sense, the phase function operates in exactly the same way as the BRDF (@eq-brdf): they both operate on irradiance and turn infinitesimal irradiance into infinitesimal radiance.
+
+#### Isotropic Medium and Isotropic Scatters
+
+Given the normalization in the phase function, the scattering efficiency should actually be parameterized as $\bar{Q_s}(p, \os, \oi)$:
+
+$$
+\begin{align}
+    \bar{Q_s}(p, \os, \oi) = Q_s(p, \oi) f_p(p, \os, \oi),
+\end{align}
+$$ {#eq-sca_eff_phase}
+
+where $Q_s(p, \oi)$ should be be interpreted as the *total* scattering efficiency at $p$ over all outgoing directions for a given incident direction $\oi$.
+Similarly, the scattering coefficient would be expressed as:
+
+$$
+\begin{align}
+    \bar{\sigma_s}(p, \os, \oi) = \sigma_s(p, \oi) f_p(p, \os, \oi),
+\end{align}
+$$ {#eq-sca_coeff_phase}
+
+where $\sigma_s(p, \oi)$ is interpreted as the *total* scattering coefficient at $p$ over all outgoing directions for a given incident direction $\oi$.
+
+![Visualizations of common phase functions; adapted from @novak2018monte, where $\omega$ and $\bar\omega$ are the incident direction $\oi$ and the outgoing direction $\os$ in our notation, respectively. For an isotropic medium, the phase function depends on only the angle $\theta$ subtended by $\omega$ and $\omega'$ and is axially symmetric about $\omega$.](figs/phase_function.png){#fig-phase_function width="100%"}
+
+@fig-phase_function visualizes a few common phase functions.
+While $f_p(\cdot)$ is technically a 4D function parameterized by $\os$ and $\oi$, the phase function of many natural media is 1D and depends only on the angle $\theta$ subtended by $\os$ and $\oi$.
+In @fig-phase_function, the distance of a point on the contour to the center represents the magnitude of the phase function at that particular $\theta$
+Consider under what conditions this simplification can be true:
+
+* First, it says that the phase function does not depend on the absolute incident direction $\oi$ but the relative angle between $\oi$ and $\os$.
+To get a visual intuition, see @fig-phase_function_isotropic; if the phase function is invariant to the photon incident direction $\oi$, we can, without losing any generality, assign $\oi$ to the $z$-axis; the scattered direction $\os$ is parameterized by $\theta$ and $\phi$.
+* Second, it also says the phase function depends on only $\theta$ but not $\phi$.
+That is, the phase function is rotationally symmetric about the incident direction $\oi$.
+So $f_p(\os, \oi) = f_p(\os', \oi) \neq f_p(\os'', \oi)$.
+
+![The phase function of a spherical particle is 1) invariant to the incident direction $\oi$, which, without losing generality, is taken to be the $z$-axis here, and 2) also invariant to the azimuthal angle $\phi$ of the outgoing direction $\os$ but depends on the polar angle $\theta$. So $f_p(\os, \oi) = f_p(\os', \oi) \neq f_p(\os'', \oi)$. Media consisting of such particles are called isotropic media, but it does not mean the particle itself is an isotropic scatterer, which does not exist, but if it did, its phase function would be a constant (invariant to both $\theta$ and $\phi$).](figs/phase_function_isotropic){#fig-phase_function_isotropic width="50%"}
+
+Intuitively, the phase function has the following two properties:
+
+* If you fix the incident direction, no matter how you rotate the particle, the phase function distribution is the same.
+Alternatively, if you change the incident direction, the phase function distribution moves along with the incident direction.
+* Given an incident direction, the phase function distribution is axially symmetric about the incident direction.
+
+The two conditions above are met only when the medium consists of randomly distributed spherically symmetric particles^[or when the medium consists of randomly distributed and oriented spherically asymmetric particles, in which case the medium is *statistically* spherically symmetric.], in which case 1) there is no reason to think that any incident direction is special, so the phase function certainly is invariant to $\oi$, and 2) there is no reason to think $\os$ and $\os'$ are any different since one should not expect the scattering behavior to change if we rotate the sphere about the incident direction ($z$-axis).
+
+A medium consisting of spherically symmetric particles is called a *symmetric* or an **isotropic medium**.
+Usually when we refer to an isotropic medium, not only is the phase function but also the total scattering coefficient $\sigma_s(p, \oi)$ (@eq-sca_coeff_phase) rotationally invariant to the incident direction^[In theory, it is certainly possible to have a medium whose total scattering coefficient/efficiency varies with the incident direction but not the angular distribution/probability of the scattered photons.].
+
+As we said earlier, "isotropic" is an unbelievably overloaded term.
+People also call a particle an **isotropic scatterer** if its phase function is a constant, i.e., invariant to $\os$; such a phase function is sometimes called an *isotropic phase function*.
+An isotropic scatterer does not exist; it is a purely theoretical construction, but if it existed, its phase function would take the value of $\frac{1}{4\pi}$ given @eq-energy_con_phase_func_2, as shown in the first graph in @fig-phase_function.
+
+### Common Models and General "Rules" {#sec-chpt-mat-vs-sca-models}
+
+There are many factors that determine the exact scattering efficiency and scattering direction, which can be calculated by solving the Maxwell's equations.
+We will talk about a few common models here; we focus on the intuitions while omitting the exact mathematical expressions, which can be found in standard texts.
+From the models, we can identify a few general "rules" or, rather, approximations under certain assumptions.
+
+The main theory or model for a single scattering event is called the **Mie scattering** theory, which, strictly speaking, applies only when the particle is spherical [@sharma2003color, Chpt. 3.5.2; @bohren2006fundamentals, Chpt 3.5; @melbourne2004radio, Chpt. 3].
+Mie scattering is *not* somehow a different scattering process from any other scattering, and the Mie theory is nothing more than the solution to the Maxwell's equations under certain conditions^[The modern form of the solution is summarized, not invented, by Gustav Mie but the solution had been developed by many predecessors such as Ludvig Lorenz.].
+
+The Mie theory predicts that the overall scattering efficiency $Q_s$ is:
+
+$$
+\begin{align}
+    Q_s &= \frac{8}{3}\gamma^4\big(\frac{m^2-1}{m^2+2}\big)\big[1+\frac{6}{5}\big(\frac{m^2-1}{m^2+2}\big)\gamma^2 + \cdots \big]\\
+    \gamma &= \frac{r}{\lambda_m}, \\
+    m &= \frac{n}{n_m},
+\end{align}
+$$ {#eq-mie_1}
+
+where $m$ is the the relative refractive index between the particle and the medium surrounding the particle, and $\gamma$ is the ratio between the particle radius $r$ and the incident light wavelength in the surrounding medium $\lambda_m$.
+The notion of surrounding media might come across as a little surprising: doesn't the material consist merely of its particles?
+Hardly.
+For instance, in paints, pigments are surrounded by binders (e.g., linseed oil in oil paints, egg yolk in tempera paints, and beeswax in encaustic paints) and usually some amount of water (except oil paints).
+When paint dries, some water might be evaporated, leaving pockets of air, which also contributes to the surrounding media.
+
+We can draw a few general conclusions from the model.
+
+#### Small-Particle (Rayleigh) Scattering
+
+For small particles where $\gamma \ll 1$ (generally when the radius is ten times smaller than the wavelength of the incident light), only the first term in @eq-mie_1's bracket matters, so the scattering efficiency is inversely proportional to $\lambda_m^{-4}$.
+The inverse proportionality to $\lambda_m^{-4}$ *largely* (but apparently not entirely) explains why the sky is blue and why the sun is red [@bohren2006fundamentals, Chpt. 8.1].
+Why?
+First, recognize that individual molecules, such as air molecules, are usually sub-nm in size, so they scatter in this small-particle regime.
+Short wavelength lights from the sun are scattered by the atmospheric molecules more toward the sky and eventually enter your eyes, so if you look at the sky (against the sun) it would appear blue; when you look at the sun directly, the photons entering your eyes are mostly those unscattered ones that transmit directly through the atmosphere, and they are mostly longer-wavelength photons.
+
+By then water molecules are also similarly small, so why would water look so different from the air?
+It is because water molecules are very densely packed, so their scatterings are coherent.
+In fact, the end result of such coherent scatterings by a collection of water molecules is that water appears specular.
+
+The photopigments in a photoreceptor are very small in size compared to the wavelengths of visible light (each rhodopsin has a cross-section area of about \SI{1e-2}{\nano\meter\squared} [@milo2015cell, p. 144]), so they almost do not scatter lights at all, only absorption.
+That is why we could use microspectrophotometry (MSP) to measure a photoreceptor's (transverse) absorption rate (@sec-chpt-hvs-receptor-absorb-msp): MSP measures the amount of light transmitted through a photoreceptor, and if there is little scattering, then all the photons that are not measured must be absorbed by the photoreceptor.
+
+Scattering in the small-particle regime is also called **Rayleigh scattering**, which, again, is *not* somehow a fundamentally different scattering process, and the Rayleigh scattering theory^[worked out by Lord Rayleigh, who won the Nobel Prize in Physics in 1904] is nothing more than a special case of the Mie scattering theory [@sharma2003color, Chpt. 3.5.1; @bohren2006fundamentals. Chpt. 3.2].
+
+The phase function in the Rayleigh regime is proportional to $1+\cos^2\theta$,
+so the backward and forward scatterings are roughly equally probable.
+Taking the phase function into account, the scattering efficiency (in the form defined in @eq-sca_eff_phase) in Rayleigh scattering is proportional to:
+
+$$
+\begin{align}
+    Q_s \propto (\frac{r}{\lambda_m})^4 \frac{m^2-1}{m^2+2} (1 + \cos^2\theta).
+\end{align}
+$$
+
+#### Impact of Particle Size
+
+When the particle size increases, the scattering efficiency increases, initially very quickly, but eventually saturates.
+In fact, the Mie theory predicts that when the particle size is much larger than the wavelength (e.g., more than 100 times larger), the scattering efficiency approaches a constant 2 regardless of $m$ and $\lambda_m$ [@johnsen2012optics, Fig. 5.4].
+This is evident in @fig-scattering_efficiency_m, which shows the scattering efficiency of a kind of particle as a function of particle radius ($x$-axis) under different $m$ (different curves); the incident light wavelength is 500 nm.
+
+![Scattering efficiency as a function of particle radius under different relative refractive index $m$; the incident light wavelength is 500~nm. From @johnsen2012optics[Fig. 5.4].](figs/scattering_efficiency_m){#fig-scattering_efficiency_m width="80%"}
+
+The particle size also affects the phase function.
+As we have discussed above, small particles in the Rayleigh regime tend to scatter photons equally in the forward and backward directions, while large particles primarily scatter photons in the forward directions.
+The last two graphs in @fig-phase_function show the phase functions predicted by the Mie scattering theory under different particle sizes (both are larger than that in the Rayleigh regime).
+The forward fraction increases as the particle size increases.
+
+Consider the scenario in @fig-photon_particle_interactions, where Material~1~ sits on top of Material~2~, and our goal is to hide Material 2 so that the color of Material 1 is dependent only on the illumination (not the property of Material 2).
+There is an interesting trade-off between scattering efficiency and scattering direction here.
+If we want Material 1 to hide Material 2, we want the particles in Material 1 to scatter a lot of light (high scattering efficiency) backwards.
+If the scattering efficiency is low (so photons march on and are hindered only by absorption) or the scattering is heavy in the forward directions, photons penetrate through Material 1 and reach Material 2, which would then contribute to the overall color.
+
+Now, to scatter a lot of light, we need the particles to be large, but then the scattering will be mostly in the forward directions.
+So there exists a sweet spot of the particle size that provides the highest "hiding power" for a material per unit volume.
+If we work out the math, we will see that the sweet spot falls roughly in the visible wavelength range.
+That is why most paint pigments have a diameter between 100 nm and \SI{1}{\micro\metre} [@paintpigmentsize].
+Of course, no matter how poor the hiding power is for a particular paint, if you apply enough of it, it will eventually hide whatever is behind it.
+Dye pigments are rather small in size (nm range), so they scatter few photons and that is why dye solutions look relatively transparent.
+
+#### Impact of Refractive Index
+
+@fig-scattering_efficiency_m also shows the impact of the relative refractive index $m$ (between the particle and the surrounding media) on scattering efficiency.
+Generally, the scattering efficiency increases with $m$ at all particle sizes until when the particles are so large that the scattering efficiency becomes a constant.
+This is supported by @eq-mie_1, too ($\frac{m^2-1}{m^2+2}$ monotonically increases and has a limit of 1).
+
+For large particles, while $m$ does not affect the scattering efficiency, it influences the scattering directions.
+When $m$ is small, the scattering tends to be more forward, whereas when $m$ is large, the scattering tends to be toward large angles (i.e., more photons will be back-scattered).
+This is why wet objects look darker (recall the unpleasant experience of accidentally spilling water on your pants).
+In dry paints, the medium surrounding the textile particles is air, and in wet paints it is water.
+$m$ becomes smaller when the material is wet (i.e., the relative refractive-index difference becomes smaller between the textile particles and water), so most of the scattering will be forward, increasing the traversal length of photons and essentially giving photons more opportunities to be absorbed.
+
+#### Aspherical Particles
+
+What if the particle is not spherical?
+The Mie theory does not apply.
+Analytical or even numerical solutions to the Maxwell's equations would be difficult, so perhaps a better approach is just to parameterize a model and fit it with the experimental data.
+
+One popular one-parameter parameterization of the phase function is the **Henyey–Greenstein** phase function [@pharr2018physically, Chpt. 11.3.1; @bohren2006fundamentals, Chpt. 6.3.2], which takes the form:
+
+$$
+\begin{align}
+    p(\theta) = \frac{1}{4\pi} \frac{1-g^2}{(1+g^2-2g\cos\theta)^{3/2}},
+\end{align}
+$$
+
+where $g$ is the free parameter and is usually called the \textbf{asymmetry parameter}.
+
+We hasten to emphasize that the Henyey–Greenstein function has absolutely zero physical meaning; it is designed for fitting experimental phase function data, so in the modern deep learning era, you might as well try a deep neural network.
+The second graph in @fig-phase_function shows one instantiation of the Henyey–Greenstein function.
