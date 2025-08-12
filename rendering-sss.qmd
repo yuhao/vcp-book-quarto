@@ -846,7 +846,7 @@ Under this assumption, @eq-scat_cont allows us to calculate any radiance in the 
 General media are much more complicated: illumination can be from anywhere, and multiple scattering must be accounted for.
 As a result, external photons can be scattered into a ray of interest, as we have intuitively discussed in @sec-chpt-mat-vs-sca-intuition.
 
-In the realm of geometric optics and radiometry, the general way to model lights going through a material/medium amounts to solving the so-called **Radiative Transfer Equation** (RTE), whose modern version was established by @chandrasekhar1960radiative^[Subrahmanyan Chandrasekhar won the Nobel Prize in physics in 1983 (not for the RTE).].
+In the realm of geometric optics and radiometry, the general way to model lights going through a material/medium amounts to solving the so-called **Radiative Transfer Equation** (RTE), whose modern version was established by @chandrasekhar1960radiative^[Subrahmanyan Chandrasekhar won the Nobel Prize in physics in 1983 (not for the RTE).], and @kajiya1984ray was the first to introduce it to computer graphics.
 The RTE provides a mathematical way to express an arbitrary radiance in a medium.
 
 ### Radiative Transfer Equation {#sec-chpt-mat-vs-rte-rte}

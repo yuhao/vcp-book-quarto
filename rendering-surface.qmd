@@ -283,6 +283,7 @@ $$
 $$ {#eq-re}
 
 where $L(p, \os)$ is the outgoing radiance from $p$ toward the direction $\os$; $\Omega$ is usually a hemisphere in surface scattering, since lights hitting a surface point can come from anywhere in the hemisphere, in which case @eq-re is also called the *reflection equation*, indicating the fact that the equation governs surface reflection/scattering.
+The rendering equation was first introduced to computer graphics by @kajiya1986rendering and @immel1986radiosity (albeit with slightly different formulations and the former being more general than the latter).
 
 The rendering equation is exactly the same equation in @eq-brdf_finite_2, so there is nothing more profound about the rendering equation than the definition of the BRDF: we are simply following the BRDF's definition and turning the differential equation into an integral one.
 Intuitively, the way to understand this equation is that every ray that hits $p$ makes some contribution toward the outgoing radiance $L(p, \os)$, and the integration just accumulates all the contributions.
