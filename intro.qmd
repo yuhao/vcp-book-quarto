@@ -134,26 +134,3 @@ Modern science and engineering have also empowered us to directly influence the 
 An example is the artificial retina [@gogliettino2023high; @muratore2020artificial], an electronic retinal implants that converts optical signals to electrical signals that mimic actual retinal responses or codes;
 this holds the potential to restore vision to blind individuals.
 Similarly, these mechanisms must be designed with the encoder in mind in order to deliver the desired output.
-
-## The Rest of the Book {#sec-chpt-intro-book}
-
-### Why Should You Care? {#sec-chpt-intro-book-why}
-
-The book is written with a computer science audience in mind.
-It is not controversial to observe that computer science is incredibly interdisciplinary.
-By the nature of computer science, we dabble at the boundary between software and hardware.
-
-Now is the time to push that to the next level. We should be the ones that connect computing with other (traditionally) *non-computing* domains such as imaging and human visual perception. In some sense, it is nothing more than asking us to expand the scope of computing to all forms of signal transduction, be it optical, analog, digital, or biological, in which perhaps conventional computing is concerned with only analog and digital signal transductions.
-The goal of this book is to build a foundation in these areas so that you can confidently understand and, better yet, design solutions that span across them.
-
-That said, we invite you to indulge in the pursuit of fundamental sciences --- even when they might not have immediate applications. As Edwin H. Land wittily and emphatically put it, the true application of science is that "we finally know what we are doing."
-
-### Goals, Non-Goals, and Other References {#sec-chpt-intro-book-goals}
-
-We will cover mostly the signal transductions between the optical representation and electrical representation (① -- ⑥ in @fig-overview) while being very light on the electrical to semantic transduction (⑦ and ⑧ in @fig-overview). In particular, we will not touch computer vision at all, simply because there are too many excellent texts and it is arguably the most well-understood by computer scientists.
-
-We will not attempt to be comprehensive --- no one understands everything, and no one needs to understand everything in order to get started. Our goal is to take a first-principled approach, so that you can build a solid foundation and feel confident learning new concepts in the future. There are many excellent references on the various topics we cover in the book if you want to dig deeper. Here are a few of my suggestions.
-
-For human vision, the monumental book by @wandell1995foundations is a must read. @rodieck1998first is a breathtaking walk-through of the early stages in vision (eye optics and retinal processing), which we focus on in this book as well. Rodieck was an engineer (which is evident from the fact that he insisted on using frequency rather than wavelength in spectral plots) and approached vision with an engineering approach where every step is described *operationally* rather than just conceptually. In the end, you get the sense that the "The Astonishing Hypothesis" by Francis Crick might actually be true. @goldstein2009sensation10ed and @yantis2017sensation are popular introductory texts to human perception (vision and beyond).
-
-For rendering, @pharr2023physically and @glassner1995principles are golden references, and @dorsey2010digital covers many aspects of physically-based rendering particularly relevant to this book. There are comparatively fewer texts on imaging. The one I particularly like is @rowlands2020physics. I would also highly recommend @johnsen2012optics; it has few equations but beautifully demonstrates how much insight can be gained from just a few basic principles.

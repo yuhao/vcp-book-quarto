@@ -6,7 +6,7 @@ book:
   author: "Yuhao Zhu"
   date: "7/12/2025"
 
-  cover-image: cover.png
+  #cover-image: cover.png
 
   chapters:
     - index.qmd
@@ -30,7 +30,11 @@ book:
         - imaging-sensor.qmd
         - imaging-noises.qmd
         - imaging-isp.qmd
-    - summary.qmd
+    - part: display.qmd
+      chapters:
+        - display-basics.qmd
+        - display-impl.qmd
+    #- summary.qmd
     - references.qmd
 
 number-depth: 3
