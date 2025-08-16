@@ -1,5 +1,3 @@
-# Welcome {.unnumbered}
-
 This book attempts to present a unified view of visual computing, looking at it as a series of signal transductions across different domains --- optical, analog, digital, and semantic --- along with the processing that happens within each.
 Any sufficiently complex visual computing system worth studying will likely involve both transductions and processing in all of these domains.
 
@@ -9,9 +7,9 @@ The input signals --- light --- are in the optical domain. These first need to b
 But wait, we are still not done!
 The light emitted by the display enters our eyes, where photoreceptors in the retina convert the optical signals back into electrical ones. The retina and, further downstream, the brain, process these signals, eventually giving rise to our perception and cognition: we see a virtual mug sitting naturally on a real table.
 
-# Why This Book
+# Why This Book {.unnumbered}
 
-Visual computing is a wonderfully broad field, touching everything from the biology of human vision to the engineering of sensors, optics, displays, and rendering.
+Visual computing is a wonderfully broad field, touching everything from the sciences of human vision to the engineering of sensors, optics, displays, and rendering.
 The main motivation for writing the book grew out of a simple observation: while each of these areas is well covered in excellent texts, they are rarely explored together in a single, coherent story.
 
 Why bring them together?
@@ -21,36 +19,36 @@ As Edwin H. Land once put it, the true application of science is that “we fina
 
 Every so often I ask myself: why write this book at all, when none of the material is new and so many fine resources already exist?
 Then I remind myself that most textbooks contain no new results; by the time knowledge reaches a textbook, it is already established.
-What they do is to *offer perspectives*, and that always reveals the idiosyncrasies of the author.
+What books do is to *offer perspectives*, and that always reveals the idiosyncrasies of the author.
 
-The perspective I most want to convey is this: every conclusion is drawn based on set of assumptions.
-By taking a first-principles approach, I aim to make those assumptions explicit, so it is always clear when each conclusion applies and when it does not.
+The perspective I most want to convey is this: every conclusion is drawn based on a set of precisely defined terms and a set of assumptions, which, unfortunately, are not always announced.
+By taking a first-principles approach, I hope to make those definitions and assumptions explicit, so it is always clear when each conclusion applies and when it does not.
 
 # What Do We Not Cover
 
 We will not attempt to be comprehensive --- no one understands everything, and no one needs to understand everything *to get started*.
 Our aim is to take a first-principles approach, giving you a solid foundation and the confidence to learn new concepts as they arise.
 
-We will not cover computer vision --- a field central to and is arguably the most well-understood part of visual computing.
+We will not cover computer vision --- a field central to, and is arguably the most well-understood part of, visual computing.
 There are simply too many excellent texts.
 
 In human vision, our focus will be on the early visual system, particularly the retina.
 This is where the first steps of seeing occur, setting the limits of our vision and representing the most thoroughly studied part of the visual system.
 
-In imaging and display, we review basic principles while being intentionally light on implementation details --- these evolve quickly and are often proprietary.
+In imaging and display, we review basic principles (optical-electrical signal transductions) while being intentionally light on implementation details --- these evolve quickly and are often proprietary.
 
-In rendering, we focus on the classical computational models of light-matter interactions while completely ignoring the implementation issues such as the modern graphics pipelines (e.g., Vulkan) and GPU hardware.
-We will not cover the emerging (neural) rendering paradigm in detail, although we will explore its connections to the classical theories.
+In rendering, we focus on the classical computational models of light-matter interactions while completely ignoring the implementation issues such as the modern graphics pipelines (e.g., programming Vulkan) and GPU hardware.
+We will not cover the emerging (neural) rendering paradigm in detail, but will explore its connections to the classical theories.
 
 # Other Books
 
 This is necessarily an incomplete list, because I can mention only books that I find myself reviewing from time to time.
 
-For human vision, the monumental book by @wandell1995foundations is a must read (a second version is in the works, I was told).
+For human vision, the monumental book by @wandell1995foundations is a must read; it is [freely available](https://wandell.github.io/FOV-1995/), and a second version is in the works, I was told.
 @cornsweet1970visual, while slightly dated, is an all-time classic that has inspired a whole generation of vision scientists.
 @rodieck1998first is a breathtaking walk-through of the early stages in vision (eye optics and retinal processing), where every step is described *operationally* rather than conceptually.
 In the end, you get the feeling that *there is no magic*.
-None of the three books above has complicated equations --- they focus on building intuitions and basic principles.
+What's most powerful about these books is that none of them has complicated equations --- they focus on building intuitions and basic principles.
 @goldstein2009sensation10ed and @yantis2017sensation are popular introductory texts to human perception (vision and beyond).
 
 For rendering, @pharr2023physically is a golden reference, and @dorsey2010digital provides a comprehensive coverage of light-matter in the graphics context.
