@@ -580,14 +580,14 @@ $$
 \end{align}
 $$
 
-This albedo can be seen as the volumetric counterpart of the surface albedo discussed in @eq-albedo.
+This albedo can be seen as the volumetric counterpart of the surface albedo discussed in @eq-albedo_1.
 The two forms of albedo have the same physical meaning: the fraction of the incident energy that is scattered away (i.e., not absorbed).
 A dark medium (e.g., smoke) has a lower albedo, and a bright medium (e.g., mist) has a higher albedo.
 
 The sum of the scattering and absorption cross sections is called the **extinction cross section** or **attenuation cross section**, denoted $\epsilon_t = \epsilon_a + \epsilon_s$.
 And of course $1/\sigma_t$ is the mean free path in a medium where both absorption and scattering take place, i.e., the mean distance a photon can travel without being absorbed or scattered away.
 
-### Scattering Direction Distribution: Phase Function {#sec-chpt-mat-vs-sca-single:pf}
+### Scattering Direction Distribution: Phase Function {#sec-chpt-mat-vs-sca-single-pf}
 
 While the scattering efficiency (coefficient) characterizes how well a particle (medium) is able to scatter photons, it tells us nothing about the *direction* of scattering.
 The direction of a single scattering event is characterized by the **phase function** $f_p(p, \os, \oi)$, which can be interpreted as the probability *density* function that a photon incident from a direction $\oi$ is scattered toward a direction $\os$.
@@ -678,7 +678,7 @@ $$ {#eq-phase_func_def2}
 where $\d L_o(\os)$ is the infinitesimal outgoing radiance toward $\os$.
 In this sense, the phase function operates in exactly the same way as the BRDF (@eq-brdf): they both operate on irradiance and turn infinitesimal irradiance into infinitesimal radiance.
 
-#### Isotropic Medium and Isotropic Scatters
+#### Isotropic Medium and Isotropic Scatters {#sec-chpt-mat-vs-sca-single-pf-iso}
 
 Given the normalization in the phase function, the scattering efficiency should actually be parameterized as $\bar{Q_s}(p, \os, \oi)$:
 
@@ -1539,7 +1539,7 @@ A few notes on the assumptions here:
 
 * The assumption of isotropic scatters is important; assuming only an isotropic medium is not enough.
 This is because the integrals in \Eqn{eq:km_sca_approx} integrate only the upper (or lower) hemisphere rather than the entire sphere, so if the phase function itself is not a constant, the integral result will still depend on $\bar{\omega}$ or $\hat{\omega}$.
-See the distinction between an isotropic medium and an isotropic scatter on #@sec-def-iso_med_sca.
+See the distinction between an isotropic medium and an isotropic scatter on @sec-chpt-mat-vs-sca-single-pf-iso.
 * Alternatively, if the particles are not isotropic scatters, $S_{\uparrow\downarrow}(x) = S_{\downarrow\uparrow}(x)$ can still hold if we assume that the upward and downward irradiance are both diffuse, i.e., the radiance $L(x, \omega)$ is invariant to $\omega$.
 The isotropic medium assumption still needs to hold.
 This can be proven by going back to the respective definitions of $S_{\uparrow\downarrow}(x)$ and $S_{\downarrow\uparrow}(x)$ in @eq-km_ku_4 and @eq-km_kd_5^[If $L(x, \omega)$ is invariant to $\omega$ and $f_p(x, \omega', \hat{\omega})$, under the isotropic medium assumption, is reduced to $f_p(x, \theta)$, where $\theta$ is the angle subtended by $\omega$ and $\omega'$, both $S_{\uparrow\downarrow}(x)$ and $S_{\downarrow\uparrow}(x)$ are essentially calculating $\int^{\pi}\int^{\pi}c~\d \theta\d \theta'$.].

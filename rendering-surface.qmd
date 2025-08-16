@@ -169,7 +169,7 @@ $\rho_{hd}$, a function of $p$ and $\os$, is interpreted as the percentage of en
 @eq-energy_con_2 can be derived by first rewriting @eq-energy_con_1 as $\int^{\Omega}f_r(p, \oi, \os)\cos\theta_s\text{d}\os \leq 1$ (using the reciprocity) followed by switching $\os$ and $\oi$ (simply a change of notation).
 This derivation suggests that $\rho_{hd}(p, \oi) = \rho_{dh}(p, \os)$, a natural consequence of the reciprocity\footnote{For instance, if $\rho_{hd}(p, \oi) = \frac{1}{1+\oi^2}$, then $\rho_{dh}(p, \os)$ must take the form $\rho_{dh}(p, \os) = \frac{1}{1+\os^2}$}.
 
-### Hemispherical-Hemispherical Reflectance {#sec-chpt-mat-ss-reflectance-hhr}
+### Albedo and Hemispherical-Hemispherical Reflectance {#sec-chpt-mat-ss-reflectance-hhr}
 
 We can also describe the relationship between all the outgoing irradiance $E_o$ of a point over a solid angle $\Os$ due to all the incident irradiance $E_i$ over a solid angle $\Oi$:
 

@@ -625,7 +625,7 @@ The color space is now famously known as the DKL color space ^[named after the t
 
 The DKL space operates not on raw cone responses but on response *contrasts* with respect to a perceptually neutral/achromatic color.
 The inherent assumption is that the achromatic color should have no strength in any of the three cone-opponent channels and be the origin in the cone-opponent space.
-The achromatic color depends on an observer's state of chromatic adaptation, a topic we will discuss later in @sec-chpt-hvs-cori-cm-ca.
+The achromatic color depends on an observer's state of chromatic adaptation, a topic we will discuss later in @sec-chpt-hvs-adaptations-chroma.
 People usually fit data to regress the values of the free parameters, and the exact values depend on which cone fundamentals are used and the normalization convention.
 @brainard1996cone describes one such procedure.
 
@@ -960,7 +960,7 @@ For simplicity, @fig-protanomalous_confusion_line shows only the L and M dimensi
 Since the L and M cone fundamentals are very similar, the L and M cone responses are similar too (the extreme case being L = M).
 So C1 and C2 are mapped to C1' and C2' in a protanomalous color space, where both colors are pulled toward the L=M line.
 C1' and C2' are never going to exactly coincide, because the L and M cone fundamentals do not exactly overlap, but when C1' and C2' are sufficiently close, they can still be perceptually undiscriminable.
-This is not unique to CVD individuals: even for normal trichromats the color discrimination is not perfect, as has been demonstrated extensively through psychophysics [@macadam1942visual], which we will discuss in @sec-chpt-sec-chpt-hvs-cori soon.
+This is not unique to CVD individuals: even for normal trichromats the color discrimination is not perfect, as has been demonstrated extensively through psychophysics [@macadam1942visual, @macadam1943specification, @krauskopf1992color], which we will discuss in @sec-chpt-hvs-cori-diff soon.
 
 #### Isochromes
 
