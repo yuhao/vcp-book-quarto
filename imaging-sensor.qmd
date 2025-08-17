@@ -48,3 +48,439 @@ While earlier image sensors used FSI because it is easier to manufacture, almost
 FSI is actually quite similar to the structure of human eyes, where, if you recall, the photoreceptors are "hiding" behind other retinal neurons such as the retinal ganglion cells, which are functionally the last layer of retinal processing but anatomically sitting at the first layer on the retina.
 Different from the FSI sensor, however, the non-photoreceptor neurons on the retina do very little to light: they do not absorb or scatter light much and can be generally thought of as transparent.
 Metal wires, of course, disrupt incident photons significantly.
+
+## From Photons to Charges and Digital Numbers {#sec-chpt-imaging-sensor-pixel}
+
+We will talk about how optical signals are first converted to electrical signals in the form of charges, and then talk about how the charges are detected, at which point the electrical signals are manifested as voltage potentials.
+The voltage potentials are then quantized as digital numbers, which are the raw pixel values.
+We will focus on the basic building blocks that enable these conversions and leave it to @sec-chpt-imaging-sensor-arch to discuss how these building blocks are connected in a global sensor architecture.
+The discussion here assumes monochromatic sensing without noise.
+We will talk about color sensing and the noise issue later.
+
+### Photons to Charges {#sec-chpt-imaging-sensor-pixel-pe}
+
+What turns optical signals to electrical signals is the light-sensitive photodiode in a pixel.
+A photodiode is a p-n junction made of silicon, a semiconductor material.
+When a photon hits silicon and is absorbed, an electron from the silicon *might* be freed/emitted, transforming optical signals to electrical signals.
+This is called the **photoelectric effect** [@einstein1905erzeugung; @einstein1905heuristic], the discovery of which won Albert Einstein his Nobel Prize.
+
+In particular, when a photon is absorbed, if its energy is greater than or equal to the **work function** $\phi$ of the material, which is the minimum energy needed to free an electron from the surface of the material, the photon can transfer its energy to an electron and free the electron.
+A photon's energy is given by the **Planck's relation**:
+
+$$
+\begin{align}
+    \mathcal{E} = h f = \frac{hc}{\lambda},
+\end{align}
+$$ {#eq-photon_energy}
+
+where $h$ is the Planck constant, $f$ is the photon frequency, and $c$ is the speed of light.
+So if $h f > \phi$, an absorbed photon can free an electron.
+Interestingly, the residual energy $hf - \phi$ becomes the kinetic energy of the electron, so a photon with a shorter wavelength (i.e., higher frequency) would allow the emitted electron to move faster.
+
+It is clear that there is a frequency threshold $\phi/h$, lower than which a photon would never be able to free an electron.
+Higher than the threshold, there is generally a one-to-one mapping between an absorbed photon and an emitted electron: an absorbed photon always frees an electron.
+Since the work function of silicon is about 1.1 eV (electron volt), absorption of photons with wavelengths longer than 1,100 nm would not emit any electron.
+
+#### Quantum Efficiency {#sec-chpt-imaging-sensor-pixel-pe-qe}
+
+A key figure of merit in image sensing is the notion of **quantum efficiency** (QE), which is the ratio between the number of electrons collected and the number of incident photons:
+
+$$
+\begin{align}
+    QE = \frac{\#\text{~of electrons collected}}{\#\text{~of incident photons}}.
+\end{align}
+$$ {#eq-qe}
+
+@fig-silicon_abs_qe (a) shows the QE spectrum of an image sensor in the Hubble Space Telescope.
+It might come as a surprise that QE is lower than 1 (even for wavelengths well within the 1,000 nm threshold) and is actually wavelength dependent: shouldn't every absorbed photon (within the wavelength threshold) always free an electron?
+There are two reasons.
+
+![(a): quantum efficiency of a sensor on the Hubble Space Telescope; from @ccd_qe with data from @mcmaster2008wide[Fig. 4.2]. (b): silicon absorption coefficient (left axis) and mean free path (right axis) as a function of wavelength; data from @green1995optical.](figs/silicon_abs_qe){#fig-silicon_abs_qe width="100%"}
+
+First, the denominator in the QE definition is the number of *incident* photons, not the number of absorbed photons.
+Not all photons that hit the photodetector will be absorbed.
+@fig-silicon_abs_qe (b) shows the spectral absorption coefficient $\sigma$ (unit 1/cm) of silicon on the left $y$-axis, and the right $y$-axis shows the corresponding mean free path $l$ (i.e., the expected length a photon can travel within silicon before being absorbed) at different wavelengths; recall from \Eqn{eq:mfp} that $l = 1/\sigma$.
+We can see that absorption is strongest for the blue-ish lights but decays very rapidly toward the longer wavelengths.
+This definition of QE is different from how QE is defined in human vision.
+Recall from @sec-chpt-hvs-receptor-counting; there, QE is the probability of pigment excitation once the pigment actually absorbs a photon; there, the QE of photopigment is roughly two-thirds and is not wavelength-sensitive.
+
+Second, the nominator in the QE definition is the number of *collected*, not emitted, electrons: even if an electron is freed by an absorbed photon, that electron might not actually be collected and contribute to the electrical signal.
+Depending on where the electrons are freed, some of them need to go through a random walk (think of it as Brownian motion) before being collected, and you can imagine some electrons can be recombined with the holes during the walk.
+<!-- %https://hamamatsu.magnet.fsu.edu/articles/quantumefficiency.html
+%https://isl.stanford.edu/~abbas/ee392b/lect01.pdf; the QE derived is the number of collected electrons over the number of incident photons on the photodetector (so it ignores any photon loss before reaching the PD but includes absorption spectrum and random walks) -->
+
+Given QE, the total number of emitted electrons after an exposure time $T$ is given by:
+
+$$
+\begin{align}
+    N = \int_\lambda QE(\lambda) Y(\lambda) \text{d}\lambda,
+\end{align}
+$$  {#eq-int_n_a}
+
+where $Y(\lambda)$ is the number of photons incident on a photodiode at a particular wavelength $\lambda$ during the exposure time $T$ (assuming $Y$ is invariant during $T$ here).
+According to the Planck's relation (@eq-photon_energy), $Y(\lambda)$ is related to the spectral power distribution (SPD) of the incident light $\Phi(\lambda)$ by: $Y(\lambda) = \frac{\Phi(\lambda) T \lambda}{hc}$, where $\Phi(\lambda) T$ is spectral energy distribution.
+Therefore, we have:
+
+$$
+\begin{align}
+    N = \int_\lambda QE(\lambda) \frac{\Phi(\lambda) T \lambda}{hc}  \text{d}\lambda.
+\end{align}
+$$ {#eq-int_n_b}
+
+Note that we define QE for the photodiode itself: the denominator in @eq-qe refers to the number of photons incident on the photodiode, not those that enter the camera system.
+This is an important distinction, because many photons that enter the camera would not even make their way to the photodiode; some of them are reflected at the lens surfaces, and others are absorbed by the various filters (@sec-chpt-imaging-sensor-optics).
+In many contexts, the QE is reported with respect to the entire camera system, where the denominator *is* the number of photons entering the camera.
+Always ask what the precise definition of a QE is when reading the literature.
+
+#### Pixel Well and Dynamic Range {#sec-chpt-imaging-sensor-pixel-charge-dr}
+
+We can intuitively think of each pixel as a well (a pixel well) that collects electrons.
+@eq-int_n_b indicates that there are two main factors that determine the number of electrons going into a particular pixel well: the incident light power and the exposure time.
+A pixel cannot indefinitely collect electrons.
+The **full-well capacity** (FWC) is the max amount of electrons that can be held by a pixel.
+More electrons than the FWC would *saturate* the well, at which point no charges will be stored by the pixel.
+When a pixel well is saturated, photographers call that pixel "over-exposed".
+This is illustrated in @fig-dr, where, ordinarily, the number of charges collected is proportional to the incident light luminance until the pixel well is full.
+
+![Illustration of dynamic range, which is the ratio of the FWC and the noise floor; adapted from @overexposure2. Incident luminance higher than the FWC saturates a pixel, leading to over-exposure.](figs/dr){#fig-dr width="100%"}
+
+A larger FWC leads to a higher sensor **dynamic range**, which, informally, refers to the range of scene luminance that a sensor can capture.
+Formally, the dynamic range is defined as the ratio between the highest and the lowest luminance level that can be *faithfully* captured.
+The highest level is the FWC, but what about the lowest level?
+Wouldn't that simply be 0 and, if so, wouldn't the dynamic range of any image sensor be infinity?
+
+The answer is that at very low light levels the charges collected by a pixel are dominated by noise.
+We call the charges collected when there is no incident light the "noise floor", which can be measured by taking an image when the camera is in dark.
+The dynamic range is thus the ratio between the FWC and the noise floor [@nakamura2006image, Chpt. 3.4.2.1].
+We discuss noise in detail in @sec-chpt-imaging-noise and will not get into it too much here, but briefly, the noise floor is dominated by "dark noise", which is caused by the thermally dislodged electrons, and the "read noise", which is the noise introduced by the read-out circuitry.
+
+#### High Dynamic Range Imaging {#sec-chpt-imaging-sensor-pixel-charge-hdr}
+
+The goal of high-dynamic-range (**HDR**) imaging is to design imaging systems such that the scene luminance can be faithfully reconstructed from pixel values.
+Two things are in the way: noise at low-luminance regions in the scene and saturation at high-luminance regions in the scene.
+Computationally, the common strategy is called **exposure bracketing**, which can be implemented in two ways, both involving taking multiple shots of the scene and then fuse them.
+
+* Each shot can have the same, short exposure time so no pixel is over-exposed. We then average multiple shots; averaging is a form denoising (@sec-chpt-imaging-noise-??).  This is the approach that Google's HDR+ system takes [@hasinoff2016burst].
+* Or each shot can have a different exposure time.  Long-exposure shots are used to capture details in low-luminance regions, and short-exposure shots capture details in high-luminance regions.
+
+Either way, the issue with exposure bracketing is the longer capturing time, and the resulting image is more susceptible toward motion blur.
+We ideally would like "single-shot" HDR.
+There are multiple approaches, and they usually require co-designing the image sensor/pixel design with the post-processing algorithms.
+
+One strategy is to use the so-called "split-pixel" technology, an emerging technology that has not quite made its way into products but nevertheless interesting.
+The idea is to use two or multiple groups of pixels, each with a different sensitivity to light.
+This sensitivity can be controlled by changing the FWC of the pixels: a large FWC is less likely to saturate during the same exposure time that does a smaller pixel.
+The two groups of pixels can then be distributed over the sensor plane, so they each performs a uniform sampling of the scene.
+
+### Measuring Charges {#sec-chpt-imaging-sensor-pixel-charge}
+
+#### Basic Principle
+
+Now that we have turned photons to charges --- the freed electrons move to the n region and the holes move to the p region of the p-n junction --- the next step is to measure the charges.
+The basic principle of doing so is using a capacitor: we use the electrons to discharge a capacitor with a known capacitance; by measuring the voltage difference before and after the discharge, we can then estimate the number of emitted electrons:
+
+$$
+\begin{align}
+    \Delta V = \frac{Q_{SIG}}{C_{FD}} \times g = \frac{N q}{C_{FD}} \times g,
+\end{align}
+$$ {#eq-charge_measure}
+
+where $Q_{SIG}$ is the charge in the signal stored in the capacitor, $C_{FD}$ is the capacitance, and $g$ is the voltage gain of whatever device is used to read out the voltage (usually a source follower; see later).
+$Q_{SIG}$ itself is the product of $N$, the number of charges in the signal, and $q$, the elementary charge.
+
+We can see that once we can measure $\Delta V$, we can get an estimate of $N$.
+Why do we care about $N$?
+Intuitively, the incident light luminance is positively related to $N$: more incident photons means higher luminance.
+Luminance $L$, if we are interested in only grayscale, monochromatic imaging, is ultimately what we want to estimate.
+
+It is important to realize that the actual relationship between $L$ and $N$ is not linear.
+We know that luminance is defined as:
+
+$$
+\begin{align}
+    L = \int_\lambda V(\lambda) \Phi(\lambda) \text{d}\lambda,
+\end{align}
+$$ {#eq-lum}
+
+where $V(\lambda)$ is the luminance efficiency function (LEF) and $\Phi(\lambda)$ is the SPD of the incident light.
+Taking @eq-lum and @eq-int_n_b together, we can see that given $N$, we cannot quite estimate $L$, because $L$ depends on $\Phi(\lambda)$, but estimating $\Phi(\lambda)$ from $N$ is an under-determined problem, as @eq-int_n_b shows.
+To be exact, $L$ does not necessarily scale linearly with $N$ --- it does not even necessarily scale positively with $N$, but it is perhaps not terribly wrong to informally say a higher charge count means a higher luminance in the scene.
+We will return to this problem when we discuss color sensing, too.
+
+#### 4T Design
+
+The photodiode (PD) technically acts as a capacitor itself (the n-side neutral region holds electrons and the p-side neutral region holds holes), so we could simply use the PD for that purpose.
+This is indeed how an earlier pixel design works, which we will return to shortly.
+Modern pixels actually transfer the charges from the PD to a separate measurement node, which we focus on here.
+
+@fig-4taps (a) shows the circuit diagram of a typical pixel design that detects and measures the charges.
+The design has a PD and four transistors, so it is usually called the 4T design.
+The `M-TX` switch controls the transfer of the charges accumulated in the PD to the Floating Diffusion (FD)^[For the charges collected in PD to be transferable to the FD, the photodiode needs to be "pinned", which means there is another layer of p+ implant above the p-n junction pinned to the ground (0 V).
+Such a PD is also called the Pinned Photodiode, or PPD [@fossum2014review].], another capacitive area, and is sometimes called the *measurement node* or the *sense node*, because that is where the charges are actually being measured.
+The FD is connected to the NMOS Source Follower (SF) transistor `M-SF`, where the gate terminal is its input and is connected to the FD voltage, the drain is connected to the supply voltage, and the source is the output that faithfully follows/transfers the input with a gain of about 0.9 ($g$ in @eq-charge_measure).
+
+![(a): circuit diagram of a typical 4T pixel design; adapted from @ma2024efficient[Fig. 2.5(a)]. (b): timing diagram of operating a 4T pixel.](figs/4taps){#fig-4taps width="100%"}
+
+The sequence of operation goes roughly like the following, and @fig-4taps (b) shows the corresponding timing diagram:
+
+* Before the exposure, we turn on the `M-RST` switch *and* the `M-TX` to drain the charges (electrons) at the PD, which will also, as a byproduct, drain the charges in the FD, resetting their voltage potentials both to $V_{RST}$.
+Resetting the FD voltage at this step is of no functional use, as we will shortly see.
+* We then turn off `M-RST` and `M-TX`, and the exposure begins, during which the charges are collected inside the PD.
+We can see from @eq-charge_measure that in order to measure the charges we need to measure the voltage difference *at the FD node* before and after the charges are transferred.
+So toward the end of the exposure, we turn on the `M-RST` switch again while, importantly, keeping the `M-TX` switch off.
+This would allow us to reset the FD voltage to $V_{rst}$, which will be measured through `M-SF` as $V_1$ in @fig-4taps (b)^[$V_1$ and $V_{rst}$ technically are ever so slightly different because the charges might be leaking between resetting and read out.].
+* We then turn on the `M-TX` switch, which transfers the charges from the PD to the FD.
+After that, we turn off `M-TX` and read the voltage from `M-SF` for the second time, this time for the voltage at FD after the charge transfer.
+This is the $V_2$ in @fig-4taps (b).
+The difference between $V_1$ and $V_2$ is the $\Delta V$ in @eq-charge_measure.
+
+As we can see, we read the voltage of the FD twice to obtain the voltage difference caused by the charges collected during the exposure.
+This is called **Correlated Double Sampling** (CDS), which turns out to also be very important to mitigate many noise sources, which we will discuss later.
+
+To read out the voltage from the SF, the `M-SEL` switch needs to be turned on, which is omitted from @fig-4taps (b) for simplicity.
+As we will shortly see in @sec-chpt-imaging-sensor-arch, in most cases (although not all), pixels are read out row by row, so the `M-SEL` switches of all pixels in the same row are connected to the same signal, usually called the row select signal.
+
+The timing diagram in @fig-4taps (b) is illustrative of the major operations (omitting `M-SF`) but not drawn to scale.
+The exposure time is usually at the tens of milliseconds scale (e.g., 30 FPS means roughly a 33.3 ms exposure time), but the timescale to operate the transistors/switches is at the microsecond level.
+Also observe, in @fig-4taps (b), that during the exposure the voltage at the FD ($V_{FD}$) slowly reduces from $V_{rst}$ after the first reset --- because of the charge leakage in the FD, just like how DRAM cells leak.
+This is why we need the second reset to bring the voltage at FD back to $V_{rst}$ before charge transfer.
+This is also why we say the first reset is of no functional use to the FD (but of course very important to the PD because we want the PD to collect only electrons emitted from the current exposure).
+
+#### 4T APS vs. 3T APS vs. PPS
+
+The (4T) pixel design described above is called an **Active Pixel Sensor** (APS) design, first conceived by @noble1968self (see @fossum1993active for a more modern perspective).
+An APS has a per-pixel SF (a common-drain amplifier) that "actively" reads out the signal for each pixel by turning its charges to voltage.
+We briefly discuss the other, older pixel designs that are less commonly used now.
+See @el2005cmos for a more detailed discussion and visual comparisons.
+
+![Left: 3T APS vs. 4T APS. Top right: Passive Pixel Sensor (PPS). Bottom right: Digital Pixel Sensor (DPS). Adapted from @el2005cmos[Fig. 5, 10, 11].](figs/pixel_design){#fig-pixel_design width="100%"}
+
+A simpler and earlier version of the APS design uses only three transistors (3T) without the \texttt{M-TX} gate.
+@fig-pixel_design (left) compares the 4T APS with the 3T APS.
+Without the transfer gate, the PD is used as the measurement/sensor node itself, so the $C_{FD}$ in @eq-charge_measure is effectively the capacitance of the PD itself.
+The 3T APS simplifies the pixel design and, thus, increases the fill factor (without the microlenses).
+It, however, generally suffers from a lower signal-to-noise ratio (SNR) for a variety of reasons.
+For instance, the PD has a large inherent photodiode capacitance, so the signal ($\Delta V$ in @eq-charge_measure) read from the PD is low, making it more vulnerable to noise.
+In contrast, we get to control the FD in the 4T APS, which can be made to have a much lower capacitance, leading to a higher SNR.
+The CDS for 3T APS is also much less effective in suppressing noise, as we will discuss later.
+
+A precursor to APS was the \textbf{Passive Pixel Sensor} (PPS), first suggested in @weckler1967operation and @dyck1968integrated.
+A PPS has only one transistor, as shown in the top-right panel in @fig-pixel_design.
+The PPS has no SF that reads out voltage from the PD charges.
+Instead, the charges (not voltage) in the PD "passively" flow through a column bus and are turned to voltage there through a charge amplifier [@aoki19822].
+<!-- % what's drawn here is a particular charge amplifier (CTIA), which is different from the subsequent column follower amplifier and chip follower amplifier (omitted): https://isl.stanford.edu/~abbas/ee392b/lect04.pdf, p. 5-6. -->
+The PPS design is simpler (as only one transistor is needed) but leads to a much worse noise profile because of the large (parasitic) capacitance of the column bus.
+The SF in APS acts as an active amplifier, which isolates the sense node (whether it is the PD or the FD) from the large column bus capacitance, providing a much higher output current and lower output impedance than a PD does and, thus, improving the SNR [@kozlowski1998comparison; @ohta2020smart, Chpt. 2.5].
+
+#### Electronic Shutter
+
+Ideally, when we are not capturing light, the photodiodes should not be exposed to lights.
+This is achieved by a shutter.
+**Mechanical shutters** do so by physically blocking lights.
+The sensor is *not* exposed to light normally, blocked by the shutter.
+The shutter then mechanically opens to expose the sensor to light.
+There are many types of mechanical shutters, of which the most popular one is the focal plane shutter shown in @fig-rolling_shutter (a).
+The shutter has two curtains that move in sync with a gap that allows lights in.
+The size of the shutter opening and the speed of the movement dictate the exposure time: a larger opening and slower speed mean longer exposure time.
+This is called a focal plane shutter because the shutter is located in front of the focal plane (sensor).
+There is also the leaf shutter, which is usually located at the aperture plane with the lenses.
+
+![(a): a mechanical focal-plane shutter, which is inherently a rolling shutter; adapted from @focal_plane_shutter. (b): rolling shutter artifact; from @rs_artifacts.](figs/rolling_shutter){#fig-rolling_shutter width="100%"}
+
+The 4T pixel design above essentially implements an **electronic shutter** (ES).
+With an ES, we expose photodiodes to lights *all the time*.
+The way we mark the start of the exposure is through the `M-RST` switch, which resets the PDs, and the way we mark the end of the exposure is through the `M-TX` switch, which transfers the PD charges for measurement.
+The time difference between these two steps dictates the exposure time.
+As you can imagine, the shutter speed (inverse of the exposure time) of an electronic shutter can be much faster than that of a mechanical shutter, since there are no mechanical moving parts.
+
+### Read-out Circuitry {#sec-chpt-imaging-sensor-pixel-ro}
+
+Following the pixel circuitry is the read-out circuitry, which usually has two main components: the programmable-gain amplifier and the analog-to-digital Converter (ADC).
+@fig-readout illustrates the common, simplified designs of the two components.
+
+![(a): analog CDS and programmable amplifier; from @ma2024efficient[Fig. 2.5(b)]. (b): a single-slope ADC typically used in image sensors; adapted from @ma2024efficient[Fig. 2.5(c)].](figs/readout){#fig-readout width="100%"}
+
+The amplifier is there to amplify the voltage read from the pixel, and the **gain** of the amplifier is programmable.
+A programmable gain is useful in imaging and photography to artificially shorten or extend the exposure time (e.g., through the ISO setting in a digital camera).
+The particular design shown in @fig-readout (a) combines CDS with a classical amplifier design with two capacitors.
+Specifically, the two voltages read out from the FD (one right after the reset and the other right after the charge transfer) are sampled by the $C_{in}$ capacitor sequentially, which essentially performs an analog-domain subtraction that is required by CDS.
+The voltage difference is then amplified with a gain $\frac{C_{in}}{C_{feedback}}$.
+$C_{feedback}$ is usually programmable, allowing us to control the gain.
+
+The amplified voltage difference then goes through an ADC to obtain the digital value.
+There is a huge amount of ADC designs [@adc_survey].
+The design that is commonly used in image sensors is the single-slope (SS) design, whose simplified diagram is shown in @fig-readout (b).
+An SS ADC consists of a comparator, a ramp signal generator, and a counter.
+The ramp generator provides a monotonically increasing or decreasing ramp signal, which is compared with the to-be-quantized analog signal (output of the amplifier).
+At every clock cycle, the comparator compares the two inputs while the counter increments.
+When the two input signals cross, the counter value is recorded and represents the quantized digital value of the analog signal.
+
+The designs in @fig-readout perform CDS in the analog domain (through $C_{in}$).
+In many image sensors today, the CDS is performed in the digital domain after the ADC [@nitta2006high].
+You would think that such a design might require twice the ADC overhead plus the additional digital subtraction overhead.
+In reality, the design is quite clever.
+The ADC would first quantize the first sample (before reset), and the resulting counter value represents the digital value of the first sample.
+For the second sample, instead of counting from scratch, we would simply turn the counter around so that it counts backward.
+At the end, the counter value is naturally the digital difference of the two samples.
+
+## Global Architecture {#sec-chpt-imaging-sensor-arch}
+
+We have discussed the individual building blocks that are needed for a pixel to turn lights into digital values, but how are they put together in an actual image sensor supporting tens of millions pixels?
+This chapter talks about the global architecture of an image sensor.
+We will start with a common architecture followed by other variants.
+
+![(a): the block diagram of a typical rolling-shutter image sensor with column-level amplifiers and ADCs, where pixels in the same column share the same amplifier and ADC; pixels are exposed and read out row by row under the control of the `RST` signal (connecting to the `M-RST` switches) and the `SEL` signal (connecting to the `M-SEL` switches) (for simplicity, we omit the per-row `TX` signal, which connects to all the `M-TX` switches in the same row); (b): timing diagram operating the image sensor in (a) with a rolling shutter; technically the FD reset should be overlapped with the exposure time but is lumped into the readout box for simplicity. (c): comparison of column-level ADC used in (a) with pixel-level ADC and array/chip-level ADC. (d): timing diagram operating the image sensor in (a) with a global shutter.](figs/global_arch){#fig-global_arch width="100%"}
+
+### Column-Parallel Readout {#sec-chpt-imaging-sensor-arch-col}
+
+@fig-global_arch (a) shows a typical arrangement, where pixels are organized as a 2D array, just like a (DRAM/SRAM) memory array, and each column has an amplifier and ADC shared by all the pixels in that column.
+That is, the `Output` pin in @fig-4taps of all the pixels in the same column are connected to the same amplifier and ADC.
+The read-out circuit is then connected to digital processing circuitry, which could potentially perform simple image-space operations such as downsampling, scaling, rotation, etc.
+There is also an I/O unit that transfers the pixels to the host processor, usually through the MIPI-CSI interface, and transfers commands/configuration data from the host processor, usually through the I2C interface, which has a much lower bandwidth than MIPI (Kb/s vs. Gb/s).
+
+The pixels in the pixel array are addressed row by row through a row scanner logic, shown on the left of @fig-global_arch (a).
+Pixels in the same row share three external signals: a reset signal `RST`, which is connected to all the `M-RST` transistors in the row, a row-select signal `SEL`, which is connected to all the `M-SEL` transistors of the same row, and a transfer signal `TX` (omitted in the figure) connected to all the `M-TX` switches in the same row.
+
+The operating sequence of the pixel rows is shown in @fig-global_arch (b); the times are not drawn to scale.
+Each row of pixels goes through the PD reset, exposure, and readout phases under the control of the three external signals (`RST`, `SEL`, and `TX`).
+Importantly, the three phases are pipelined across rows.
+That is, while the first row is being exposed, we can start resetting the PDs for the subsequent rows and preparing them for exposure.
+For instance, in the concrete example of @fig-global_arch (a), the first row is starting the read-out sequence, the n^th^ row is starting the exposure, while all other rows in-between are currently under exposure.
+While the exposure times of different rows can overlap, their readout sequences cannot --- pixels in the same column but different rows share the same the read-out circuitry.
+
+We can see that the way the pixel array is addressed and operated is similar to how a memory array (e.g., SRAM/DRAM) is, where the data in an entire row is accessed at once.
+However, since the pixel rows are operated strictly sequentially (unless random sampling is needed [@feng2024blisscam]), the row scanner logic does not need a decoder, which supports random accesses that a typical memory array would need.
+Instead, one can usually use parallel shift registers to generate the three external signals row by row.
+
+### Rolling vs. Global Shutter {#sec-chpt-imaging-sensor-arch-shut}
+
+The timing diagram suggests that pixels in different rows technically have slightly shifted exposure times, inherently using a **rolling shutter**.
+The mechanical focal-plane shutter shown in @fig-rolling_shutter (a) is inherently a rolling shutter.
+Rolling shutters introduce noticeable artifacts; one such example is shown in @fig-rolling_shutter (b), where the photo was taken by a camera traveling in a car driving at about 50 mph.
+As a result, the fence and gate appear slanted because vertical parts of these objects are taken at different times.
+Such an artifact is much less visible for more distant objects, such as the cliff (can you reason about why?).
+
+**Global shutters** address the rolling shutter artifacts by exposing all pixels at the same time.
+@fig-rolling_shutter (d) shows the timing diagram of a global shutter sensor; compare that with that of the rolling shutter sensor in @fig-rolling_shutter (a).
+All the PDs are reset at the same time and have the same exposure duration.
+
+The pixels are still read out row by row due to the column-level design of the read-out circuitry.
+This means the pixel values have to be temporarily held in some form of analog buffer after exposure and before they are read out.
+One could certainly use the FD for this analog buffer --- with the caveat that the this prevents the PD from starting a new exposure cycle.
+This is because starting a new exposure requires resetting the PD, which would also reset the corresponding FD, as shown in @fig-4taps (a).
+For that reason, it is common to implement an additional analog buffer inside each pixel.
+The buffer can be implemented either in the charge domain before the FD [@yasutomi2011two; @sakakibara201283db; @tournier2018hdr; @kumagai2018back; @yokoyama2018high; @kobayashi20171] or implemented in the voltage domain after the FD [@kondo20153d; @stark2018back; @miyauchi2020stacked].
+<!-- %miyauchi2020stacked Table 1 has a comparison between the two. -->
+
+### Pixel-Parallel and Chip-Level Readout {#sec-chpt-imaging-sensor-arch-ro}
+
+We can also arrange the read-out circuitry differently, as illustrated in @fig-global_arch (c).
+For instance, we could have a *per-pixel* (gain-controllable) amplifier and ADC and, consequently, a per-pixel digital memory.
+This essentially allows each pixel to directly output digital values, giving rise to the so called **Digital Pixel Sensor** (DPS) design, which was first reported in @fowler1994cmos and is recently gaining tractions [@liu2019intelligent], where the in-pixel memory can is a 6T SRAM cell and the entire pixel array acts almost like an SRAM array.
+The bottom-right panel in @fig-pixel_design shows the pixel design diagram of a DPS, where the in-pixel memory can be, for instance, a 6T SRAM cell.
+In this case, the entire pixel array is indeed like an SRAM array.
+
+DPS increases the pixel design complexity and pixel sizes, which, without microlenses, reduces the fill factor.
+This can, however, be alleviated with a stacked design, which we will get to in @sec-chpt-imaging-sensor-arch-comp.
+The main advantage of the DPS is that it massively increases the readout bandwidth due to pixel-parallel ADCs, which could shorten the frame latency when using a global shutter (see @fig-global_arch (d)), especially when short exposure time is desirable (e.g., high frame rate or "snap-shot" photography).
+
+Yet another read-out arrangement is to have a single gain-controllable amplifier and ADC for the entire pixel array.
+This is shown in @fig-cmos_vs_ccd (b).
+In this case, we not only need logic to scan rows one by one but also to scan columns one by one (e.g., through shift registers).
+This arrangement is not common (thus omitted in @fig-global_arch (c)) due to its slow read-out speed but is the only option for sensors based on the Charge-coupled Devices (CCD), a design that is different from all the designs we have discussed so far and is our focus next.
+
+![(a) charge-shifting read-out architecture for CCDs. (b) read-out architecture for CMOS image sensors with a global, array-level amplifier. Adapted from @nakamura2006image[Fig. 3.5].](figs/cmos_vs_ccd){#fig-cmos_vs_ccd width="100%"}
+
+### CMOS vs. CCD Sensor {#sec-chpt-imaging-sensor-arch-ccd}
+
+All the sensor designs we have covered so far are called Complementary Metal-Oxide-Semiconductor (CMOS) sensors, because they heavily rely on circuitries implemented using the CMOS techonlogies.
+CCD sensor is the other major category of sensor design, first reported in @boyle1970charge.
+Both CCD and CMOS sensors use silicon to implement the PDs, although the specific implementations can differ [@nakamura2006image, Chpt. 3.1.2].
+The main difference lies in how the charges generated by the PDs are read out.
+See @fossum1993active, @fossum1997cmos, and @el2005cmos for the historical background and comparisons.
+
+A CCD sensor directly reads out charges from pixels by *shifting* the collected charges row by row.
+When a row reaches the bottom of the pixel array, we then shift the charges column by column to a single, array-level SF amplifier (and potentially a gain-controllable amplifier and ADC afterwards).
+This architecture is shown in @fig-cmos_vs_ccd (a).
+In CMOS sensors, in contrast, the charges are converted to voltages *within* the pixels, and it is the voltage potentials that are being read out from the pixel array by *addressing*, rather than shifting across, individual rows.
+The CMOS architecture is shown in @fig-cmos_vs_ccd (b).
+
+The key to a CCD sensor is the charge-coupled devices themselves.
+A CCD is a set of connected MOS capacitors that store and transfer, between them, charges [@hu2009modern, Chpt. 5], invented by Willard Boyle and George E. Smith [@boyle1970charge]^[They shared the Nobel Prize in Physics in 2009.].
+In a CCD image sensor, the CCDs are connected to the PDs.
+After the exposure, all the PDs simultaneously transfer their charges to the corresponding vertical CCDs.
+The vertical CCDs in the same column then act as a shift register, transferring the charges downward to the horizontal CCD at the bottom of the chip.
+When a row of charges reaches the horizontal CCDs, the charges are then transferred horizontally (again, in a shift-register fashion) to the SF amplifier, which turns charges to voltage.
+
+Given this signal read-out architecture, it is perhaps unsurprising to see that CCD sensors inherently support global shutters: the CCDs used for shifting charges naturally store the charges temporarily during the read-out.
+
+CCDs are fabricated using process technologies that are optimized for charge transfer and that are incompatible with the CMOS technologies.
+In contrast, the read-out architecture of the CMOS sensors can be fabricated using CMOS technologies.
+This is a huge advantage because non-imaging logics such as control (e.g., clock generation) and analog/digital processing (e.g., ADC, image processing, computer vision tasks) are also based on CMOS technologies.
+Such logics, in CCD sensors, need to be implemented on a separate chip that interfaces with the CCD chip, rather than integrated with the pixel array on the same chip in a CMOS image sensor.
+
+As modern CMOS technologies mature and gradually take over the semiconductor industry, CMOS image sensors have become more appealing.
+The main advantage of the CCD sensors is their high SNRs.
+CCD sensors do not have active devices during read-out and, thus, avoid/minimize many sources of noise that CMOS sensors are vulnerable to, a point we will return to when discussing noise modeling^[It is worth noting, however, that it is difficult for the CCD sensor to perform CDS because of its read-out architecture (shifting charges to a single SF amplifier).].
+Because of that, while consumer cameras today mostly use CMOS sensors, CCD sensors are still use widely used in many scenarios where imaging quality is critical, e.g., scientific imaging.
+For instance, many telescopes for astrophysics (e.g., Sloan Digital Sky Survey) still use CCD sensors.
+
+### Computational and Stacked CMOS Image Sensors {#sec-chpt-imaging-sensor-arch-comp}
+
+Because the imaging circuitries and the logic processing circuitries both use the CMOS process technologies, a clear trend in CMOS Image Sensor (CIS) design is to move into the sensor computations that are traditionally carried out outside the sensor, which gives rise to the notion of **Computational CIS**.
+
+#### CIS Scaling Trends
+
+@fig-cis_trends (a) shows the percentage of computational CIS papers in International Solid-State Circuits Conference (ISSCC) and International Electron Devices Meeting (IEDM), two premier venues for semiconductor circuits and devices, from Year 2000 and Year 2022 with respect to all the CIS papers during the same time range.
+The trend is clear: increasingly more CIS designs integrate compute capabilities.
+
+![(a) Percentage of conventional CIS, computational CIS, and stacked computational CIS designs from surveying all ISSCC and IEDM papers published between the year 2000 and 2022. Increasingly more CIS designs are computational. (b) CIS process node always lags behind conventional CMOS process node. This is because CIS node scaling tracks the pixel size scaling, which does not shrink aggressively due to the fundamental need of maintaining photon sensitivity. From @ma2023camj[Fig. 1, 3].](figs/cis_trends){#fig-cis_trends width="70%"}
+
+A key reason why we could integrate processing/computational capabilities into the CIS chip is because of the advancements in the CMOS technologies that, for instance, have significantly shrunk the feature size, which is the smallest physical dimension that can be reliably fabricated on a semiconductor chip and is proportional to the transistor size.
+At the same time, however, the PD size itself has not shrunk proportionally, meaning adding CMOS logic to the sensor increases the total chip area minimally in the grand scheme of things.
+
+This is shown in @fig-cis_trends (b), where triangle markers show the pixel sizes in CIS designs from all ISSCC papers appeared during Year 2000 and Year 2022, which include leading industry CIS designs at different times.
+We overlay a trend line regressed from these CIS designs to better illustrate the pixel size scaling trend.
+As a comparison, the blue line at the bottom represents the standard CMOS technology node scaling laid out by the International Roadmap for Devices and Systems (IRDS) [@irds].
+We can see that the gap between the pixel size and the standard CMOS feature size steadily increases.
+In fact, the pixel size scaling stagnates at around 5 $\mu m$, which has long been seen as the practical pixel size limit [@fossum1997cmos].
+As semiconductor manufacturers keep pulling rabbits out of a hat, the CMOS feature size is still, miraculously, shrinking (TSMC/Samsung are shipping products with a 2 nm process node in 2025), so the gap would still exist, at least for quite a while.
+
+#### Computational CIS Architectures
+
+The computations inside a CIS could take place in both the analog and the digital domain.
+@fig-cis_arch (b) illustrates one example where analog computing is integrated into a CIS chip before the ADC.
+Analog operations usually implement primitives for feature extraction [@bong201714; @bong2017low], object detection [@young2019data], and DNN inference [@hsu202005; @xu2021senputing].
+@fig-cis_arch (c) illustrates another example that integrates digital processing, such as ISP [@murakami20224], image filtering [@kim2005200], and DNN [@bong2017low].
+
+![(a) Traditional 2D imaging CIS with the PD array and the ADCs. (b) Computational CIS with analog processing capabilities (before the ADCs). (c) Computational CIS with digital processing. (d) Stacked computational CIS with digital processing in a separate layer. Adapted from @ma2023camj[Fig. 2].](figs/cis_arch){#fig-cis_arch width="100%"}
+
+As the processing capabilities become more complex, CIS design has embraced 3D stacking technologies, as is evident by the increasing number of stacked CIS in @fig-cis_trends.
+@fig-cis_arch (d) illustrates a typical stacked design, where the processing logic is separated from, and stacked with, the pixel array layer.
+The different layers communicate through the hybrid bond or the micro Through-Silicon Via ($\mu$TSV) [@liu2022augmented; @tsugawa2017pixel].
+The processing layer typically integrates digital processors, such as ISP [@kwon2020low], image processing [@hirata20217; @kumagai20181], and DNN accelerators [@eki20219; @liu2022augmented].
+
+Three-layer stacked designs have also been proposed.
+Sony IMX 400 [@haruta20174] is a 3-layer design that integrates a pixel layer, a DRAM layer (1 Gbit), and a logic layer with an Image Signal Processor (ISP).
+The DRAM layer buffers high-rate frames before streaming them out to the host.
+This enables super slow motion (960 FPS); otherwise, the bandwidth of the MIPI CSI-2 interface limits the capturing rate of the sensor.
+Meta conceptualizes a three-layer design [@liu2022augmented] with a pixel array layer, a per-pixel ADC layer, and a digital processing layer that integrates a DNN accelerator --- using DPS.
+Stacking makes it easier to implement DPS: the main disadvantage of DPS is the complexity of the pixel design, but with stacking, the additional pixel processing circuitry (gain amplifier, ADC, etc.) can be "hidden" on a separate layer than the pixel array layer [@liu2022augmented; @liu20204].
+
+#### Challenges of CIS
+
+Moving computation inside a CIS, however, is not without challenges.
+Most importantly, processing inside the sensor is far less efficient than that outside the sensor.
+This is because, while the CIS is implemented using the CMOS technologies, it uses significantly *older* process nodes than that of the conventional CMOS.
+
+This is shown in @fig-cis_trends (b), where the square markers show the process node used in each CIS paper surveyed.
+As a reference, the IRDS standard CMOS process node scaling line is also shown.
+At around the year 2000, the CIS process node started lagging behind that of the conventional CMOS node, and the gap is increasing.
+CIS designs today commonly use 65 nm and older process nodes.
+This gap is not an artifact of the CIS designs we pick; it is fundamental: there is simply no need to aggressively scale down the process node because the pixel size does not, and can not, shrink much.
+In fact, from @fig-cis_trends (b) we can see that the slope of CIS process node scaling almost exactly follows that of the pixel size scaling.
+The reason that pixel size does not shrink much is to ensure light sensitivity: a small pixel reduces the number of photons it can collect, which directly reduces the dynamic range and the SNR^[It is interesting to note the fact that there is a fundamental pixel size limit negates one advantage of the CCD sensors, where the pixel design is simpler so one can theoretically make the pixel size smaller, but that is countered by the limit to which the PDs can shrink [@fossum1997cmos].].
+
+Inefficient in-sensor processing can be mitigated through 3D stacking technologies, which allow for heterogeneous integration: the pixel layer and the computing layer(s) can use their respective, optimal process node.
+Stacking, however, could increase power density, especially when future CIS integrates more processing capabilities.
+Therefore, harnessing the power of (stacked) computational CIS requires exploring a large design space and is still an active area of research [@ma2024efficient; @feng2024blisscam; @ma2023camj].
