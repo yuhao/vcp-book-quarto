@@ -3,3 +3,47 @@
 This chapter discusses image sensors, the devices that transform optical signals to electrical signals.
 We start from the basic principle that governs this signal transduction inside a pixel and then discuss how pixels are architected together to form an image sensor.
 We then turn to various in-sensor optics, which are not necessarily important for forming images but are important for forming *visually pleasing* images that, for instance, have realistic colors and are free of aliasing effects.
+
+## Overview {#sec-chpt-imaging-sensor-ov}
+
+The main job of the sensor is to turn optical signals, i.e., the optical image impinging on the sensor plane, into electrical signals, i.e., digital images.
+This conversion is broken down into two steps, first by converting photons to charges followed by turning charges into digital numbers.
+
+![(a): a conceptual, cross-sectional view of the sensor with the optical elements, photodiodes, and the peripheral circuitries. (b): comparison between 1) front-illuminated sensor, where lights have to first traverse through the peripheral circuitries before reaching the light-sensitive photodiodes, and 2) back-illuminated sensor, where lights can directly reach the photodiodes; from @cis.](figs/sensor_overview_new){#fig-sensor_overview width="100%"}
+
+@fig-sensor_overview (a) shows a cross-sectional view of the sensor hardware, which has three main components.
+
+* First, there is a set of optical elements sitting on the sensor.
+These optical elements are not the imaging optics we discussed in the previous chapter because their main goal is not to form an image.
+* Second, under these optical elements are the photodiodes, which turn optical signals carried in photons to electrical signals in the form of electric charges.
+* Third, interleaved with the photodiodes is the circuitry that processes the output of the photodiodes, turning charges into digital values.
+
+![Image sensor can be seen as a chain of processing, or a transfer function, that transfers the optical signal, a random variable, with a mean $\mu_p$ and standard deviation $\sigma_p$ to the electrical signal, another random variable, with a mean $\mu_y$ and standard deviation $\sigma_y$. Adapted from European Machine Vision Association Standard 1288 @emva1288[Fig. 1].](figs/sensor_signal_processing){#fig-sensor_signal_processing width="80%"}
+
+From a computational perspective, we can model an image sensor as a signal processing chain, a transfer function $f$, that transfers the optical signal to the electrical signal.
+@fig-sensor_signal_processing visualizes this chain of signal processing.
+This chain of processing is best understood as computing on random variables.
+The input optical signal can be seen a random variable $R_o(\mu_o, \sigma_o)$ with a mean and standard deviation of $\mu_o$ and $\sigma_o$, respectively.
+Every step in the signal processing chain not only manipulates the signal itself but also introduces/affects the noise.
+As a result, the output electrical signal is another random variable $R_e(\mu_e, \sigma_e)$.
+So the transfer function, viewed this way, is:
+
+$$
+\begin{align}
+    f: (\mu_o, \sigma_o) \mapsto (\mu_e, \sigma_e),
+\end{align}
+$$
+
+An important goal of our study is to build an analytical model for this transfer function $f$.
+For simplicity, we will first ignore noise as if $f$ operates only on the mean signal.
+We will then discuss the sources of noise and how to model them.
+
+There are two ways the pixels and the wires that read out the pixel outputs are physically arranged, shown in @fig-sensor_overview (b).
+In the **back-side illumination** (BSI) arrangement, the wiring of the circuitries is behind the photodiodes, which directly interface with the lights.
+In the **front-side illumination** (FSI) arrangement, the metal wiring sits between the light and the photodiodes.
+This means light could be absorbed and scattered through the metal layer before reaching the photodiodes, reducing the chance of a photon being properly captured.
+While earlier image sensors used FSI because it is easier to manufacture, almost all commercial image sensors use BSI now [@swain2008back].
+
+FSI is actually quite similar to the structure of human eyes, where, if you recall, the photoreceptors are "hiding" behind other retinal neurons such as the retinal ganglion cells, which are functionally the last layer of retinal processing but anatomically sitting at the first layer on the retina.
+Different from the FSI sensor, however, the non-photoreceptor neurons on the retina do very little to light: they do not absorb or scatter light much and can be generally thought of as transparent.
+Metal wires, of course, disrupt incident photons significantly.
