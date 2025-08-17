@@ -34,6 +34,7 @@ $$
 \end{align}
 $$
 
+Any imaging session can be seen as drawing a concrete value from the distribution of $R_o$, and its output (raw pixel values) can be seen as drawing a value from the distribution of $R_e$.
 An important goal of our study is to build an analytical model for this transfer function $f$.
 For simplicity, we will first ignore noise as if $f$ operates only on the mean signal.
 We will then discuss the sources of noise and how to model them.
