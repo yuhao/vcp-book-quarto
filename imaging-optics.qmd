@@ -5,3 +5,115 @@ We start from the pinhole model; from its pros and cons, we motivate a lens-base
 We discuss important artifacts, a.k.a., aberrations, introduced by lenses that significantly impact the imaging quality.
 Finally, we conclude with a computational model for modeling the image formation process carried out by optics.
 The model provides a first-order approximation of the imaging quality and is widely used in various fields of visual computing.
+
+## Overview {#sec-chpt-imaging-optics-ov}
+
+This chapter focuses on the first stage in an imaging system: the optics, i.e., optics that are used for image formation.
+The goal of this chapter is to build a good understanding of the image formation process in optics.
+Optics manipulates/transforms optical signals, so the signal after optics is still in the optical domain.
+In later chapters, we will discuss how the optical signals are transformed into electrical signals (first to analog and then to digital signals) and how such electrical signals are further processed.
+
+Imaging optics is important for human vision (because the ocular media of our eyes form an image on the retina), cameras (almost all of which have some form of optics), and graphics (where modeling optics is important for photorealistic rendering).
+Optics can also be used for ostensibly non-imaging purposes such as communication and computation.
+But of course the distinction is not black and white.
+You can argue that imaging is simultaneous communication (transferring signals from one side of the imaging system to the other side) and computation (the output signal is the result of a transfer function, usually not an identity function, applied to the input signal).
+
+We will generally assume that the goal of the optics design is to form visually pleasing images as well as possible.
+The thinking is that if we provide a high-quality image, we are giving the downstream consumer, whether a human observer or a machine vision algorithm, the best chance to extract information from it.
+
+This might not always be necessary.
+For instance, in machine vision/robotics applications, the consumer of an image is a computer vision algorithm such as object detection; so long as the algorithm can detect the object, the quality of the image itself is of no significance.
+In fact, one might argue that it is beneficial to design the imaging system so that the output image is obfuscated to protect privacy as long as essential features pertaining to downstream algorithms are preserved --- this is an active area of research.
+
+There is also a burgeoning area of research, which this chapter is largely unconcerned with, called **computational imaging**, where a significant amount of computation is involved to form a final image [@bhandari2022computational].
+In many cases under such a paradigm, the initial image formed by the optics is rather unintelligible, and the name of the game is to design computational algorithms that can recover the "clean" image.
+This is usually formulated as an **inverse problem**: the optics (which could be anything, even a duct tape [@antipa2017diffusercam]) transforms information in the physical world into a set of observations, and the algorithm inverts that forward model to obtain the original physical information from the observations.
+Even in this case, understanding and modeling the forward image formation process of the optics is crucial: only with that knowledge can we invert that process to obtain the physical information.
+In fact, one usually *co-designs* the image formation process (e.g., optics) with the inversion algorithm to maximize the overall performance.
+
+In this sense, imaging is a form of sensing, and the ultimate goal of imaging is to obtain information about the physical world.
+A visually pleasing image is one way such information can be represented, but there are other forms of information we might be interested in: depth, geometry, spectral radiance, polarization, absorption/scattering coefficient of the media, etc.
+Many imaging systems are designed to obtain such non-visual information, which is beyond our scope.
+For instance, an X-ray CT scanner is an essentially computational imaging device; it captures a set of raw images, which by themselves are not directly useful.
+Subsequent computational algorithms are used to obtain the actual information of interest, the absorption/scattering coefficient of the medium, from the raw images.
+We have actually covered the gist of the forward process in this imaging device when we discuss volume scattering.
+
+We will assume that there is a sensor plane on the other side of the imaging system to capture observations.
+An actual sensor has many pixels (along with many other components, some of which are optics!), each of which has a small but non-zero size, which plays a role in signal processing.
+In this chapter, however, we will assume that each pixel is infinitesimal.
+Therefore, the image formed on the sensor plane, for now, is assumed to be a continuous 2D function: for any $(x, y)$ point on the sensor, there is an irradiance value.
+A retina is a sensor, and the continuous image on the retina is usually called the **optical image** in vision science.
+An actual image captured by the sensor, whether biological (retina) or engineered, is necessarily discretized --- by pixels or photoreceptors.
+
+## Pinhole Model {#sec-chpt-imaging-optics-pinhole}
+
+We will start by discussing the pinhole system, which is very simple and not commonly used but carries interesting properties and implications for more complex imaging systems that we will turn to later.
+
+### (Why) Do We Need Optics in an Imaging System? {#sec-chpt-imaging-optics-pinhole-why}
+
+What if we just expose the image sensor or our retina to lights?
+We will get garbage because each pixel/photoreceptor receives light from everywhere in the scene.
+@fig-pinhole (left) illustrates the geometry of this imaging system.
+
+![Left: without a pinhole, different pixels get roughly the same signal, and the differences between pixels are due mostly to noise. Middle: with a pinhole, the signal received by each pixel is restricted to a small area in the physical scene. Right: with a lens, the signal received by each pixel is still restricted to a small physical area, but the signal is much stronger.](figs/pinhole){#fig-pinhole width="100%"}
+
+Each pixel receives light from everywhere in space.
+Assuming that each point in space is an ideal Lambertian emitter/scatterer, the two highlighted pixels will receive slightly different energy from the same point because of the cosine fall-off as a function of the incident direction.
+But if the sensor is much smaller relative to the distance to the physical space, the differences in fall-offs between different pixels are small, so we can say that each pixel roughly receives the same energy.
+In this case, the differences in pixel values are due to noise.
+So that's why the image looks like a random garbage.
+
+### Pinhole Imaging {#sec-chpt-imaging-optics-pinhole-imaging}
+
+What we need is for each pixel to receive information only from a small spatial region in the scene.
+This is what a pinhole camera does, as illustrated in @fig-pinhole (middle).
+If the pinhole is infinitesimally small such that it allows only a single ray direction to go through, each pixel (which, again, for now is assumed to be an infinitesimal point on the sensor plane) captures light from only a single point in the scene.
+
+As the pinhole size shrinks, the information captured by two adjacent pixels becomes more distinct, which is desirable, but if the pinhole size is too small, there are two issues.
+First, a pinhole that is too small requires a long exposure time.
+We will discuss this in @sec-chpt-imaging-sensor-pixel, but a pixel is very much like a photoreceptor in that it is a photon collection device.
+Intuitively, the amount of photons a pixel collects (which we care about because it relates to the brightness of the captured image) is, roughly, proportional to both the pinhole area and the exposure time, so if we reduce the pinhole size, we need to increase the exposure time to maintain the pixel brightness.
+
+An excessively long exposure time not only poses challenges to actually taking the photo but also leads to **motion blurs**.
+@fig-pinhole_size (b) shows an image captured by a pinhole camera where, during exposure, objects are moving.
+As a result, each pixel receives light from different points in the scene and, visually, the resulting image carries motion blurs.
+
+![(a): blur from large aperture/pinhole (defocus blur); from @ph_defocus_blur. (b): blur from long exposure (motion blur); from @ph_motion_blur. (c): defocus blur arises from large pinholes, but when the pinhole becomes very small (on the order of light wavelength) diffraction occurs; adapted from @ph_diff_limit.](figs/pinhole_size_new){#fig-pinhole_size width="100%"}
+
+Second, as the pinhole size gets smaller and smaller, eventually we get to the diffraction limit, which means we cannot use geometric optics anymore and a single point in the scene does not translate to a single point in the image plane.
+We will discuss this shortly in @sec-chpt-imaging-optics-pinhole-diffrac.
+
+What happens if we increase the pinhole size?
+We get a blurrier image.
+@fig-pinhole_size (a) shows one such image captured by a pinhole camera using a pinhole size of 0.5 mm.
+The blur can be easily explained by the geometry of pinhole imaging, as shown in @fig-pinhole_size (c), where the information of a point in the scene is spread or "smeared" across multiple pixels if the pinhole size is too large, leading to the blurs.
+For this reason, the blur here is a form of **defocus blur**; we will later see how a lens-based imaging system can also have a defocus blur with the same mechanism: information at a physical point in the scene is spread across multiple pixels even when the point itself is stationary.
+
+Even in a lens-based imaging system, we do not technically have a pinhole, but we usually still have an aperture, which acts like a pinhole in the sense that it limits the amount of light that is allowed into the rest of the system, so the aperture size certainly dictates the imaging quality.
+Our eye is certainly a lens-based imaging system, and the pupil acts as the aperture.
+The pupil size changes from roughly 2 mm in relatively high ambient light levels to about 8 mm under low light intensities.
+
+Amazingly, pinhole-only imaging is used in some animals.
+The most famous one is perhaps Nautilus, which has a pinhole eye without lenses [@zhang2021genome].
+The pinhole size is relatively large; the diameter varies between 0.4 and 2.8 mm [@hurley1978adjustable], so you can imagine the imaging quality is not great.
+
+<!-- Discuss perspective projection? -->
+
+### Diffraction Limit {#sec-chpt-imaging-optics-pinhole-diffrac}
+
+When the pinhole becomes very small, diffraction becomes visible.
+The diffraction pattern is called the Airy disk.
+@fig-airy_disk (left) shows a computer-simulated Airy disk, and @fig-airy_disk (right) shows how the intensity of the Airy disk falls off from the center.
+
+![Left: compute-simulated Airy disk (contrast is slightly exaggerated); from @airy_disk_pattern. Right: the intensity of an Airy disk pattern as a function of the spatial position (0 being the center); adapted from @airy_disk_func.](figs/airy_disk){#fig-airy_disk width="100%"}
+
+Diffraction is usually thought of as a wave phenomenon, where the light wave propagated from a small pinhole gets expanded spatially and forms the Airy disk pattern
+But perhaps a more principled way to understand diffraction is through quantum mechanics, which says that the more certain we are of the position of a photon we are less certain of the direction of its travel, and vice versa.
+When the pinhole is infinitesimal, we know for certain where a photon is, so we are uncertain where it is going to go: the result is the Airy disk pattern.
+In contrast, when the pinhole is large, we are less certain of the spatial position of a photon, so we are more certain of its direction of travel; as a result, diffraction contributes little to the overall imaging.
+
+Imaging through a small pinhole can be thought of as a "single-slit" experiment.
+When we have a "double-slit" experiment with two small pinholes, the diffraction patterns from the two pinholes interfere, and we get the beautiful interference pattern that you perhaps have seen in middle-school physics class.
+Interestingly, there is a sequential version of the double-slit experiment, where photons are sent to the two slits sequentially, one by one.
+Amazingly, if we wait long enough, we will still see the interference pattern.
+This firmly establishes the fact that lights do behave like particles, not waves, just in a probabilistic manner.
