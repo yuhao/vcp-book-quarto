@@ -181,12 +181,12 @@ The basic principle of doing so is using a capacitor: we use the electrons to di
 
 $$
 \begin{align}
-    \Delta V = \frac{Q_{SIG}}{C_{FD}} \times g = \frac{N q}{C_{FD}} \times g,
+    \Delta V = \frac{\mathcal{Q}_{sig}}{C_{FD}} \times g = \frac{N q}{C_{FD}} \times g,
 \end{align}
 $$ {#eq-charge_measure}
 
-where $Q_{SIG}$ is the charge in the signal stored in the capacitor, $C_{FD}$ is the capacitance, and $g$ is the voltage gain of whatever device is used to read out the voltage (usually a source follower; see later).
-$Q_{SIG}$ itself is the product of $N$, the number of charges in the signal, and $q$, the elementary charge.
+where $\mathcal{Q}_{sig}$ is the charge in the signal stored in the capacitor, $C_{FD}$ is the capacitance, and $g$ is the voltage gain of whatever device is used to read out the voltage (usually a source follower; see later).
+$\mathcal{Q}_{sig}$ itself is the product of $N$, the number of charges in the signal, and $q$, the elementary charge.
 
 We can see that once we can measure $\Delta V$, we can get an estimate of $N$.
 Why do we care about $N$?
@@ -484,3 +484,360 @@ The reason that pixel size does not shrink much is to ensure light sensitivity: 
 Inefficient in-sensor processing can be mitigated through 3D stacking technologies, which allow for heterogeneous integration: the pixel layer and the computing layer(s) can use their respective, optimal process node.
 Stacking, however, could increase power density, especially when future CIS integrates more processing capabilities.
 Therefore, harnessing the power of (stacked) computational CIS requires exploring a large design space and is still an active area of research [@ma2024efficient; @feng2024blisscam; @ma2023camj].
+
+## In-Sensor Optics {#sec-chpt-imaging-sensor-optics}
+
+The on-chip optics serve a few purposes: blocking lights in the IR/UV ranges, boosting photon collection efficiency, anti-aliasing, and filtering for color reproduction.
+
+### IR/UV Cut-Off Filters {#sec-chpt-imaging-sensor-optics-filters}
+
+Many cameras have cut-off filters for infrared (IR) and ultraviolet  (UV) lights.
+Their goals are to remove/block IR or UV lights, as much as possible, from the incident light.
+These filters are transparent in that they predominantly absorb light while scattering very little light.
+So their optical behaviors can be adequately captured by their transmittance spectra.
+@fig-cut_off_filter (left) shows the transmittance spectrum of the cut-off filter on the Nikon D200, where light below 400 nm and above 700 nm is essentially blocked from hitting the sensor.
+
+![Left: transmittance spectrum of the on-chip cut-off optics on Nikon D200; from Kolarivision @cut_off_filter. Right: IR thermal imaging uses light power in the IR range to estimate temperature; from @ir_cam.](figs/cut_off_filter){#fig-cut_off_filter width="100%"}
+
+The reason most photographic cameras want to remove IR and UV lights is because the human visual system is not sensitive to IR and UV lights (recall our earlier discussions about the spectra of the cone fundamentals, which drop to 0 beyond roughly the 380 $\text{nm}$ and 780 $\text{nm}$ range).
+So for a camera to accurately reproduce the color of an object as if the object is directly viewed by the human eyes, the sensor's sensitivity ideally needs to mimic that of the human eyes.
+Cutting IR and UV lights, to which our photoreceptors are not sensitive, is just the first step.
+We will discuss in detail in @sec-chpt-imaging-sensor-color what other mechanisms are in place for accurate color reproduction in image sensors.
+
+Interestingly, thermographic cameras detect optical power in the IR range to estimate object temperature.
+Any object above absolute zero radiates, and this is call the **blackbody radiation**.
+Planck's law governs the electromagnetic power emitted at a particular wavelength at a particular temperature.
+It turns out that at room temperature (about 300 K), most of the radiation power is in the IR range; very little radiation comes from the visible range.
+That is why thermal cameras use IR radiation for temperature estimation.
+@fig-cut_off_filter (right) shows an example of an IR image visualized as a heatmap, a real heatmap.
+<!-- %https://en.wikipedia.org/wiki/Black-body_radiation (a black body at room temperature (300 K) with one square meter of surface area will emit a photon in the visible range (390–750 nm) at an average rate of one photon every 41 seconds) -->
+
+### Microlenses {#sec-chpt-imaging-sensor-optics-ml}
+
+An important figure of merit of image sensors is the **fill factor** (FF), which is defined as the ratio of the photosensitive area of a pixel to the actual pixel area.
+Usually the photosensitive area is much smaller than the pixel area.
+This is because in addition to the actual photodiode, a pixel contains many other electrical components (capacitors, transistors, and other complex logic gates) that take up the area.
+This is illustrated in @fig-microlenses (a), where many incident lights will not reach the PD, leading to a low FF.
+Given a fixed pixel area, a low FF means the pixel collects fewer photons during exposure, which translates to a higher signal-to-noise ratio, so it is almost always desirable to have a higher FF.
+
+![(a): without a microlens, the photosensitive area of a pixel is the PD area; many incident lights will not hit the PD, leading to a low fill factor. (b): microlenses increase the effective fill factor of an image sensor.](figs/microlenses_new){#fig-microlenses width="70%"}
+
+One common way to increase the FF that is prevalent in almost all image sensors is through microlenses.
+This is illustrated in @fig-microlenses (b).
+Every pixel has a convex lens, which we call a **microlens**, sitting on top of it.
+The job of the microlens is to, ideally, direct all the photons hitting the pixel to the photodiode, in which case the FF would effectively be 100\%, which contemporary image sensors are very close to.
+
+### Anti-Aliasing Filters {#sec-chpt-imaging-sensor-optics-aa}
+
+Many image sensors also have anti-aliasing (AA) filters, especially photographic sensors.
+Recall that pixels perform spatial sampling of the optical image, which is continuous, thus introducing aliasing.
+The classic anti-aliasing method is to pre-filter the continuous signal using a low-pass filter, essentially blurring the signal and reducing its peak frequency.
+@pharr2023physically[Chpt. 8] and @glassner1995principles[Unit II] provide great technical discussions of signal sampling and reconstruction, which we will omit here.
+
+In some sense, the photodiodes themselves and the microlenses act as pre-filters already: they inherently perform spatial 2D box convolutions over the continuous signal impinging upon them.
+Take the photodiode as an example: each photodiode integrates all the incident photons, as we have seen in @sec-chpt-imaging-sensor-pixel, and integration is equivalent to convolving/filtering the signal with a 2D box filter.
+
+However, the support of the filter carried by the microlens and the photodiode is small: the microlens filter has a size of the pixel area, and the photodiode filter support is even more compact.
+To more aggressively pre-filter the signal, we need a filter with a wide support.
+To that end, AA filters use birefringent material, as shown in @fig-aa_psf (a), which essentially splits a ray into two rays, each with a different polarization and, thus, takes a slightly different path (recall that the refractive index depends on the polarization of light).
+If we cascade two such materials, a ray gets split into four rays; this is called a 4-dot beam splitting.
+This is done by, e.g., the Nikon D800e, as shown in @fig-aa_psf (b).
+
+![(a): a birefringent material that, through double refraction, splits a ray into two; adapted from @birefringent_material. (b): many anti-aliasing filters are made by cascading two birefringent materials that, collectively, split a ray into four; they are called 4-dot AA filters. (c): MTF of a 4-dot AA filter.](figs/aa_psf_new){#fig-aa_psf width="100%"}
+
+The birefringent material acts as a low-pass filter.
+The intuition is that if an incident ray is spread over, say, 4 sensor-plane points, then each sensor-plane point, equivalently, integrates information from 4 incident rays, each coming from a distinct scene point (assuming a pinhole aperture).
+We know integration is essentially low-pass filtering.
+
+The way to understand the effect of the AA filter is to analyze its Point Spread Function (PSF) and Modulation Transfer Function (MTF), which we have seen in @sec-chpt-imaging-optics-modeling-mtf.
+Assuming a pinhole aperture, a 4-dot beam-splitting AA filter essentially imposes a PSF where a scene point is spread over 4 sensor-plane points.
+The PSF is the sum of 4 Dirac Delta functions placed on a regular grid with an offset $d$ between adjacent grid points (which depends on the difference in refractive indices and the relative positions between the two splitting planes):
+
+$$
+\begin{align}
+    f(x, y) = \frac{1}{4}[\delta(x, y) + \delta(x-d, y) + \delta(x, y-d) + \delta(x-d, y-d)].
+\end{align}
+$$
+
+With a little math, which we omit here, we can show that the MTF of this PSF is:
+
+$$
+\begin{align}
+    MTF(f_x, f_y) = |\cos(\pi d f_x)||\cos(\pi d f_y)|.
+\end{align}
+$$
+
+An example of this MTF is shown in @fig-aa_psf (c), where the $x$-axis and $y$-axis are the two spatial frequencies $f_x$ and $f_y$, and the $a$-axis is the MTF.
+We can see that this particular MTF passes low frequencies and cuts off at a frequency of, in the case where $d=1$, 0.5.
+Interestingly, the MTF also passes high frequencies, which is generally not a huge concern because power at high frequencies is usually already attenuated by the PSFs of other optical elements (e.g., the main imaging lens).
+Of course, in reality the aperture is not a pinhole, so the PSF is not simply a sum of four Delta functions but can nevertheless still be similarly analyzed.
+
+![(a): a birefringent material that, through double refraction, splits a ray into two; adapted from @birefringent_material. (b): many anti-aliasing filters are made by cascading two birefringent materials that, collectively, split a ray into four; they are called 4-dot AA filters. (c): MTF of a 4-dot AA filter.](figs/aa_filter){#fig-aa_filter width="80%"}
+
+@fig-aa_filter (a) and @fig-aa_filter (b) compare the images taken of the same scene by Nikon D800e, which lacks an AA filter, and Nikon D800, which has a 4-dot AA filter.
+Look at the AC's condenser coil; the AA image is more blurred but has much less objectionable aliasing effect.
+
+### Monochromatic, Noise-Free Sensor Model {#sec-chpt-imaging-sensor-optics-monomodel}
+
+Each in-sensor optical element adds its own spectral transmittance, so the overall transmittance of the in-sensor optics is the product of them.
+We will simply use $T(\lambda)$ to represent the overall transmittance.
+Given what we have discussed so far, we can build an analytical model for a monochromatic, noise-free image sensor.
+The raw pixel value $n$ of a pixel of size $u \times v$ whose top-left corner is $(x, y)$ and is exposed for a duration of $t_{exp}$ is given by:
+
+$$
+\begin{align}
+    \mathcal{Q}_{px} &= \int_{\lambda} \int_{t}^{t+t_{exp}} \int_y^{y+v} \int_x^{x+u} Y(x', y', \lambda, t') T(\lambda) QE(\lambda) \text{d}x' \text{d}y' \text{d}t' \text{d}\lambda, \label{eq:mono_model_1} \\
+    \Delta V &= \frac{\mathcal{Q}_{px}q}{C_{FD}} \times g, \label{eq:mono_model_2} \\
+    n &= \lfloor \frac{\Delta V}{V_{max}} (2^{N} - 1) \rfloor, \label{eq:mono_model_3}
+\end{align}
+$$ {#eq-mono_model}
+
+where $Y(x', y', \lambda, t')$ is the number of photons incident on position $(x', y')$ at a particular wavelength $\lambda$ at a particular time $t'$, so it is a quantal counterpart of the spectral irradiance;
+$T(\lambda)$ is the overall spectral transmittance of the in-sensor optics, $QE(\lambda)$ is the quantum efficiency, and $q$ is the elementary charge;
+
+The first equation in @eq-mono_model models $\mathcal{Q}_{px}$, the total amount of charges collected at the particular pixel, where we integrate spatially, temporally, and spectrally.
+The second equation in @eq-mono_model is essentially @eq-charge_measure, and models the voltage difference sensed before and after the exposure.
+The last equation in @eq-mono_model is a crude ADC model, assuming that the voltage range $[0, v_{max}]$ is quantized into $N$ bits, and the output of the ADC model is the digital number, a.k.a., the raw pixel value.
+
+How do we express $Y(x', y', \lambda, t')$, the quantal counterpart of irradiance?
+The spectral irradiance at position $(x', y')$ and time $t'$ is:
+
+$$
+\begin{align}
+    E(x', y', \lambda, t') = \int^{\Omega(p, V)} L(p, \omega, \lambda, t') \cos\theta~\text{d}\omega,
+\end{align}
+$$ {#eq-irra}
+
+where $p = (x', y')$, $V$ is the aperture, $\Omega(p, V)$ is the solid angle subtended by $p$ and $V$;
+$L(p, \omega, \lambda, t')$ is the radiance with a wavelength $\lambda$ incident on $p$ from the direction $\omega$ at time $t'$, and $\theta$ is the polar angle subtended by $\omega$ and the pixel normal vector.
+
+Given Planck's equation (@eq-photon_energy), we can turn irradiance $E$ (energy per unit area per unit time) into the quantity $Y$ (photon quantity per unit area per unit time):
+
+$$
+\begin{align}
+    Y(x', y', \lambda, t') = \frac{E(x', y', \lambda, t') \lambda}{hc}.
+\end{align}
+$$ {#eq-irra_to_quan}
+
+Plugging @eq-irra and @eq-irra_to_quan into the $\mathcal{Q}_{px}$ expression in @eq-mono_model, we have:
+
+$$
+\begin{align}
+    \mathcal{Q}_{px} = \int_{\lambda} \int_{t}^{t+t_{exp}} \int_y^{y+v} \int_x^{x+u} \int^{\Omega(p, V)} \frac{L(p, \omega, \lambda, t') \cos\theta \text{d}\omega T(\lambda) QE(\lambda) \lambda}{hc} \text{d}x' \text{d}y' \text{d}t' \text{d}\lambda.
+\end{align}
+$$ {#eq-cam_measurement_1}
+
+Rearranging the terms a bit we get:
+
+$$
+\begin{align}
+    \mathcal{Q}_{px} = \int_{\lambda} \Big( \int_{t}^{t+t_{exp}} \int_y^{y+v} \int_x^{x+u} \int^{\Omega(p, V)} L(p, \omega, \lambda, t') \cos\theta \text{d}\omega \text{d}x' \text{d}y' \text{d}t' \Big) T(\lambda) QE(\lambda) \frac{\lambda}{hc} \text{d}\lambda \label{eq:cam_measurement_2}.
+\end{align}
+$$ {#eq-cam_measurement_2}
+
+Recall from @sec-chpt-mat-basics-radiometry-cam, the inner four integrals in @eq-cam_measurement_2 collectively form the so-called camera measurement equation, which calculates $Q(\lambda)$, the energy at wavelength $\lambda$ collected by the pixel during the exposure^[Don't be confused by the two similar notations that represent different quantities: $\mathcal{Q}_{px}$ for the number of charges at a pixel and $Q$ for the energy at a pixel.].
+Therefore, we get:
+
+$$
+\begin{align}
+    \mathcal{Q}_{px} = \int_{\lambda} Q(\lambda) T(\lambda) QE(\lambda) \frac{\lambda}{hc} \text{d}\lambda.
+\end{align}
+$$ {#eq-cam_measurement_3}
+
+We have implicitly assumed here that the effects of the in-sensor optics can simply be modeled by the spectral transmittance $T(\lambda)$.
+This is largely reasonable because 1) in-sensor optics are mostly transparent and 2) they are very close to the pixels, so we can ignore rays that are incident on the edge of the optics and, after refractions, miss the pixels.
+
+#### Spectral Sensitivity Function
+
+We can make a few assumptions to simplify our discussion.
+First, we assume the ADC quantization error is negligible.
+Second, we assume that the irradiance within a pixel is spatially and temporally uniform during a short exposure time.
+The raw pixel value $n$ in @eq-mono_model is then simplified to:
+
+$$
+\begin{align}
+    n \approx k \int_{\lambda} Y(x, y, \lambda, t) T(\lambda) QE(\lambda) \text{d}\lambda,
+\end{align}
+$$ {#eq-mono_model_quan_1}
+
+where $Y(x, y, \lambda, t)$ is the (average) number of incident photons at wavelength $\lambda$ hitting position $(x, y)$ at time $t$; $k = uvt_{exp}\frac{qg}{C_{FD}}\frac{2^N-1}{V_{max}}$ is a constant.
+
+Let's define a convenient term: **Spectral Sensitivity Function** (SSF), which is the product of $T(\lambda)$ and $QE(\lambda)$.
+Therefore, we can rewrite $n$ as:
+
+$$
+\begin{align}
+    n \approx k \int_{\lambda} Y(x, y, \lambda, t) SSF_{quantal}(\lambda) \text{d}\lambda.
+\end{align}
+$$ {#eq-mono_model_quan_2}
+
+SSF is the only spectral (wavelength-dependent) term in @eq-mono_model_quan_2 other than the incident light itself;
+it represents the phenomenological light sensitivity of the sensor over wavelength.
+SSF is sometimes also called the camera response function.
+
+The SSF defined in @eq-mono_model_quan_2 is an "equal-quantal" function because it tells us the relative responses between different wavelengths under the same amount of incident photons.
+We can turn it into an "equal-energy" or "equal-power" function that operates on energy or power.
+We first express the raw pixel value $n$ in terms of the spectral power distribution $\Phi(\lambda)$ rather than the spectral quantity distrubition $Y(\lambda)$ and rewrite @eq-mono_model_quan_2 as:
+
+$$
+\begin{align}
+    n \approx k \int_{\lambda} \frac{\Phi(x, y, \lambda, t)}{t_{exp}\frac{hc}{\lambda}} SSF_{quantal}(\lambda) \text{d}\lambda, \label{eq:mono_model_pow_2}
+\end{align}
+$$
+
+where $\Phi(x, y, \lambda, t)$ denotes the spectral power distribution of the light hitting position $(x, y)$ at time $t$. Now let's absorb $t_{exp}hc$ into $k$ and define $k' = uv\frac{qg}{C_{FD}}\frac{2^N-1}{V_{max}}\frac{1}{hc}$ and $SSF_{power}(\lambda) = SSF_{quantal}(\lambda)\lambda$, we get:
+
+$$
+\begin{align}
+    n \approx k' \int_{\lambda} \Phi(x, y, \lambda, t)SSF_{power}(\lambda) \text{d}\lambda.
+\end{align}
+$$ {#eq-mono_model_pow_3}
+
+$SSF_{power}(\lambda)$ is the equal-power SSF.
+The subscript is usually omitted in the literature because it is usually clear what SSF is being used (e.g., from the quantity that is being multiplied with the SSF).
+Also note that in some literature, the SSF is used interchangeably with QE, so be very careful.
+
+## Color Sensing {#sec-chpt-imaging-sensor-color}
+
+There is one main piece of the on-chip optics we have not discussed: the color filters, which are critical for color sensing and deserve their own section.
+
+### Goal of Color Sensing {#sec-chpt-imaging-sensor-color-goal}
+
+What does it mean for an image sensor to capture color?
+We know that colors are subjective sensations caused by cone photoreceptor responses to light; a color can be expressed as a point in a 3D space formed by the L, M, and S cone responses, i.e., the LMS cone space.
+Ideally, if we can build an image sensor in such a way that it also possesses three kinds of pixels, each of which has a spectral sensitivity matching exactly that of a cone class (i.e., cone fundamental), the sensor would be able to accurately capture and reproduce the color information.
+
+In fact, it is even sufficient for the sensor responses to be just a (linear) transformation away from the cone responses, as long as we can pre-calibrate the transformation matrix offline.
+This idea is illustrated in @fig-color_sensing_goal.
+We emphasize linear transformation here simply because it is computationally cheaper; nothing prevents you from designing a sensor sensitivity profile that requires a sophisticated transformation from the cone space.
+
+![The goal of color sensing is to form a color space from the raw pixel values and for there to exist a (preferably linear) transformation between the sensor color space and a standard color space, typically the CIE XYZ space. Adapted from @retina_photoreceptors, @spd_incan, and @iphone12_cam}.](figs/color_sensing_goal){#fig-color_sensing_goal width="100%"}
+
+Where do the three classes of spectral sensitivities come?
+Examine our monochromatic sensing model in @eq-mono_model_quan_2; it appears that all the pixels share the same response function and, thus, have the same spectral sensitivity: every pixel has the same quantum efficiency and the same optical elements sitting above them (so the same spectral transmittance of the optics).
+
+There are a variety of ways to introduce sensitivity differences across pixels, which we will discuss shortly in @sec-chpt-imaging-sensor-color-impl.
+Assuming, for now, that we have somehow introduced the three classes of SSFs, denoted $SSF_R(\lambda)$, $SSF_G(\lambda)$, and $SSF_B(\lambda)$.
+Given an incident light with an SPD $\Phi(\lambda)$, the camera responses are:
+
+$$
+\begin{align}
+    [\int_{\lambda} \Phi(\lambda)SSF_{R}(\lambda) \text{d}\lambda, \int_{\lambda} \Phi(\lambda)SSF_{G}(\lambda) \text{d}\lambda, \int_{\lambda} \Phi(\lambda)SSF_{B}(\lambda) \text{d}\lambda].
+\end{align}
+$$
+
+This is a direct invocation of @eq-mono_model_pow_3 with the constant omitted.
+The color of the light expressed in the LMS cone space is:
+
+$$
+\begin{align}
+    [\int_{\lambda} \Phi(\lambda)L(\lambda) \text{d}\lambda, \int_{\lambda} \Phi(\lambda)M(\lambda) \text{d}\lambda, \int_{\lambda} \Phi(\lambda)S(\lambda) \text{d}\lambda].
+\end{align}
+$$
+
+If the cone responses form a 3D cone space, the camera raw responses also form a color space, which is sometimes called the camera's native color space.
+We provide an interactive tutorial that allows you to interactively explore and compare the native color spaces of various cameras and the LMS cone space.
+@fig-camera_ssf (left) shows the SSFs of iPhone 11 (solid lines) and the cone fundamentals.
+The SSFs are normalized so that $SSF_G$ is peaked at unity, and the cone fundamentals are each normalized to peak at unity, so you could compare the relative sensitivity between the three SSFs in iPhone 11 but could not between the cone classes.
+Usually the SSF of a camera depends on a variety of factors such as the materials of the optical elements and the photodiodes as well as the pixel design, so it is almost impossible for the three SSFs to match exactly the cone fundamentals.
+@fig-camera_ssf (right) shows the spectral locus in iPhone 11's native color space and in the cone space; they evidently do not overlap.
+
+![Left: Spectral sensitivity functions of iPhone 11 (the RGB filters; solid lines) in comparison with the LMS cone fundamentals (dashed lines). Right: the spectral locus in the LMS space and in the camera's native color space. Adapted from @zhu2022cam.](figs/camera_ssf){#fig-camera_ssf width="100%"}
+
+A major task in sensor calibration is to identify a transformation matrix $M$ such that the following (approximately) holds:
+
+$$
+\begin{align}
+\begin{bmatrix}
+    \int_{\lambda} \Phi(\lambda)SSF_{R}(\lambda) \text{d}\lambda\\
+    \int_{\lambda} \Phi(\lambda)SSF_{G}(\lambda) \text{d}\lambda\\
+    \int_{\lambda} \Phi(\lambda)SSF_{B}(\lambda) \text{d}\lambda
+\end{bmatrix}
+\times M =
+\begin{bmatrix}
+    \int_{\lambda} \Phi(\lambda)L(\lambda) \text{d}\lambda\\
+    \int_{\lambda} \Phi(\lambda)M(\lambda) \text{d}\lambda\\
+    \int_{\lambda} \Phi(\lambda)S(\lambda) \text{d}\lambda
+\end{bmatrix}
+\end{align}
+$$
+
+The transformation matrix is then applied in the post-processing pipeline of the raw pixels to turn raw pixel responses into a color value.
+We will discuss the calibration and the post-processing pipeline in greater details in @sec-???.
+
+### Implementing Three "Classes of Pixels" {#sec-chpt-imaging-sensor-color-impl}
+
+
+Perhaps the most straightforward method to introduce varying SSF is to apply a spectral filter to different pixels.
+A spectral filter is just a transparent optical element with a wavelength-selective transmittance.
+We need only three filters to emulate the three cone classes, but ideally each pixel should get all three simultaneously, which is difficult if you think about it, since at any given time you can physically have only one filter sitting on a pixel.
+
+#### Three-Shot and Three-Chip Methods
+
+There are two ways to go about addressing this issue.
+We can take three images of the same scene, each with a different filter, and then combine the together.
+This approach is believed to be pioneered by Sergey Prokudin-Gorsky, who conducted a breathtaking "photographic survey" of the early 20th-century Russia using this method [@gorskycollection].
+This is called the "three-shot" approach.
+Alternatively, one could split the incident lights and send each of them to a different sensor, each with a different filter.
+This approach would obviously increase the form factor of the camera but avoids having to register and align the three separate shots, which is subjective to object motion.
+These camera are called "three-chip" or "three-CCD/COMS" cameras, which are still very widely used today in broadcasting, film studios, etc.
+
+#### Color Filter Array (CFA)
+
+Both the three-shot and the three-chip approach allow each incident light to be transformed to three responses needed for color reproduction --- at the cost of capturing overhead or bulky system design.
+A much simpler approach, and the most commonly used approach today, is called Color Filter Array (CFA), which assigns each pixel only *one* filter.
+
+![Left: the Bayer color filter array; from @bayer_cfa. Middle and Right: a Bayer-domain image where each pixel generates only one response and a full-color image assuming each pixel generates three responses; adapted from @bayer_ex.](figs/bayer_cfa){#fig-bayer_cfa width="100%"}
+
+@fig-bayer_cfa shows the most commonly used CFA, where the three classes of filters are tiled in what is called the Bayer filter mosaic, named after Bryce Bayer, who invented this pattern while working for Eastman Kodak in Rochester, NY [@bayer1976color].
+Each of the three filters has a transmittance spectrum that peaks at, roughly, red-ish, green-ish, and blue-ish wavelengths, similar to the spectra shown in @fig-camera_ssf (left).
+
+The three filter classes are organized in $2\times 2$ tiles, where each tile has two green filters.
+Bayer did so because he wanted to mimic human vision, where the photopic Luminance Efficiency Function (LEF) is most sensitive to green-ish lights [@sharpe2005luminous; @sharpe2011luminous] (see @fig-lef).
+We can see that the CFA approach is actually more similar to human color vision than the three-shot or three-chip approach.
+In human vision, each cone photoreceptor has a particular sensitivity spectrum, and generates one of the three responses needed to form color vision.
+
+A necessary consequence of using the CFA is that each pixel gets only one color channel information.
+@fig-bayer_cfa (middle) shows a raw image captured using a CFA, where each pixel evidently has only one color channel.
+The overall image looks overwhelmingly green because of the sheer amount of green filters.
+An important step in the post-processing pipeline is to reconstruct the two other missing channels, a process called **demosaicing**, i.e., removing the Bayer mosaic artifacts.
+An example of the reconstructed image is shown in @fig-bayer_cfa (right).
+
+We will have more to say about the demosaicing process when we get to @sec-chpt-imaging-sensor-isp, but for now, let's just observe that demosaicing is nothing more than a signal sampling and reconstruction problem.
+The CFA allows each pixel to sample only one channel of the three channels of response.
+So the green-filter response, for instance, is sampled by half of the pixels^[If we want to be pedantic, each green pixel has a small, but non-infinitesimal, area, so it first performs a low-pass filtering using a box filter whose extent is the pixel area, followed by sampling at the center of the pixel.], and the other two responses are sampled by one quarter of the pixels each.
+The job of demosaicing is then to reconstruct the full signal responses from the samples --- a well-established problem in signal processing.
+
+#### Foveon Approach
+
+The final approach does away with optical color filters altogether.
+Instead, we will use three photodiodes vertically stacked for each pixel.
+@fig-foveon_x3_pixel illustrates a pixel in the Foveon X3 sensor, which is perhaps the most famous sensor that uses this architecture.
+
+![Illustration of the Foveon X3 pixel, which has three PDs made of the same material (silicon) vertically stacked; adapted from @foveon_x3. Each PD receives a different light spectrum (due to the depth-varying absorption), effectively creating three different responses of the same light incident on the pixel surface.](figs/foveon_x3_pixel){#fig-foveon_x3_pixel width="100%"}
+
+The idea is that the silicon absorption spectrum is wavelength sensitive, as shown in the right panel of @fig-silicon_abs_qe.
+Blue-ish lights have a much shorter mean free length than do green-ish lights, which have a shorter mean free length than do red-ish lights.
+This means most short-wavelength lights will be absorbed after the first photodiode, leaving mostly medium- to long-wavelength lights.
+Those lights will go through the second photodiode, which absorbs mostly the medium-wavelength lights, leaving mostly long-wavelength lights to the third photodiode.
+As a result, each PD actually receives a different light spectrum, effectively creating three different responses for the same light incident on the pixel.
+
+Let's assume that the three PDs have a depth of $d_B$, $d_G$, and $d_R$, respectively.
+The incident light impinging on the pixel (i.e., the first PD surface) has a SPD $\Phi(\lambda)$.
+The light impinging on the second PD then has a spectrum $\Phi(\lambda)e^{-\sigma(\lambda)d_B}$, where $\sigma(\lambda)$ is the silicon's absorption coefficient spectrum.
+This is easily derived from the fact that pure absorption (no scattering and emission) leads to an exponential decay of the input signal (@eq-abs_4).
+Similarly, the light impinging on the third PD then has a spectrum $\Phi(\lambda)e^{-\sigma(\lambda)(d_B+d_G)}$.
+The responses produced by the three PDs are thus (in the order of R, G, and G):
+
+$$
+\begin{align}
+    [\int_\lambda\Phi(\lambda)\eta_R(\lambda)e^{-\sigma(\lambda)(d_B+d_G)}, \int_\lambda\Phi(\lambda)\eta_G(\lambda)e^{-\sigma(\lambda)(d_B)}, \int_\lambda\Phi(\lambda)\eta_B(\lambda)],
+\end{align}
+$$
+
+where $\eta_R(\lambda)$, $\eta_G(\lambda)$, and $\eta_B(\lambda)$ are QE spectra of the three PDs (where we consider only photons that reach a PD as the denominator in @eq-qe while ignoring photons that are reflected/absorbed before the photons hit the PD), respectively, and $\Phi(\lambda)$ is the SPD of the light incident on the pixel surface.
+The three PDs use identical material (so they share the same silicon absorption spectrum) but can still have different $\eta(\lambda)$s because of the thickness differences --- due to the differences in the lengths of the depletion and neutral regions in the PD p-n junctions.
+Can you guess why the thickness tends to increase for deeper PDs in @fig-foveon_x3_pixel (right)?
+
+Compared to using the CFA, the vertical PD stacking approach is much more complicated to fabricate and more costly, so it is much less commonly used.
+It avoids color sampling (and the resulting aliasing) and the need for demosaicing, and in theory could also have a higher overall quantum efficiency (and signal-to-noise ratio) since there are no color filters, so it might find uses in scientific imaging [@chen2023bioinspired].
