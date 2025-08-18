@@ -178,8 +178,8 @@ People usually have to resort to another data source that provides absolute peak
 ## Cone Fundamentals: Cornea-Referred Spectral Sensitivities {#sec-chpt-hvs-receptor-fundamentals}
 
 Our discussions so far have focused on absorption by the photoreceptors, but for a flux of photons arriving at the cornea about to enter our eye, they are also absorbed even before reaching the photoreceptors.
-Accounting for these \textbf{pre-receptoral} filters is important to model human vision.
-Spectral sensitivities that account for these pre-receptoral filters are what we call the \textit{cornea-referred} spectral sensitivities.
+Accounting for these **pre-receptoral** filters is important to model human vision.
+Spectral sensitivities that account for these pre-receptoral filters are what we call the *cornea-referred* spectral sensitivities.
 
 ### Cone Fundamentals From Physiology
 
@@ -247,7 +247,7 @@ What we measure in psychophysics is the threshold intensity (at each wavelength)
 The threshold intensity in the physiological measurement represents how much light is needed (at each wavelength) to cause the same amount of pigment absorption and, by the Principle of Univariance, the amount of *electrical responses*.
 The fact that the two sets of data match suggests that the amount of electrical response we need to evoke a just-noticeable level of perception is a constant regardless of wavelength, a perhaps unsurprising inference.
 
-Interestingly, the physiological data in \Fig{fig:spectral_sensitivity_comparison} is obtained from macaques, and the psychophysical data is from humans.
+Interestingly, the physiological data in @fig-spectral_sensitivity_comparison is obtained from macaques, and the psychophysical data is from humans.
 The fact that they match well suggests the similarities of the visual system among primates --- we have come a long way since the monkey days, but our photoreceptors have not changed much.
 Other studies obtaining the physiological sensitivity data from humans show similarly good matches with human psychophysical data [@crescitelli1953human; @kraft1993visual; @bowmaker1980visual; @mollon1982colour].
 
@@ -497,7 +497,7 @@ The Principle of Univariance tells us that the electrical response from a photon
 With the basic understanding of phototransduction, we can now turn to this question.
 You might be tempted to think that the relationship is linear, and you would be wrong!
 
-![Left: the electrical response (photocurrent) kinetics of macaque rods under varying flash light intensities (quantified by the total number of pigment excitations/isomerizations); from \citet[Fig. 1]{baylor1984photocurrent}. Right: the peak response (normalized to maximum response) as a function of flash intensity; from \citet[p. 178]{rodieck1998first}, which uses the underlying data in the left plot. The tangential line shows that only 47 pigment excitations would saturate the photoreceptor \textit{if} the photoreceptor does not desensitize.](figs/peak_flash_response){#fig-peak_flash_response width="100%"}
+![Left: the electrical response (photocurrent) kinetics of macaque rods under varying flash light intensities (quantified by the total number of pigment excitations/isomerizations); from \citet[Fig. 1]{baylor1984photocurrent}. Right: the peak response (normalized to maximum response) as a function of flash intensity; from \citet[p. 178]{rodieck1998first}, which uses the underlying data in the left plot. The tangential line shows that only 47 pigment excitations would saturate the photoreceptor *if* the photoreceptor does not desensitize.](figs/peak_flash_response){#fig-peak_flash_response width="100%"}
 
 ### Peak Response is Not Linearly Proportional to Light Intensity {#sec-hvs-receptor-intensity-peak}
 

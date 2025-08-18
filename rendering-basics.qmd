@@ -355,7 +355,7 @@ The transfer function is determined by the material properties of the camera opt
 
 Using @fig-cam_measurement_setup as a concrete example, to know the radiance $L(p, \omega)$ inside the camera, we need to know $L(p', \omega')$, the corresponding radiance in the scene and how the latter is transferred to the former.
 If the camera is an ideal pinhole, we have $\omega = \omega'$ and $L(p, \omega) = L(p', \omega')$ (ignoring diffraction).
-If the camera uses an ideal convex lens, the relationship between the two rays is governed by the Gauss lens equation (@sec-chpt-imaging-optics-??) and, with some simplifications, $L(p, \omega) = L(p', \omega')$ still holds (@sec-chpt-imaging-optics-??).
+If the camera uses an ideal convex lens, the relationship between the two rays is governed by the Gauss lens equation (@sec-chpt-imaging-optics-lens-gauss) and, with some simplifications, $L(p, \omega) = L(p', \omega')$ still holds (@sec-chpt-imaging-optics-lens-rad).
 The transfer function is more complicated when as the camera optics become more complicated.
 Imaging we replace the lenses with a duck tape --- how would the radiance be transferred?
 
@@ -389,7 +389,7 @@ A lens-based camera does a poor job of sampling the light field.
 The pixel $p_a$ integrates a bundle of rays, two of which are shown.
 Even assuming that the ray’s radiance remains unchanged as it passes through the lens, the inherent integration by the pixel (i.e., the measurement equation in @eq-cam) still means from the pixel value itself we could not decouple the radiance of the incident rays.
 Therefore, the ray that $p_c$ wants cannot be easily extracted from $p_a$.
-Using an ideal pinhole helps, but pinhole imaging comes with its own limitations that make it infeasible in practice (@sec-chpt-imaging-optics-??).
+Using an ideal pinhole helps, but pinhole imaging comes with its own limitations that make it infeasible in practice (@sec-chpt-imaging-optics-pinhole).
 
 ![A pixel in a conventional camera (e.g., $q$) integrates over a large portion of the light field. By placing a microlens array (here at where the sensor plane would have been in lieu of the microlens array), each pixel (e.g., $p$) now integrates over a small portion of the light field.](figs/lf_microlens_array){#fig-lf_microlens_array width="80%"}
 
@@ -438,7 +438,7 @@ $$
 The function $f$ can be parameterized in many ways.
 Two of most popular parameterizations are to use either a neural network [@mildenhall2021nerf] or a mixture of Gaussians [@kerbl20233d].
 With $f$, we can then synthesize/rendering any image --- by co-opting the classic volume rendering.
-We will study density and radiance field in much greater detail in @sec-chpt-mat-vs-???.
+We will study density and radiance field in much greater detail in @sec-chpt-mat-vs-rte.
 
 ### Light-Field Display
 
@@ -491,7 +491,7 @@ Specifically:
 Sometimes radiometric vs. photometric quantities are also called the radiant vs. luminous quantities.
 The way to interpret the photometric quantities is that they take into account the spectral sensitivity of a particular photodetector, which in our case is the photoreceptors on the retina.
 But if we use other detectors, such as an image sensor, we will have a different spectral sensitivity, and the corresponding photometric measurements will be different.
-We will study the spectral sensitivity of image sensors in @sec-chpt-imaging-sensor-??.
+We will study the spectral sensitivity of image sensors in @sec-chpt-imaging-sensor-optics-monomodel.
 
 A **radiometer** measures the absolute radiometric quantities, whereas a **photometer** reports photometric quantities.
 An image sensor and our retina can both be thought of as a photometer but the spectral sensitivities in the two cases are different, so the raw pixel readings and the photoreceptor responses are different even under an identical illumination.

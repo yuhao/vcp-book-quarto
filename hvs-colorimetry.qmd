@@ -2,7 +2,7 @@
 
 Colorimetry is concerned with quantitatively studying color, a subjective experience.
 Not until we can put our experience into numbers can we rigorously study colors.
-In @sec-chpt-hvs-color-cme-cmf, we have seen two ways to geometrically interpret a color as a point in a three-dimensional space: the cone space and the CIE 1931 RGB space.
+In @sec-chpt-hvs-color-cme, we have seen two ways to geometrically interpret a color as a point in a three-dimensional space: the cone space and the CIE 1931 RGB space.
 
 The main goal of this chapter is to introduce other commonly used color space to quantitatively analyze colors.
 Some of these color spaces are device-independent, just like the LMS cone space, so they permit us to analyze all human visible colors.
@@ -111,7 +111,7 @@ This is called gamut mapping, which we will discuss in @sec-chpt-hvs-cori-cm-gm.
 ### HVS Gamut
 
 We can systematically sample the chromaticities in the chromaticity diagram to visualize how the HVS gamut looks like.
-\Fig{fig:hvs_gamut} visualizes the HVS gamut in both the XYZ space and the xy-chromaticity diagram.
+@fig-hvs_gamut visualizes the HVS gamut in both the XYZ space and the xy-chromaticity diagram.
 Comparing the two, you can see how a selected set of colors in the highlighted XYZ space map to a curve in the xy-chromaticity diagram.
 
 ![HVS gamut visualized in the XYZ space and in the xy-chromaticity diagram. We systematically sample the chromaticities in the chromaticity diagram using square pulses as the light SPDs (insets on the right). From the interactive tutorial in @zhu2022gamut.](figs/hvs_gamut){#fig-hvs_gamut width="100%"}
@@ -134,7 +134,7 @@ These are questions explored in the interactive tutorial [@zhu2022gamut], which 
 
 ### Step 1: A Linear Transformation From the XYZ Space {#sec-chpt-hvs-cori-cube-step1}
 
-* We know that a color space is defined by its three primary colors \textit{and} the white point, which you get to choose when building your own color cube.
+* We know that a color space is defined by its three primary colors *and* the white point, which you get to choose when building your own color cube.
 The left panel shows one such choice, which happens to be what is used by the sRGB color space.
 * Knowing these four points uniquely defines the shape of a parallelepiped in the XYZ space (middle panel).
 The space inside the parallelepiped corresponds to actual colors that can be produced by using the primary colors.

@@ -58,7 +58,7 @@ The retino-geniculo-cortical pathway is the main pathway for the electrical sign
 
 ## Eye Optics {#sec-chpt-hvs-percept-optics}
 
-The optical signal impinging on the retina is called the \textbf{optical image}, which is a 2D continuous signal in that at any position on the retinal surface we can ask: how much optical power is there here\footnote{The power at an infinitesimal point is called irradiance; see \Sect{chpt:mat:basics:radiometry}.}?
+The optical signal impinging on the retina is called the **optical image**, which is a 2D continuous signal in that at any position on the retinal surface we can ask: how much optical power is there here\footnote{The power at an infinitesimal point is called irradiance; see \Sect{chpt:mat:basics:radiometry}.}?
 Ideally, the optical image is a perfect perspective projection from the 3D physical world, with no loss of information other than the projection.
 The reality is much more complicated.
 
@@ -76,9 +76,9 @@ The lens also contributes to light bending, albeit with a lower contribution, be
 The cornea is fixed in shape.
 Lens, in contrast, is malleable in its shape.
 The ciliary muscle controls the contraction and relaxation of the lens, which changes the focal length, and thus bending power, of the lens, and by extension the entire eye optical system.
-Adjusting the focal length to bring an object into focus is called \textbf{accommodation}.
+Adjusting the focal length to bring an object into focus is called **accommodation**.
 
-But if the ciliary muscle cannot properly adjust the lens, we get defocused blur, which is a form of optical \textbf{aberration}.
+But if the ciliary muscle cannot properly adjust the lens, we get defocused blur, which is a form of optical **aberration**.
 There are a number of other optical aberrations;
 astigmatism and chromatic aberration are two common ones found in eyes.
 While not an optical aberration, diffraction also contributes substantially to visible blurs when the pupil size is very small (e.g., under strong illumination).
@@ -338,7 +338,7 @@ The higher degree of neural convergence is another reason why peripheral acuity 
 
 #### RGCs Have a Center-Surround Receptive Field
 
-Neural convergence gives rise to an important concept called \textbf{receptive field}, which is central to contrast encoding.
+Neural convergence gives rise to an important concept called **receptive field**, which is central to contrast encoding.
 The receptive field of a neuron is the *retinal* area that influences the neuronal activity.
 For an RGC, its receptive field is the collection of photoreceptors whose output signals converge at that RGC.
 Due to the one-to-one mapping relationship at the fovea, the RGCs that are connected to the fovea cones have a receptive field of only one cone.
@@ -431,7 +431,7 @@ The plot in @fig-rgc_adaptation shows the minimal amount of increment ($y$-axis)
 
 We can see that over a wide range of background intensity $I_b$, the threshold $\Delta I$ needed for the spot light to be detectable is linearly proportional to $I_b$.
 That is, the minimal detectable (Weber) contrast $\frac{\Delta I}{I_b}$ is roughly constant.
-We could also perform this increment-threshold experiment \textit{behaviorally} on human participants, through which we can derive the minimal $\Delta I$ needed for the spot light to be detectable to humans [@blakemore1965dark; @fuortes1961increment; @aguilar1954saturation; @barlow1957increment].
+We could also perform this increment-threshold experiment *behaviorally* on human participants, through which we can derive the minimal $\Delta I$ needed for the spot light to be detectable to humans [@blakemore1965dark; @fuortes1961increment; @aguilar1954saturation; @barlow1957increment].
 Perhaps unsurprisingly, the same trend holds: over a rather wide range of background levels, the increment threshold varies linearly with the background intensity.
 This means, behaviorally, the minimal detectable contrast is also constant, and this constancy could potentially be accounted for by the physiological constancy ^[We emphasize "potentially" because while correlation is easy to establish, claiming causation requires ruling out other factors.].
 

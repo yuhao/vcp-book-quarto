@@ -160,7 +160,7 @@ The goal of high-dynamic-range (**HDR**) imaging is to design imaging systems su
 Two things are in the way: noise at low-luminance regions in the scene and saturation at high-luminance regions in the scene.
 Computationally, the common strategy is called **exposure bracketing**, which can be implemented in two ways, both involving taking multiple shots of the scene and then fuse them.
 
-* Each shot can have the same, short exposure time so no pixel is over-exposed. We then average multiple shots; averaging is a form denoising (@sec-chpt-imaging-noise-??).  This is the approach that Google's HDR+ system takes [@hasinoff2016burst].
+* Each shot can have the same, short exposure time so no pixel is over-exposed. We then average multiple shots; averaging is a form denoising (@sec-chpt-imaging-noise).  This is the approach that Google's HDR+ system takes [@hasinoff2016burst].
 * Or each shot can have a different exposure time.  Long-exposure shots are used to capture details in low-luminance regions, and short-exposure shots capture details in high-luminance regions.
 
 Either way, the issue with exposure bracketing is the longer capturing time, and the resulting image is more susceptible toward motion blur.
@@ -264,7 +264,7 @@ For instance, the PD has a large inherent photodiode capacitance, so the signal 
 In contrast, we get to control the FD in the 4T APS, which can be made to have a much lower capacitance, leading to a higher SNR.
 The CDS for 3T APS is also much less effective in suppressing noise, as we will discuss later.
 
-A precursor to APS was the \textbf{Passive Pixel Sensor} (PPS), first suggested in @weckler1967operation and @dyck1968integrated.
+A precursor to APS was the **Passive Pixel Sensor** (PPS), first suggested in @weckler1967operation and @dyck1968integrated.
 A PPS has only one transistor, as shown in the top-right panel in @fig-pixel_design.
 The PPS has no SF that reads out voltage from the PD charges.
 Instead, the charges (not voltage) in the PD "passively" flow through a column bus and are turned to voltage there through a charge amplifier [@aoki19822].
@@ -763,7 +763,7 @@ $$
 $$
 
 The transformation matrix is then applied in the post-processing pipeline of the raw pixels to turn raw pixel responses into a color value.
-We will discuss the calibration and the post-processing pipeline in greater details in @sec-???.
+We will discuss the calibration and the post-processing pipeline in greater details in @sec-chpt-imaging-isp.
 
 ### Implementing Three "Classes of Pixels" {#sec-chpt-imaging-sensor-color-impl}
 
@@ -803,7 +803,7 @@ The overall image looks overwhelmingly green because of the sheer amount of gree
 An important step in the post-processing pipeline is to reconstruct the two other missing channels, a process called **demosaicing**, i.e., removing the Bayer mosaic artifacts.
 An example of the reconstructed image is shown in @fig-bayer_cfa (right).
 
-We will have more to say about the demosaicing process when we get to @sec-chpt-imaging-sensor-isp, but for now, let's just observe that demosaicing is nothing more than a signal sampling and reconstruction problem.
+We will have more to say about the demosaicing process when we get to @sec-chpt-imaging-isp, but for now, let's just observe that demosaicing is nothing more than a signal sampling and reconstruction problem.
 The CFA allows each pixel to sample only one channel of the three channels of response.
 So the green-filter response, for instance, is sampled by half of the pixels^[If we want to be pedantic, each green pixel has a small, but non-infinitesimal, area, so it first performs a low-pass filtering using a box filter whose extent is the pixel area, followed by sampling at the center of the pixel.], and the other two responses are sampled by one quarter of the pixels each.
 The job of demosaicing is then to reconstruct the full signal responses from the samples --- a well-established problem in signal processing.

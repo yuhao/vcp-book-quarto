@@ -373,7 +373,7 @@ As a result, the absorption coefficient should generally be denoted $\sigma_a(p,
 
 ![A conceptual model to help reason about photon absorption in the general case, where the absorption coefficient can vary spatially and directionally. The medium is divided into many tiny elemental volumes, each of which is so small that particles do not cover each from any direction.](figs/absorption_model_general){#fig-absorption_model_general width="60%"}
 
-Effectively, our conceptual model, shown in \Fig{fig:absorption_model_general}, has to be changed to one where the entire body of particles is divided into many equally-sized volumes (with a length $\D s$ and an area $\D A$), each of which is so small that particles do not cover each other from any direction.
+Effectively, our conceptual model, shown in @fig-absorption_model_general, has to be changed to one where the entire body of particles is divided into many equally-sized volumes (with a length $\D s$ and an area $\D A$), each of which is so small that particles do not cover each other from any direction.
 The radiance reduction per unit length in a small volume is then expressed as:
 
 $$
@@ -834,7 +834,7 @@ $$
 \end{align}
 $$
 
-where $g$ is the free parameter and is usually called the \textbf{asymmetry parameter}.
+where $g$ is the free parameter and is usually called the **asymmetry parameter**.
 
 We hasten to emphasize that the Henyey–Greenstein function has absolutely zero physical meaning; it is designed for fitting experimental phase function data, so in the modern deep learning era, you might as well try a deep neural network.
 The second graph in @fig-phase_function shows one instantiation of the Henyey–Greenstein function.
@@ -856,7 +856,7 @@ Given an incident radiance $L(p, \os)$, we are interested in $L(p+\D s \os, \os)
 The radiance can be:
 
 * attenuated by the medium because of absorption;
-* attenuated by the medium because photons are scattered out into other directions; this is called \textbf{out-scattering} in graphics;
+* attenuated by the medium because photons are scattered out into other directions; this is called **out-scattering** in graphics;
 * augmented by photons that are scattered into the ray direction from all other directions --- because of multiple scattering^[Technically, even single scattering can lead to augmentation if there is illumination coming from anywhere outside the ray direction.]; this is called *in-scattering* in graphics;
 * augmented because particles can emit photons.
 
@@ -970,7 +970,7 @@ The other is to express $p_0 = p - s\os$ ($s$ again being positive) [@fong2017pr
 It is a matter of taste which one to use, but be alert to the different conventions.].
 
 Now we need to integrate from $p_0$ to $p$ by running $s'$ from 0 to $s$.
-Observe that the RTE is a form of a \textit{non-homogeneous} linear differential equation, whose solution is firmly established in calculus.
+Observe that the RTE is a form of a *non-homogeneous* linear differential equation, whose solution is firmly established in calculus.
 Without going through the derivations, its solution is:
 
 $$

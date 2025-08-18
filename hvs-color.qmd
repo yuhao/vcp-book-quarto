@@ -120,7 +120,7 @@ For instance, the line segment connecting two points on the spectral locus conta
 Of course we can apply this iteratively: once you get a real color through combining spectral colors, the color itself can then be used as a basic color to create other colors.
 @zhu2022gamut is an interactive tutorial that visualizes the HVS gamut in the cone space (and others), which you are invited to go through.
 
-## Trichromatic Color Matching {#sec-chpt-hvs-color-cme-lin}
+## Trichromatic Color Matching {#sec-chpt-hvs-color-cme}
 
 We can produce, in theory, any color by mixing three other colors, which we call the **primary colors**.
 Here is the mathematical intuition.
@@ -266,7 +266,7 @@ $$ {#eq-spd2rgb}
 The CMFs give us another color space, where the color of a light is interpreted as the amount of primary lights needed to match the color of the light.
 Of course, if we choose a different set of primary lights, we might end up with a new set of CMFs and a new RGB color space.
 
-### Connecting CMFs and Cone Fundamentals {#sec-chpt-hvs-color-cme-cmf}
+### Connecting CMFs and Cone Fundamentals {#sec-chpt-hvs-color-cme-cone}
 
 CMFs and cone fundamentals both yield trichromatic color vision, so they must be inherently related, as they are just different ways of describing the same thing.
 We show the two are linearly related in theory, and the measurement data of the two match well, too.

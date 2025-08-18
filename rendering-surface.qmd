@@ -605,24 +605,24 @@ We can use a dispersive medium such as a prism, shown in @fig-reflectance_measur
 A detector that is capable of measuring the spectral radiometric quantities (e.g., the spectral power distribution) is called a **spectroradiometer**.
 
 The raw detector readings of a spectroradiometer are usually not the absolute radiometric quantity of interest.
-The raw recording is, instead, roughly proportional to radiometric quantity up to a constant scaling factor $k(\lambda)$, which is usually called the detector's spectral sensitivity or responsivity function (@sec-chpt-mat-basics-radiometry-pm), which we will study carefully in @sec-chpt-imaging-sensor-??.
-$k(\lambda)$ can be calibrated offline, and that allows us to turn a detector's raw recording into the corresponding absolute radiometric quantity.
+The raw recording is, instead, roughly proportional to radiometric quantity up to a constant scaling factor $SSF(\lambda)$, which is usually called the detector's spectral sensitivity funciton or the responsivity function, which we will study carefully in @sec-chpt-imaging-sensor-optics-monomodel.
+$SSF(\lambda)$ can be calibrated offline, and that allows us to turn a detector's raw recording into the corresponding absolute radiometric quantity.
 
 We take a spectroradiometric measurement of the illumination hitting the material and that of the scattered light of interest; the ratio is the spectral reflectance $\rho(\lambda)$:
 
 $$
 \begin{align}
-    \rho(\lambda) = \frac{\Phi_s(\lambda)K(\lambda)}{\Phi_i(\lambda)K(\lambda)} = \frac{\Phi_s(\lambda)}{\Phi_i(\lambda)}.
+    \rho(\lambda) = \frac{\Phi_s(\lambda)SSF(\lambda)}{\Phi_i(\lambda)SSF(\lambda)} = \frac{\Phi_s(\lambda)}{\Phi_i(\lambda)}.
 \end{align}
 $$
 
-We can see that for reflectance measurement, the exact values of $k(\lambda)$ are immaterial.
+We can see that for reflectance measurement, the exact values of $SSF(\lambda)$ are immaterial.
 A curious question is that, while the detector can measure $\Phi_s(\lambda)$, what measures $\Phi_i(\lambda)$?
 One strategy is to, offline, place the same detector where the material is and directly measure $\Phi_i(\lambda)$ there.
 
 Another, perhaps much more common and standard, way to measure spectral reflectance is to use something called a **spectrophotometer**.
 This method does not need to know $\Phi_i(\lambda)$, but it requires a reference sample with a known spectral reflectance.
-This is shown in \Fig{fig:reflectance_measurement}(b).
+This is shown in @fig-reflectance_measurement (b).
 It takes two spectroradiometric measurements under the identical illumination: one for the test material and the other for the standard/reference sample.
 The spectral reflectance of the test material $\rho_t(\lambda)$ is given by:
 
@@ -647,7 +647,7 @@ There is no guarantee that a particular measurement geometry corresponds to the 
 #### Goniometric Measurements
 
 A more general approach is to measure the reflectance at every illumination-viewing direction combination.
-For that we need what is called a \textbf{goniospectrophotometer}["gonio-"" comes from the Greek word $\gamma\omega\nu\iota\alpha$ (g\={o}n\'{i}a), which means angle.
+For that we need what is called a **goniospectrophotometer**^["gonio-"" comes from the Greek word $\gamma\omega\nu\iota\alpha$ (g\={o}n\'{i}a), which means angle.].
 There are also **gonioradiometers**, which measure the spectral radiometric quantities from different viewing directions.].
 @fig-brdf_calculation_setup shows one such setup.
 The illuminant/light source incident on the material comes through the small aperture $I$, and the scattered light from the material is captured by a detector (e.g., a photodiode or, essentially, a single-pixel image sensor) through another aperture $V$.
