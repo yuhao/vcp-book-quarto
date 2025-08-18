@@ -61,4 +61,4 @@ Of course, for a quantum treatment of light-matter interactions, I'd be remiss n
 
 There are comparatively fewer texts on imaging.
 The one I particularly like is @rowlands2020physics.
-@trussell2008fundamentals and @nakamura2006image are two excellent references; the latter focuses more on the principles (of both imaging and display) and the latter is heavier on the hardware implementations of image sensors.
+@trussell2008fundamentals and @nakamura2006image are two excellent references; the former focuses more on the principles (of both imaging and display) and the latter is heavier on the hardware implementations of image sensors.
