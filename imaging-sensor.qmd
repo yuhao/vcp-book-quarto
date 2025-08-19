@@ -18,7 +18,7 @@ These optical elements are not the imaging optics we discussed in the previous c
 * Second, under these optical elements are the photodiodes, which turn optical signals carried in photons to electrical signals in the form of electric charges.
 * Third, interleaved with the photodiodes is the circuitry that processes the output of the photodiodes, turning charges into digital values.
 
-![Image sensor can be seen as a chain of processing, or a transfer function, that transfers the optical signal, a random variable, with a mean $\mu_p$ and standard deviation $\sigma_p$ to the electrical signal, another random variable, with a mean $\mu_y$ and standard deviation $\sigma_y$. Adapted from European Machine Vision Association Standard 1288 @emva1288[Fig. 1].](figs/sensor_signal_processing){#fig-sensor_signal_processing width="80%"}
+![Image sensor can be seen as a chain of processing, or a transfer function, that transfers the optical signal, a random variable, with a mean $\mu_p$ and standard deviation $\sigma_p$ to the electrical signal, another random variable, with a mean $\mu_y$ and standard deviation $\sigma_y$. Redrawn based on European Machine Vision Association Standard 1288 @emva1288[Fig. 1].](figs/sensor_signal_processing){#fig-sensor_signal_processing width="80%"}
 
 From a computational perspective, we can model an image sensor as a signal processing chain, a transfer function $f$, that transfers the optical signal to the electrical signal.
 @fig-sensor_signal_processing visualizes this chain of signal processing.
@@ -327,14 +327,14 @@ Alternatively, a large FD will not saturate (during charge transfer) but will le
 A technique that many image sensors use is called dual conversion gain (**DCG**), where a pixel's charges can be read-out twice, once with a high conversion gain (HCG) and the second time with a low conversion gain (LCG) [@solhusvik20191280; @willassen20151280; @huggett2009dual; @miyauchi2020stacked; @takayanagi2018over].
 To support the LCG read-out, we need an (or sometimes multiple) extra capacitive node, e.g., an additional FD (let's call that $FD_2$), that is connected in parallel with the original FD (let's call that $FD_1$) so as to increase the effective $C_{FD}$ in @eq-charge_measure.
 
-* In the first HCG read-out, we do not use $FD_2$.
+* In the first HCG read-out, we use only $FD_1$ but not $FD_2$.
 This reading has a high HCG and high SNR, which is especially important for dark parts of the scene.
-However, in the bright areas, $FD_1$ saturates, and this reading is useless for highlights.
-Importantly, however, the overflowing charges are not discarded; they still stay in the PD.
+For the bright areas, however, $FD_1$ saturates and the readings are useless.
+Importantly, however, the left-over charges are not discarded; they still stay in the PD.
 * Then in the subsequent LCG read-out, the extra $FD_2$ is switched in.
-Now all the charges, including the left-over charges in the PD and the charges in $FD_1$, are then re-distributed to $FD_1$ *and* $FD_2$, which collectively will not saturate, so highlights are captured at the cost of low SNR.
+Now all the charges, including the left-over ones in the PD and the charges in $FD_1$, are then re-distributed to $FD_1$ *and* $FD_2$, which collectively will not saturate, so highlights are captured at the cost of low SNR.
 
-<!-- Fig. 7-8 in @iida20180 are great examples. -->
+<!-- Fig. 7 in @iida20180 is a great example. -->
 
 #### High Dynamic Range Imaging {#sec-chpt-imaging-sensor-pixel-dr-hdr}
 
@@ -349,29 +349,32 @@ Either way, the issue with exposure bracketing is the longer capturing time, whi
 We ideally would like "single-shot" HDR.
 There are multiple methods, and they usually require co-designing the image sensor/pixel with the post-processing algorithms (aside from modern deep learning approaches that rely semantics information, which we will not discuss).
 
-![Illustration of how split pixel (with a group of large pixels, LP, and a group of small pixels, SP) and dual conversion gain techniques extend the dynamic range. Redrawn from @xu2022analysis.](figs/sp_dcg_dr){#fig-sp_dcg_dr width="60%"}
+One strategy is to use **split pixels** or dual PDs, an emerging technology that sensor companies are exploring.
+The idea is to use split a pixel into two PDs, each with a different "sensitivity" to light [@iida20180; @solhusvik20191280; @willassen20151280; @xu2022analysis].
+The sensitivity is usually controlled by PD size (and the corresponding microlens size): the larger PD (LPD) can collect more charges at the same light intensity (quantified by photons/area) than the small PD (SPD)---simply because of the large photon collection area---and, thus, saturate faster.
+The two groups of PDs are interleaved on the sensor plane, so they each perform a uniform sampling of the scene (preceded by a spatial integration over the pixel area of course).
 
-One strategy is to use the so-called **split-pixel** technology, an emerging technology that sensor companies are exploring.
-The idea is to use two or multiple groups of pixels, each with a different "sensitivity" to light [@iida20180; @solhusvik20191280; @willassen20151280; @xu2022analysis].
-The sensitivity is usually controlled by pixel size (and microlens size): a larger pixel can collect more charges per unit incident luminance than a smaller pixel simply because of the large photon collection area.
-Therefore, given the same scene luminance, larger pixels saturate faster.
-The two groups of pixels are interleaved on the sensor plane, so they each perform a uniform sampling of the scene (preceded by a spatial integration over the pixel area of course).
+![Illustration of how the split-pixel architecture, where a pixel has a large PD (LPD) and a small PD (SPD) and LOFIC extend the dynamic range (DR). Dual conversion gain (DCG), in this example, is applied to the LPD. Drawn based on @xu2022analysis.](figs/sp_dcg_dr){#fig-sp_dcg_dr width="90%"}
 
 The way that split pixels extend dynamic range is illustrated in @fig-sp_dcg_dr.
-Large pixels saturate at a low luminance level $L_1$, so only pixels that image low-luminance regions in the scene do not saturate; as a result, large pixels provide a good sampling of the low-luminance information (or rather, low-luminance information is adequately sampled by large pixels).
-In contrast, small pixels saturate at a high luminance level $L_2$, so they provide a good sampling for high-luminance information in the scene.
+The LPD, with a FWC of $S_3$, saturates at a low luminance level $L_1$, so only those (large) pixels that image low-luminance regions in the scene do not saturate; as a result, LPDs provide a good sampling of the low-luminance information.
+In contrast, the SPD, with a lower intrinsic FWC of $S_2$, saturate at a high luminance level $L_2$, so SPDs provide a good sampling for high-luminance information in the scene.
+Note that even though the SPD has a smaller intrinsic FWC than that of the LPD, the SPD's sensitivity to light is even lower^[For instance in @solhusvik20191280, the sensitivity ratio between the LPD and SPD is over 100$\times$, but the FWC of the SPD is less than three times smaller than that of the LPD.], so the SPD still saturates at a higher intensity level.
 
 If we increase the FWC of the small pixels, they take even longer/higher luminance to saturate.
-The way we increase the FWC is by adding a lateral overflow integration capacitor (**LOFIC**), which holds the overflow charges from the photodiode of a small pixel during exposure [@sugawa2005100; @akahane2006sensitivity; @takayanagi2019120; @ikeno20224].
+The way we increase the FWC is by adding a lateral overflow integration capacitor (**LOFIC**), which holds the overflow charges from the PD during exposure [@sugawa2005100; @akahane2006sensitivity; @takayanagi2019120; @ikeno20224].
 In almost all cases, the FD itself participates in collecting the overflow charges, too.
-In this way, the FWC of the small pixels is effectively the capacity of the photodiode itself plus that of the LOFIC and the FD.
+In this way, the FWC of the small pixels, $S_4$, is effectively the total capacity of the photodiode, the LOFIC, and the FD.
 This further extends the small pixel's saturation level to $L_3$, shown in @fig-sp_dcg_dr.
 
 LOFIC can be used in conjunction with DCG.
 For instance, in the HCG read-out we would use only the FD as the measurement node, and in the LCG read-out we would use both the FD and LOFIC [@takayanagi2019120].
 Of course we can also add additional FDs to lower the conversion gain even more [@iida20180].
 <!-- Fig. 2 in @takayanagi2019120 has a good timing diagram for how FD and LOFIC are used. -->
-We could also combine the split-pixel architecture with LOFIC and/or DCG [@iida20180; @solhusvik20191280; @willassen20151280], where usually the large pixels are read-out with twice with DCG and the small pixels are read-out with only LCG; this is because large pixels are meant to sample low-luminance information so they benefit more from HCG.
+
+We could also combine the split-pixel architecture with DCG [@iida20180; @solhusvik20191280; @willassen20151280], where usually the large pixels are read-out with twice with DCG and the small pixels are read-out with only LCG; this is because large pixels are meant to sample low-luminance information so they benefit more from HCG.
+This is shown in @fig-sp_dcg_dr, where $S_1$ is the capacity of the LPD's FD node, which saturates at a lower intensity than $L_1$ and is the measurement node in the HCG read-out.
+The LCG read-out can read all the charges in the FWC (with the help of an additional FD) at the cost of a lower conversion gain.
 
 Another approach is the **time-to-saturation** (TTS) technology [@stoppa2002novel], which uses a counter to measure the time it takes for each pixel to saturate and use that time to extrapolate the information given the actual exposure time:
 
