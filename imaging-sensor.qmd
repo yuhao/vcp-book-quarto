@@ -145,14 +145,14 @@ $$
 \end{align}
 $$ {#eq-charge_measure}
 
-where $\mathcal{Q}_{sig}$ is the charge in the signal stored in the capacitor, $C_{FD}$ is the capacitance, and $g$ is the voltage gain of whatever device is used to read out the voltage (usually a source follower; see later).
+where $\mathcal{Q}_{sig}$ is the charge in the signal used to discharge the capacitor, which is usually a floating diffusion (see later) that has a capacitance of $C_{FD}$, and $g$ is the voltage gain of whatever device is used to read out the voltage, usually a source follower (see later).
 $\mathcal{Q}_{sig}$ itself is the product of $N$, the number of charges in the signal, and $q$, the elementary charge.
 
 $\frac{q}{C_{FD}}$ is also called the **conversion gain** (CG) of the pixel.
 CG has a unit of $\text{Volt}/\text{e}^-$ and can be interpreted as the amount of voltage change per charge.
 CG is a very important quantity.
-A high CG means the output voltage change is very sensitive to small amount of input light change, which is good for improving the signal-to-noise ratio.
-In contrast, a small CG means the output voltage change is relatively small given the same amount of light change, and that small voltage change becomes very difficult to detect when there are noises.
+A high CG means the output voltage change is very sensitive to small amount of input light change, which is good for improving the signal-to-noise ratio (SNR).
+In contrast, a small CG means the output voltage change is small given the same amount of light change, and that small voltage change becomes very difficult to detect in the presence of noises, resulting in a low SNR.
 While desirable from a noise perspective, a high CG necessarily means a smaller capacitor, which is easier to fill up (saturate).
 We will get back to this point when discussing dynamic range (@sec-chpt-imaging-sensor-pixel-dr).
 
@@ -183,9 +183,9 @@ Modern pixels actually transfer the charges from the PD to a separate measuremen
 
 @fig-4taps (a) shows the circuit diagram of a typical pixel design that detects and measures the charges.
 The design has a PD and four transistors, so it is usually called the 4T design.
-The `M-TX` switch controls the transfer of the charges accumulated in the PD to the Floating Diffusion (FD)^[For the charges collected in PD to be transferable to the FD, the photodiode needs to be "pinned", which means there is another layer of p+ implant above the p-n junction pinned to the ground (0 V).
-Such a PD is also called the Pinned Photodiode, or PPD [@fossum2014review].], another capacitive area, and is sometimes called the **measurement node**, the *sense node*, or the *conversion node*, because that is where the charges are actually being measured.
-The FD is connected to the NMOS Source Follower (SF) transistor `M-SF`, where the gate terminal is its input and is connected to the FD voltage, the drain is connected to the supply voltage, and the source is the output that faithfully follows/transfers the input with a gain of about 0.9 ($g$ in @eq-charge_measure).
+The `M-TX` switch controls the transfer of the charges accumulated in the PD to the **Floating Diffusion** (FD)^[For the charges collected in PD to be transferable to the FD, the photodiode needs to be "pinned", which means there is another layer of p+ implant above the p-n junction pinned to the ground (0 V).
+Such a PD is also called the Pinned Photodiode, or PPD [@teranishi1982no; @teranishi2015effect; @fossum2014review].], another capacitive area, and is sometimes called the **measurement node**, the *sense node*, or the *conversion node*, because that is where the charges are actually being measured.
+The FD is connected to the NMOS **Source Follower** (SF) transistor `M-SF`, where the gate terminal is its input and is connected to the FD voltage, the drain is connected to the supply voltage, and the source is the output that faithfully follows/transfers the input with a gain of about 0.9 ($g$ in @eq-charge_measure).
 
 ![(a): circuit diagram of a typical 4T pixel design; adapted from @ma2024efficient[Fig. 2.5(a)]. (b): timing diagram of operating a 4T pixel.](figs/4taps){#fig-4taps width="80%"}
 
@@ -320,11 +320,27 @@ $$
 
 We discuss noise in detail in @sec-chpt-imaging-noise and will not get into it too much here, but briefly, the noise floor is dominated by "dark noise", which is caused by the thermally dislodged electrons, and the "read noise", which is the noise introduced by the read-out circuitry.
 
+Not only can saturation occur at a PD's well, it can also occur when transferring the charges from the PD to the FD during read-out.
+As we have briefly alluded to when discussing the conversion gain (CG) in @sec-chpt-imaging-sensor-pixel-charge, when the CG is low, the SNR is high but we need to use a small FD, whose capacity could sometimes be smaller than that of the PD, in which case the charge transfer might saturate the FD.
+Alternatively, a large FD will not saturate (during charge transfer) but will lead to a low CG and, thus, lower SNR.
+
+A technique that many image sensors use is called dual conversion gain (**DCG**), where a pixel's charges can be read-out twice, once with a high conversion gain (HCG) and the second time with a low conversion gain (LCG) [@solhusvik20191280; @willassen20151280; @huggett2009dual; @miyauchi2020stacked; @takayanagi2018over].
+To support the LCG read-out, we need an (or sometimes multiple) extra capacitive node, e.g., an additional FD (let's call that $FD_2$), that is connected in parallel with the original FD (let's call that $FD_1$) so as to increase the effective $C_{FD}$ in @eq-charge_measure.
+
+* In the first HCG read-out, we do not use $FD_2$.
+This reading has a high HCG and high SNR, which is especially important for dark parts of the scene.
+However, in the bright areas, $FD_1$ saturates, and this reading is useless for highlights.
+Importantly, however, the overflowing charges are not discarded; they still stay in the PD.
+* Then in the subsequent LCG read-out, the extra $FD_2$ is switched in.
+Now all the charges, including the left-over charges in the PD and the charges in $FD_1$, are then re-distributed to $FD_1$ *and* $FD_2$, which collectively will not saturate, so highlights are captured at the cost of low SNR.
+
+<!-- Fig. 7-8 in @iida20180 are great examples. -->
+
 #### High Dynamic Range Imaging {#sec-chpt-imaging-sensor-pixel-dr-hdr}
 
 The goal of high-dynamic-range (**HDR**) imaging is to design imaging systems such that the scene luminance can be faithfully reconstructed from pixel values.
 Two things are in the way: noise at low-luminance regions in the scene and saturation at high-luminance regions in the scene.
-A common strategy toward HDR is called **exposure bracketing**, which can be implemented in two ways, both involving taking multiple shots of the scene and then fuse them.
+A common strategy for HDR is called **exposure bracketing**, which can be implemented in two ways, both involving taking multiple shots of the scene and then fuse them.
 
 * Each shot has the same, short exposure time so no pixel is over-exposed, but pixels for low-luminance regions are noisy.  We then average multiple shots; averaging is a form denoising (@sec-chpt-imaging-noise).  This is the approach that Google's HDR+ system takes [@hasinoff2016burst].
 * Each shot has a different exposure time.  Long-exposure shots are used to capture details in low-luminance regions, and short-exposure shots capture details in high-luminance regions.
@@ -333,13 +349,31 @@ Either way, the issue with exposure bracketing is the longer capturing time, whi
 We ideally would like "single-shot" HDR.
 There are multiple methods, and they usually require co-designing the image sensor/pixel with the post-processing algorithms (aside from modern deep learning approaches that rely semantics information, which we will not discuss).
 
+![Illustration of how split pixel (with a group of large pixels, LP, and a group of small pixels, SP) and dual conversion gain techniques extend the dynamic range. Redrawn from @xu2022analysis.](figs/sp_dcg_dr){#fig-sp_dcg_dr width="60%"}
+
 One strategy is to use the so-called **split-pixel** technology, an emerging technology that sensor companies are exploring.
 The idea is to use two or multiple groups of pixels, each with a different "sensitivity" to light [@iida20180; @solhusvik20191280; @willassen20151280; @xu2022analysis].
-The sensitivity is usually controlled by pixel size: a large pixel can collect more charges per unit light illuminance than a small pixel simply because of the large surface area.
-So the larger group of pixels saturate faster.
-The two groups of pixels are distributed over the sensor plane, so they each performs a uniform sampling of the scene.
+The sensitivity is usually controlled by pixel size (and microlens size): a larger pixel can collect more charges per unit incident luminance than a smaller pixel simply because of the large photon collection area.
+Therefore, given the same scene luminance, larger pixels saturate faster.
+The two groups of pixels are interleaved on the sensor plane, so they each perform a uniform sampling of the scene (preceded by a spatial integration over the pixel area of course).
 
-Another approach is the time-to-saturation (TTS) technology [@stoppa2002novel], which uses a counter to measure the time it takes for each pixel to saturate and use that time to extrapolate the luminance information given the actual exposure time:
+The way that split pixels extend dynamic range is illustrated in @fig-sp_dcg_dr.
+Large pixels saturate at a low luminance level $L_1$, so only pixels that image low-luminance regions in the scene do not saturate; as a result, large pixels provide a good sampling of the low-luminance information (or rather, low-luminance information is adequately sampled by large pixels).
+In contrast, small pixels saturate at a high luminance level $L_2$, so they provide a good sampling for high-luminance information in the scene.
+
+If we increase the FWC of the small pixels, they take even longer/higher luminance to saturate.
+The way we increase the FWC is by adding a lateral overflow integration capacitor (**LOFIC**), which holds the overflow charges from the photodiode of a small pixel during exposure [@sugawa2005100; @akahane2006sensitivity; @takayanagi2019120; @ikeno20224].
+In almost all cases, the FD itself participates in collecting the overflow charges, too.
+In this way, the FWC of the small pixels is effectively the capacity of the photodiode itself plus that of the LOFIC and the FD.
+This further extends the small pixel's saturation level to $L_3$, shown in @fig-sp_dcg_dr.
+
+LOFIC can be used in conjunction with DCG.
+For instance, in the HCG read-out we would use only the FD as the measurement node, and in the LCG read-out we would use both the FD and LOFIC [@takayanagi2019120].
+Of course we can also add additional FDs to lower the conversion gain even more [@iida20180].
+<!-- Fig. 2 in @takayanagi2019120 has a good timing diagram for how FD and LOFIC are used. -->
+We could also combine the split-pixel architecture with LOFIC and/or DCG [@iida20180; @solhusvik20191280; @willassen20151280], where usually the large pixels are read-out with twice with DCG and the small pixels are read-out with only LCG; this is because large pixels are meant to sample low-luminance information so they benefit more from HCG.
+
+Another approach is the **time-to-saturation** (TTS) technology [@stoppa2002novel], which uses a counter to measure the time it takes for each pixel to saturate and use that time to extrapolate the information given the actual exposure time:
 
 $$
 \begin{align}
@@ -348,6 +382,7 @@ $$
 $$
 
 where $Q_{\text{act}}$ is the actual number of charges a pixel would have collected without saturation, $Q_{\text{sat}}$ is the FWC, $T_{\text{exp}}$ is the exposure time, and $T_{\text{sat}}$ is the saturation time.
+One could combine TTS with DCG and LOFIC [@ikeno20224; @liu20204; @liu2022augmented].
 
 ## Global Architecture {#sec-chpt-imaging-sensor-arch}
 
@@ -423,7 +458,7 @@ All the sensor designs we have covered so far are called Complementary Metal-Oxi
 CCD sensor is the other major category of sensor design, first reported in @boyle1970charge.
 Both CCD and CMOS sensors use silicon to implement the PDs, although the specific implementations can differ [@nakamura2006image, Chpt. 3.1.2].
 The main difference lies in how the charges generated by the PDs are read out.
-See @fossum1993active, @fossum1997cmos, and @el2005cmos for the historical background and comparisons.
+See @fossum1993active, @fossum1997cmos, @el2005cmos, and more recently, @fossum2024digital for the historical background and comparisons.
 
 A CCD sensor directly reads out charges from pixels by *shifting* the collected charges row by row.
 When a row reaches the bottom of the pixel array, we then shift the charges column by column to a single, array-level SF amplifier (and potentially a gain-controllable amplifier and ADC afterwards).
@@ -722,6 +757,8 @@ $$ {#eq-mono_model_pow_3}
 $SSF_{power}(\lambda)$ is the equal-power SSF.
 The subscript is usually omitted in the literature because it is usually clear what SSF is being used (e.g., from the quantity that is being multiplied with the SSF).
 Also note that in some literature, the SSF is used interchangeably with QE, so be very careful.
+
+<!-- Talk about spatial integration followed by sampling? equivalent to convolving with a box filter only at the sample locations, i.e., pixel center. -->
 
 ## Color Sensing {#sec-chpt-imaging-sensor-color}
 
