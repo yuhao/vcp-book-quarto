@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: /Users/yuhao/Documents/www/learnvisualcomputing.github.io/docs
 
 book:
   title: "Foundations of Visual Computing"

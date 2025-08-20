@@ -641,7 +641,7 @@ Of course, in reality the aperture is not a pinhole, so the PSF is not simply a 
 @fig-aa_filter (a) and @fig-aa_filter (b) compare the images taken of the same scene by Nikon D800e, which lacks an AA filter, and Nikon D800, which has a 4-dot AA filter.
 Look at the AC's condenser coil; the AA image is more blurred but has much less objectionable aliasing effect.
 
-### Monochromatic, Noise-Free Sensor Model {#sec-chpt-imaging-sensor-optics-monomodel}
+## Monochromatic, Noise-Free Sensor Model {#sec-chpt-imaging-sensor-optics-monomodel}
 
 Each in-sensor optical element adds its own spectral transmittance, so the overall transmittance of the in-sensor optics is the product of them.
 We will simply use $T(\lambda)$ to represent the overall transmittance.
@@ -657,7 +657,7 @@ $$
 $$ {#eq-mono_model}
 
 where $Y(x', y', \lambda, t')$ is the number of photons incident on position $(x', y')$ at a particular wavelength $\lambda$ at a particular time $t'$, so it is a quantal counterpart of the spectral irradiance;
-$T(\lambda)$ is the overall spectral transmittance of the in-sensor optics, $QE(\lambda)$ is the quantum efficiency, and $q$ is the elementary charge;
+$T(\lambda)$ is the overall spectral transmittance of the in-sensor optics, $QE(\lambda)$ is the quantum efficiency, and $q$ is the elementary charge.
 
 The first equation in @eq-mono_model models $\mathcal{Q}_{px}$, the total amount of charges collected at the particular pixel, where we integrate spatially, temporally, and spectrally.
 The second equation in @eq-mono_model is essentially @eq-charge_measure, and models the voltage difference sensed before and after the exposure.
@@ -710,6 +710,8 @@ $$ {#eq-cam_measurement_3}
 
 We have implicitly assumed here that the effects of the in-sensor optics can simply be modeled by the spectral transmittance $T(\lambda)$.
 This is largely reasonable because 1) in-sensor optics are mostly transparent and 2) they are very close to the pixels, so we can ignore rays that are incident on the edge of the optics and, after refractions, miss the pixels.
+
+![(a): a birefringent material that, through double refraction, splits a ray into two; adapted from @birefringent_material. (b): many anti-aliasing filters are made by cascading two birefringent materials that, collectively, split a ray into four; they are called 4-dot AA filters. (c): MTF of a 4-dot AA filter.](figs/pixel_sampling){#fig-pixel_sampling width="80%"}
 
 #### Spectral Sensitivity Function
 
