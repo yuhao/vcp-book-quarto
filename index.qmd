@@ -1,3 +1,5 @@
+# Preface {.unnumbered}
+
 This book attempts to present a unified view of visual computing, looking at it as a series of signal transductions across different domains --- optical, analog, digital, and semantic --- along with the processing that happens within each.
 Any sufficiently complex visual computing system worth studying will likely involve both transductions and processing in all of these domains.
 
@@ -7,7 +9,7 @@ The input signals --- light --- are in the optical domain. These first need to b
 But wait, we are still not done!
 The light emitted by the display enters our eyes, where photoreceptors in the retina convert the optical signals back into electrical ones. The retina and, further downstream, the brain, process these signals, eventually giving rise to our perception and cognition: we see a virtual mug sitting naturally on a real table.
 
-## Why This Book {.unnumbered}
+## Why This Book
 
 Visual computing is a wonderfully broad field, touching everything from the sciences of human vision to the engineering of sensors, optics, displays, and rendering.
 The main motivation for writing the book grew out of a simple observation: while each of these areas is well covered in excellent texts, they are rarely explored together in a single, coherent story.
