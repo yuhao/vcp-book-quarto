@@ -1,7 +1,7 @@
 # Rendering
 
-So far in our discussion of color, our focus has been on how our visual system encodes light spectrum coming from an object into color perception.
-We have, however, not cared much about how an object produces light in the first place.
+So far in the book, our focus has been on how our visual system encodes light spectrum coming from the scene into perception.
+We have, however, not cared much about how an object in the scene could produce light in the first place.
 An object could, of course, emit light itself.
 In the real world, however, the vast majority of objects have colors not because they emit light but because they interact with light that impinges upon them.
 The light-matter interaction modifies the energy spectrum of the incident light, and the modified light is scattered back to our eyes, giving rise to (color) vision.

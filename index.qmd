@@ -7,7 +7,7 @@ The input signals --- light --- are in the optical domain. These first need to b
 But wait, we are still not done!
 The light emitted by the display enters our eyes, where photoreceptors in the retina convert the optical signals back into electrical ones. The retina and, further downstream, the brain, process these signals, eventually giving rise to our perception and cognition: we see a virtual mug sitting naturally on a real table.
 
-# Why This Book {.unnumbered}
+## Why This Book {.unnumbered}
 
 Visual computing is a wonderfully broad field, touching everything from the sciences of human vision to the engineering of sensors, optics, displays, and rendering.
 The main motivation for writing the book grew out of a simple observation: while each of these areas is well covered in excellent texts, they are rarely explored together in a single, coherent story.
@@ -24,7 +24,7 @@ What books do is to *offer perspectives*, and that always reveals the idiosyncra
 The perspective I most want to convey is this: every conclusion is drawn based on a set of precisely defined terms and assumptions, which, unfortunately, are not always announced.
 By taking a first-principles approach, I hope to make those definitions and assumptions explicit, so it is always clear when each conclusion applies and when it does not.
 
-# What Do We Not Cover
+## What Do We Not Cover
 
 We will not attempt to be comprehensive --- no one understands everything, and no one needs to understand everything *to get started*.
 Our aim is to take a first-principles approach, giving you a solid foundation and the confidence to learn new concepts as they arise.
@@ -40,7 +40,7 @@ In imaging and display, we review basic principles (optical-electrical signal tr
 In rendering, we focus on the classical computational models of light-matter interactions while completely ignoring the implementation issues such as the modern graphics pipelines (e.g., programming Vulkan) and GPU hardware.
 We will not cover the emerging (neural) rendering paradigm in detail, but will explore its connections to the classical theories.
 
-# Other Books
+## Other Books
 
 This is necessarily an incomplete list, because I can mention only books that I find myself reviewing from time to time.
 
